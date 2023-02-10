@@ -3,22 +3,23 @@ home: true
 actionText: Розпочати →
 actionLink: /intro/
 
-footer: "ECL 2.0 Licensed | Copyright © [YYYY] [Your Name]"
+footer: "ECL 2.0 Licensed | Copyright © 2023 Danylo Lytvynenko"
 ---
 
 
-**Виконали:** 
+**Виконали:**
 
-*студенти [X]-го курсу, групи (шифр групи)* 
+*студенти 3-го курсу, групи ІО-02*
 
-**[ім’я ПРІЗВИЩЕ] [Посилання email, tg, fb]**
+Литвиненко Данило [telegram](https://t.me/fastroof), email: [lytvdan@gmail.com](mailto:lytvdan@gmail.com)
 
-**[ім’я ПРІЗВИЩЕ] [Посилання email, tg, fb]**
+Шумельчук Юрій [telegram](https://t.me/shumel234), email: [yura.shumel@gmail.com](mailto:yura.shumel@gmail.com)
 
+Воловик Олександр [telegram](https://t.me/anhuza), email: [olieksandr.volovik@gmail.com](mailto:olieksandr.volovik@gmail.com)
 
 **Керівник**
 
-*доцент кафедри ОТ ФІОТ, к.т.н., доцент*<span padding-right:5em></span> **Андрій БОЛДАК** 
+*доцент кафедри ОТ ФІОТ, к.т.н., доцент*<span padding-right:5em></span> **Андрій БОЛДАК**
 
 [НТУУ "КИЇВСЬКИЙ ПОЛІТЕХНІЧНИЙ ІНСТИТУТ імені ІГОРЯ СІКОРСЬКОГО](https://kpi.ua/)
 

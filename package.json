@@ -1,10 +1,10 @@
 {
-  "name": "dis-edu",
+  "name": "dis-manga",
   "version": "2.1.0",
   "main": "index.js",
-  "description": "Databases course work template",
-  "repository": "https://github.com/boldak/dis-edu",
-  "author": "Andrey Boldak <boldak.andrey@gmail.com>",
+  "description": "Сайт для читанння манги та книг українською мовою",
+  "repository": "https://github.com/Fastroof/dis-manga.git",
+  "author": "Danylo Lytvynenko <lytvdan@gmail.com>",
   "license": "ECL 2.0",
   "scripts": {
     "test":"jest",
@@ -23,5 +23,4 @@
     "jest": "^27.1.0",
     "jsdoc-to-markdown": "^7.0.1"
   }
-
 }

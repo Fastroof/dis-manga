@@ -1,4 +1,4 @@
-# Шаблон репозиторію для виконання лабораторних робіт з дисципліни "Розподілені інформаційні системи"
+# Репозиторій для виконання лабораторних робіт з дисципліни "Розподілені інформаційні системи"
 
 ## Як використовувати
 
@@ -6,11 +6,10 @@
 
 Для виконання лабораторних робіт необхідно зробити ```fork``` цього репозіторію, склонувати вже власний репозіторій та розміщувати документацію у відповідних діректоріях ```./docs```.
 
-В цьому файлі необхідно вказати назву проекту. Коротку загальну характеристику
-проекту, контактні дані виконавців.
+В цьому файлі необхідно вказати назву проекту. Коротку загальну характеристику проекту, контактні дані виконавців.
 
 
-Шаблон публікування підготовлено з використанням [VuePress](https://vuepress.vuejs.org/), та стартера 
+Шаблон публікування підготовлено з використанням [VuePress](https://vuepress.vuejs.org/), та стартера
 [FriendlyUser/vuepress-theme-cool-starter](https://github.com/FriendlyUser/vuepress-theme-cool-starter).
 
 Щоб опублікувати проект у Github Pages, налаштовуємо Github Pages (гілка ```gh-pages```), змінюємо файл ```./publish.sh```
@@ -39,7 +38,7 @@ git commit -m 'deploy'
 # git push -f git@github.com:boldak/<USERNAME>.github.io.git master
 
 # if you are deploying to https://<USERNAME>.github.io/<REPO>
-git push -f https://github.com/<USERNAME>/dis-edu.git master:gh-pages
+git push -f https://github.com/Fastroof/dis-manga.git master:gh-pages
 
 cd -
 
@@ -59,4 +58,4 @@ cd -
 
 Доступ до локально опублікованої версії документації [http://localhost:3030](http://localhost:3030)
 
-***Happy learning! Happy coding!*** 
+***Happy learning! Happy coding!***
