@@ -1,0 +1,15 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+#categories {
+  .mat-cell, .mat-header-cell {
+    text-align: center;
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+  }
+}

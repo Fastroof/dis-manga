@@ -1,0 +1,26 @@
+<div class="gallery mt-32">
+  <div class="container" *ngIf="groups.length != 0">
+    <h5 class="text-center">
+      Тут перелічені такі розділи як
+    </h5>
+    <div class="gallery-filter flex flex-wrap justify-center mb-5">
+      <button mat-stroked-button color="primary" class="filter-item ml-2 mb-2" (click)="searchImg(-1)">Всі</button>
+      <button mat-stroked-button color="primary" *ngFor="let group of groups" class="filter-item ml-2 mb-2" (click)="searchImg(group?.id)">{{ group?.title }}</button>
+    </div>
+  </div>
+  <div class="container">
+
+    <div [gallerize]="'galleryLightbox'" class="flexbin" id="fj-gallery">
+      <div *ngFor="let image of galleryImages" class="fj-gallery-item">
+        <img
+             class="image"
+             src="{{image?.file}}"
+             [attr.imageSrc]="image?.file"
+             [attr.thumbSrc]="image?.file"
+             [id]="image?.id"
+             alt="{{ image?.gallery_id }}">
+      </div>
+    </div>
+
+  </div>
+</div>

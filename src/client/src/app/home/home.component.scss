@@ -1,0 +1,41 @@
+.carousel-item {
+  height: 100vh;
+  min-height: 350px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  $carousel-transition-duration: .2s;
+}
+
+.content {
+  text-align: center;
+  padding-bottom: 30vh;
+  h1 {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 70px;
+    line-height: 75px;
+    color: #FFFFFF;
+    margin: 0;
+  }
+  p {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 150%;
+    color: #FFFFFF;
+    margin-left: 0;
+    margin-bottom: 40px;
+  }
+  p, h1 {
+    text-shadow: 0 0 0.1em #000000;
+  }
+}
+
+@media (max-width: 1080px) {
+  header {
+    display: none;
+  }
+}

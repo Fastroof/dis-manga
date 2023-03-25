@@ -1,0 +1,22 @@
+<div *ngIf="!isEdited">
+  <div mat-dialog-content>
+    <h5 class="mb-4">Редагування надходження id = {{ data.id }}</h5>
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Кількість товару</mat-label>
+      <input type="number" matInput [(ngModel)]="data.quantity">
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions [align]="'center'">
+    <button mat-raised-button (click)="onNoClick()">Не зберігати</button>
+    <button mat-raised-button (click)="onSubmit()">Зберегти</button>
+  </div>
+</div>
+<div *ngIf="isEdited">
+  <div mat-dialog-content [align]="'center'">
+    <span class="text-xl">Результат</span>
+    <p class="mt-2">{{ result }}</p>
+  </div>
+  <div mat-dialog-actions [align]="'center'">
+    <button mat-raised-button [mat-dialog-close]="">Продовжити</button>
+  </div>
+</div>

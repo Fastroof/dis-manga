@@ -1,0 +1,28 @@
+<div class="login__content p-4 sm:p-8 flex flex-col justify-center min-h-screen" style="background: #e5e5e5 none repeat scroll 0 0;">
+  <section *ngIf="isLoggedIn">
+    <div class="animated fadeIn card">
+      <div class='upper-side'>
+        <i class="material-icons" style="font-size: 64px">check_circle_outline</i>
+      </div>
+      <div class='lower-side'>
+        <p class='message'>
+          Ви успішно увійшли!
+        </p>
+        <a routerLink="/" class="contBtn" style="background: #8bc34a;">До головної</a>
+      </div>
+    </div>
+  </section>
+  <section *ngIf="isLoginFailed">
+    <div class="animated fadeIn card">
+      <div class='upper-side-red'>
+        <i class="material-icons" style="font-size: 64px">gpp_bad</i>
+      </div>
+      <div class='lower-side'>
+        <p class='message'>
+          {{message}}
+        </p>
+        <a routerLink="/" class="contBtn" style="background: red;">До головної</a>
+      </div>
+    </div>
+  </section>
+</div>

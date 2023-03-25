@@ -1,0 +1,43 @@
+<div mat-dialog-title class="dialog-title">
+  <h2 mat-dialog-title class="m-0">Кошик</h2>
+  <button mat-icon-button aria-label="close dialog" [mat-dialog-close]="false">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content class="mat-typography">
+
+  <mat-list *ngFor="let cartItem of cart; index as i; last as lst;">
+    <mat-card class="border-0 flex" style="box-shadow: none">
+      <img (click)="toProduct(cartItem.product.id)" mat-card-lg-image class="rounded mr-4 cursor-pointer" style="object-fit: cover;" src="{{ cartItem.product.images[0].file}}" alt="Hi">
+      <div class="flex flex-col justify-between w-100">
+        <div class="flex justify-between">
+          <mat-card-title-group>
+            <mat-card-title (click)="toProduct(cartItem.product.id)" class="text-xl cursor-pointer">{{ cartItem.product.name }}</mat-card-title>
+            <mat-card-subtitle></mat-card-subtitle>
+          </mat-card-title-group>
+          <button mat-icon-button (click)="removeOrderItem(i)"><mat-icon>delete_outline</mat-icon></button>
+        </div>
+        <div class="flex justify-between">
+          <div>
+            <button mat-icon-button disableRipple (click)="subQuantity(i)"><mat-icon>horizontal_rule</mat-icon></button>
+            <input type="text" class="rounded text-center input-item" (keyup)="changeQuantity(i, $event)" [value]="cartItem.quantity">
+            <button mat-icon-button disableRipple (click)="addQuantity(i)"><mat-icon>add</mat-icon></button>
+          </div>
+          <span class="self-center"> {{ (cartItem.quantity*cartItem.product.price).toFixed(2) }} $</span>
+        </div>
+      </div>
+    </mat-card>
+    <mat-divider *ngIf="!lst"></mat-divider>
+  </mat-list>
+
+  <div class="h-60 " *ngIf="cart.length === 0">
+    <h2 class="text-4xl text-secondary text-center">Тут пусто</h2>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end" *ngIf="cart.length !== 0">
+  <div class="border rounded p-3 flex items-center">
+    <span class="text-2xl pr-2"> {{ sum }} $</span>
+    <button mat-flat-button color="primary" [mat-dialog-close]="true">Оформити замовлення</button>
+  </div>
+</mat-dialog-actions>

@@ -1,0 +1,44 @@
+<header class="ll_header" [class.top-fixed]="topFixed" [ngClass]="{ 'bg-gray-50 shadow': topFixed && isScrolled }">
+  <div class="container">
+    <div class="flex items-center">
+      <div class="flex items-center">
+        <a class="logo" [routerLink]="['']"><img src="assets/images/logo.png" alt="Logo" /></a>
+        <ul class="flex item-center ml-5" *ngIf="!isLessThenLargeDevice && menuList && menuList.length">
+          <li *ngFor="let menu of menuList">
+            <a mat-button [routerLink]="[menu.path]" routerLinkActive="bg-gray-100" class="text-lg font-bold py-2 px-5">{{ menu.name }}</a>
+          </li>
+        </ul>
+      </div>
+      <button
+        *ngIf="isLessThenLargeDevice"
+        (click)="toggleSidenav.emit()"
+        class="_sidenav__toggler ml-auto md:ml-3 ms-sm-3"
+        mat-icon-button
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
+      <div class="hidden items-center md:flex ml-auto">
+        <a *ngIf="!isLoggedIn" [routerLink]="['/auth/login']" mat-raised-button color="warn" class="text-lg font-bold py-2 px-5">Авторизація</a>
+        <div *ngIf="isLoggedIn">
+
+          <button mat-mini-fab color="white" [matMenuTriggerFor]="menu" aria-label="menu">
+            <mat-icon>person</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item [routerLink]="['/dashboard']">
+              <mat-icon>list_alt</mat-icon>
+              <span>Особистий кабінет</span>
+            </button>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>logout</mat-icon>
+              <span>Вийти</span>
+            </button>
+          </mat-menu>
+        </div>
+        <button mat-mini-fab color="primary" class="ml-3" (click)="openCart()">
+          <mat-icon>shopping_cart</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

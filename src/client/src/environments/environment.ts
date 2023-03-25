@@ -1,9 +1,18 @@
 // This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` replaces `environment.ts` with `environment.prod.ts`.
+// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  back: 'http://localhost:8080/api',
+  redirect_uri: 'http://localhost:8080/api/sessions/oauth/google',
+  storage: 'http://localhost:8080/api/storage',
+  gallery: 'http://localhost:8080/api/gallery',
+  imageStorage: 'http://localhost:8080/api/image-storage',
+  security: 'http://localhost:8080/api/security',
+  order: 'http://localhost:8080/api/order',
+  exchange: 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&json',
+  novaposhta: 'https://api.novaposhta.ua/v2.0/json/',
 };
 
 /*
