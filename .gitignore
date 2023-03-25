@@ -103,14 +103,6 @@ dist
 # TernJS port file
 .tern-port
 src/.idea/compiler.xml
-*.xml
 *.properties
 *.class
-*.json
-src/target/classes/init.sql
-src/target/classes/static/css/auth.css
-src/target/classes/static/css/index.css
-src/target/classes/static/css/rangeSlider.css
-src/target/classes/static/js/rangeSlider.js
-src/target/classes/templates/thymeleaf/login.html
-src/target/classes/templates/thymeleaf/registration.html
+src/target/*
