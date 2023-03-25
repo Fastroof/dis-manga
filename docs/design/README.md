@@ -1,72 +1,3 @@
-# Проєктування системи
-
-## Big Picture
-
-<center style="
-    border-radius:4px;
-    border: 1px solid #cfd7e6;
-    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
-    padding: 1em;">
-
-![Big Picture](https://i.imgur.com/SSEPijz.png)
-
-</center>
-
-## Deployment
-
-<center style="
-    border-radius:4px;
-    border: 1px solid #cfd7e6;
-    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
-    padding: 1em;">
-
-![Deployment](https://i.imgur.com/ZGXRgLd.png)
-
-</center>
-
-## User Flow
-
-<center style="
-    border-radius:4px;
-    border: 1px solid #cfd7e6;
-    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
-    padding: 1em;">
-
-![User Flow](https://i.imgur.com/37zWog2.png)
-
-</center>
-
-## Діаграма прецедентів
-
-<center style="
-    border-radius:4px;
-    border: 1px solid #cfd7e6;
-    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
-    padding: 1em;"
->
-
-@startuml
-    actor User
-    actor Moderator
-
-    usecase "<b>DM_AUTH\nРеєстрація, авторизація" as DM_AUTH
-    usecase "<b>DM_DATA\nРобота з книгами та пошук" as DM_DATA
-    usecase "<b>DM_REPORT_1.1\nПоскаржитися" as DM_REPORT_1.1
-    usecase "<b>DM_SUPPORT_1.1\nВідправити запит до служби підтримки" as DM_SUPPORT_1.1
-    User -r-> DM_DATA
-    User -r-> DM_AUTH
-    User -r-> DM_REPORT_1.1
-    User -r-> DM_SUPPORT_1.1
-
-    Moderator --u-|> User
-    usecase "<b>DM_REPORT_1.2\nОбробка скарги" as DM_REPORT_1.2
-    usecase "<b>DM_SUPPORT_1.2\nОбробка запиту про допомогу" as DM_SUPPORT_1.2
-    Moderator -l-> DM_REPORT_1.2
-    Moderator -l-> DM_SUPPORT_1.2
-@enduml
-
-</center>
-
 ## Схеми використання для користувача
 
 <center style="
@@ -712,6 +643,75 @@ DM_AUTH_1.2_EX_1 - Були введені неправильні дані
     |Система|
     : Відповідь зберігаєть;
     stop;
+@enduml
+
+</center>
+
+# Проєктування системи
+
+## Big Picture
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;">
+
+![Big Picture](https://i.imgur.com/SSEPijz.png)
+
+</center>
+
+## Deployment
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;">
+
+![Deployment](https://i.imgur.com/ZGXRgLd.png)
+
+</center>
+
+## User Flow
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;">
+
+![User Flow](https://i.imgur.com/37zWog2.png)
+
+</center>
+
+## Діаграма прецедентів
+
+<center style="
+    border-radius:4px;
+    border: 1px solid #cfd7e6;
+    box-shadow: 0 1px 3px 0 rgba(89,105,129,.05), 0 1px 1px 0 rgba(0,0,0,.025);
+    padding: 1em;"
+>
+
+@startuml
+    actor User
+    actor Moderator
+
+    usecase "<b>DM_AUTH\nРеєстрація, авторизація" as DM_AUTH
+    usecase "<b>DM_DATA\nРобота з книгами та пошук" as DM_DATA
+    usecase "<b>DM_REPORT_1.1\nПоскаржитися" as DM_REPORT_1.1
+    usecase "<b>DM_SUPPORT_1.1\nВідправити запит до служби підтримки" as DM_SUPPORT_1.1
+    User -r-> DM_DATA
+    User -r-> DM_AUTH
+    User -r-> DM_REPORT_1.1
+    User -r-> DM_SUPPORT_1.1
+
+    Moderator --u-|> User
+    usecase "<b>DM_REPORT_1.2\nОбробка скарги" as DM_REPORT_1.2
+    usecase "<b>DM_SUPPORT_1.2\nОбробка запиту про допомогу" as DM_SUPPORT_1.2
+    Moderator -l-> DM_REPORT_1.2
+    Moderator -l-> DM_SUPPORT_1.2
 @enduml
 
 </center>
