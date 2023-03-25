@@ -4,11 +4,13 @@ import com.fastroof.ftpr.entity.*;
 import com.fastroof.ftpr.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +27,25 @@ public class UserApiController {
     private AddBookFileRequestRepository addBookFileRequestRepository;
     @Autowired
     private EditBookFileRequestRepository editBookFileRequestRepository;
+    @Autowired
+    private PersonalLibraryRepository personalLibraryRepository;
+
+    @GetMapping("/user/personal-library")
+    public List<Book> getPersonalLibrary() {
+        User user = getUserByToken();
+
+        List<PersonalLibraryEntry> personalLibraryEntries = personalLibraryRepository.getAllByUserId(user.getId());
+
+        List<Book> result = new ArrayList<>();
+
+        personalLibraryEntries.forEach(personalLibraryEntry -> {
+            Optional<Book> book = bookRepository.findById(personalLibraryEntry.getBookId());
+            book.ifPresent(result::add);
+        });
+
+        return result;
+    }
+
 
     @RequestMapping("/user/createEditBookFileRequest")
     public String createEditDataFileRequest(@RequestParam("id") Integer dataFileId,
@@ -36,7 +57,6 @@ public class UserApiController {
         User user = getUserByToken();
         Optional<BookFile> dataFileOptional = bookFileRepository.findById(dataFileId);
         if (dataFileOptional.isPresent()) {
-            BookFile bookFile = dataFileOptional.get();
             EditBookFileRequest editBookFileRequest = new EditBookFileRequest();
             editBookFileRequest.setStatus(1);
             editBookFileRequest.setUserId(user.getId());
@@ -53,12 +73,12 @@ public class UserApiController {
     }
 
     @RequestMapping("/user/deleteBookFile")
-    public String deleteDataFile(@RequestParam("id") Integer dataFileId){
+    public String deleteDataFile(@RequestParam("id") Integer dataFileId) {
         User user = getUserByToken();
         Optional<BookFile> dataFileOptional = bookFileRepository.findById(dataFileId);
-        if (dataFileOptional.isPresent()){
+        if (dataFileOptional.isPresent()) {
             BookFile bookFile = dataFileOptional.get();
-            if (bookFile.getOwnerId().equals(user.getId())){
+            if (bookFile.getOwnerId().equals(user.getId())) {
                 bookFileRepository.deleteById(dataFileId);
                 return "Data file deleted.";
             } else {
@@ -70,13 +90,13 @@ public class UserApiController {
     }
 
     @RequestMapping("/user/deleteBook")
-    public String deleteDataSet(@RequestParam("id") Integer dataSetId){
+    public String deleteBook(@RequestParam("id") Integer dataSetId) {
         User user = getUserByToken();
         Optional<Book> dataSetOptional = bookRepository.findById(dataSetId);
-        if (dataSetOptional.isPresent()){
+        if (dataSetOptional.isPresent()) {
             Book book = dataSetOptional.get();
-            if (book.getOwnerId().equals(user.getId())){
-                List<BookFile> dataSetFiles = bookFileRepository.findAllByDataSetId(dataSetId);
+            if (book.getOwnerId().equals(user.getId())) {
+                List<BookFile> dataSetFiles = bookFileRepository.findAllByBookId(dataSetId);
                 bookFileRepository.deleteAll(dataSetFiles);
                 bookRepository.deleteById(dataSetId);
                 return "Data set deleted.";
@@ -88,11 +108,11 @@ public class UserApiController {
         }
     }
 
-    private User getUserByToken(){
+    private User getUserByToken() {
         return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
     }
 
-    private boolean tokenHasUserRole(){
+    private boolean tokenHasUserRole() {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().toArray()[0].toString().equals("ROLE_USER");
     }
 

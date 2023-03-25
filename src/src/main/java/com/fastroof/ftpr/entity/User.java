@@ -30,4 +30,7 @@ public class User {
 
     @Column(name = "role", nullable = false)
     private Integer role;
+
+    @Column(name = "provider", nullable = false)
+    private String provider;
 }

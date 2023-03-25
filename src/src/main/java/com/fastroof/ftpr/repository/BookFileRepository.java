@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface BookFileRepository extends CrudRepository<BookFile, Integer> {
-    List<BookFile> findAllByDataSetId(Integer dataSetId);
+    List<BookFile> findAllByBookId(Integer dataSetId);
 }

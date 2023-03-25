@@ -59,6 +59,7 @@ public class UserController {
             user.setFirstName(firstName);
             user.setLastName(lastName);
             user.setRole(1);
+            user.setProvider("local");
 
             userRepository.save(user);
 
