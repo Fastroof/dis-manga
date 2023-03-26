@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BaseLayoutComponent } from './shared/components/layouts/base-layout/base-layout.component';
-import {ProductsResolver} from './shared/data/products';
+import {BooksResolver} from './shared/data/books';
 import {PagenotfoundComponent} from './pagenotfound/pagenotfound.component';
 
 const baseLayoutRouting: Routes = [
   {
-    path: 'products',
-    loadChildren: () => import('./product/product.module').then(m => m.ProductModule)
+    path: 'books',
+    loadChildren: () => import('./book/book.module').then(m => m.BookModule)
   },
   {
     path: 'contact',
@@ -17,7 +17,7 @@ const baseLayoutRouting: Routes = [
     path: '',
     pathMatch: 'full',
     loadChildren: () => import('./home/home.module').then(m => m.HomeModule),
-    resolve: { products: ProductsResolver}
+    resolve: { books: BooksResolver}
   }
 ];
 

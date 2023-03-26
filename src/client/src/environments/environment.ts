@@ -6,13 +6,10 @@ export const environment = {
   production: false,
   back: 'http://localhost:8080/api',
   redirect_uri: 'http://localhost:8080/api/sessions/oauth/google',
-  storage: 'http://localhost:8080/api/storage',
-  gallery: 'http://localhost:8080/api/gallery',
-  imageStorage: 'http://localhost:8080/api/image-storage',
-  security: 'http://localhost:8080/api/security',
-  order: 'http://localhost:8080/api/order',
-  exchange: 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?valcode=USD&json',
-  novaposhta: 'https://api.novaposhta.ua/v2.0/json/',
+  core: 'http://localhost:8080/',
+  auth: 'http://localhost:8080/api/gallery',
+  fileStorage: 'http://localhost:8080/api/file-storage',
+  mailer: 'http://localhost:8080/api/mailer',
 };
 
 /*

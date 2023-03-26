@@ -3,19 +3,19 @@ import {ActivatedRoute} from '@angular/router';
 import {Book} from '../../shared/interfaces/book';
 
 @Component({
-  selector: 'home-books',
-  templateUrl: './home-books.component.html',
-  styleUrls: ['./home-books.component.scss']
+  selector: 'book-details',
+  templateUrl: './book-details.component.html',
+  styleUrls: ['./book-details.component.scss']
 })
-export class HomeBooksComponent implements OnInit {
-  books: Book[] = [];
+export class BookDetailsComponent implements OnInit {
+  book: Book | undefined;
 
-  constructor(private activatedRoute: ActivatedRoute) {}
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(d => {
       // tslint:disable-next-line:no-string-literal
-      this.books = d['books'];
+      this.book = d['book'];
     });
   }
 }

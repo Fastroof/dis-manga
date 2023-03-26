@@ -9,18 +9,14 @@ import { DashboardIndexComponent } from './dashboard-index/dashboard-index.compo
 import { SharedModule } from '../shared/shared.module';
 import { DashboardProfileComponent } from './dashboard-profile/dashboard-profile.component';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { DashboardAdminCategoriesComponent } from './dashboard-admin-categories/dashboard-admin-categories.component';
+import { DashboardModeratorHelpRequestsComponent } from './dashboard-moderator-help-requests/dashboard-moderator-help-requests.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
-import { CategoryDialogComponent } from './dashboard-admin-categories/category-dialog/category-dialog.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {FormsModule} from '@angular/forms';
-import { CategoryEditDialogComponent } from './dashboard-admin-categories/category-edit-dialog/category-edit-dialog.component';
-import { CategoryDeleteDialogComponent } from './dashboard-admin-categories/category-delete-dialog/category-delete-dialog.component';
-import { DashboardAdminOrdersComponent } from './dashboard-admin-orders/dashboard-admin-orders.component';
-import { OrderEditDialogComponent } from './dashboard-admin-orders/order-edit-dialog/order-edit-dialog.component';
+import { HelpRequestProcessDialogComponent } from './dashboard-moderator-help-requests/help-request-process-dialog/help-request-process-dialog.component';
 import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
@@ -28,12 +24,8 @@ import {MatSelectModule} from '@angular/material/select';
     DashboardLayoutComponent,
     DashboardIndexComponent,
     DashboardProfileComponent,
-    DashboardAdminCategoriesComponent,
-    CategoryDialogComponent,
-    CategoryEditDialogComponent,
-    CategoryDeleteDialogComponent,
-    DashboardAdminOrdersComponent,
-    OrderEditDialogComponent
+    DashboardModeratorHelpRequestsComponent,
+    HelpRequestProcessDialogComponent
   ],
   imports: [
     CommonModule, DashboardRoutingModule, SharedModule, MatMenuModule, MatExpansionModule, MatTabsModule,

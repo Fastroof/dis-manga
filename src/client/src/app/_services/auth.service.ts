@@ -12,7 +12,7 @@ const httpOptions = {
 })
 export class AuthService {
 
-  AUTH_API = environment.security;
+  AUTH_API = environment.auth;
   REDIRECT_URL = environment.redirect_uri;
 
   constructor(private http: HttpClient) { }

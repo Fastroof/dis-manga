@@ -4,9 +4,8 @@ import { DashboardIndexComponent } from './dashboard-index/dashboard-index.compo
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 import { DashboardProfileComponent } from './dashboard-profile/dashboard-profile.component';
 import {AuthGuardService} from '../_services/auth-guard.service';
-import {DashboardAdminCategoriesComponent} from './dashboard-admin-categories/dashboard-admin-categories.component';
-import {AdminAuthGuardService} from '../_services/admin-auth-guard.service';
-import {DashboardAdminOrdersComponent} from './dashboard-admin-orders/dashboard-admin-orders.component';
+import {DashboardModeratorHelpRequestsComponent} from './dashboard-moderator-help-requests/dashboard-moderator-help-requests.component';
+import {ModeratorAuthGuardService} from '../_services/moderator-auth-guard.service';
 
 const DashboardChildrenRoute: Routes = [
   {
@@ -19,14 +18,9 @@ const DashboardChildrenRoute: Routes = [
     component: DashboardProfileComponent
   },
   {
-    path: 'categories',
-    component: DashboardAdminCategoriesComponent,
-    canActivate: [AdminAuthGuardService]
-  },
-  {
-    path: 'orders',
-    component: DashboardAdminOrdersComponent,
-    canActivate: [AdminAuthGuardService]
+    path: 'help-requests',
+    component: DashboardModeratorHelpRequestsComponent,
+    canActivate: [ModeratorAuthGuardService]
   }
 ];
 

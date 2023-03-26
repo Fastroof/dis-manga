@@ -5,6 +5,7 @@ import com.fastroof.ftpr.pojo.HelpRequestPojo;
 import com.fastroof.ftpr.repository.HelpRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import java.time.LocalDate;
 
 @RestController
+@CrossOrigin(origins = "*")
 public class HelpRequestController {
     @Autowired
     HelpRequestRepository helpRequestRepository;
