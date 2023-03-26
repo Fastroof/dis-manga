@@ -23,20 +23,30 @@ import java.util.stream.StreamSupport;
 @CrossOrigin(origins = "*")
 public class BookApiController {
 
+    private final BookRepository bookRepository;
+    private final BookFileRepository bookFileRepository;
+    private final TagRepository tagRepository;
+    private final CommentRepository commentRepository;
+    private final ReportRepository reportRepository;
+    private final UserRepository userRepository;
+    private final PersonalLibraryRepository personalLibraryRepository;
+
     @Autowired
-    private BookRepository bookRepository;
-    @Autowired
-    private BookFileRepository bookFileRepository;
-    @Autowired
-    private TagRepository tagRepository;
-    @Autowired
-    private CommentRepository commentRepository;
-    @Autowired
-    private ReportRepository reportRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private PersonalLibraryRepository personalLibraryRepository;
+    public BookApiController(BookRepository bookRepository,
+                             BookFileRepository bookFileRepository,
+                             TagRepository tagRepository,
+                             CommentRepository commentRepository,
+                             ReportRepository reportRepository,
+                             UserRepository userRepository,
+                             PersonalLibraryRepository personalLibraryRepository) {
+        this.bookRepository = bookRepository;
+        this.bookFileRepository = bookFileRepository;
+        this.tagRepository = tagRepository;
+        this.commentRepository = commentRepository;
+        this.reportRepository = reportRepository;
+        this.userRepository = userRepository;
+        this.personalLibraryRepository = personalLibraryRepository;
+    }
 
     @GetMapping("/books")
     public List<Book> getBooks(@RequestParam(value = "query", required = false) String query,
