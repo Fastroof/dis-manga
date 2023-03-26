@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ApiService} from '../_services/api.service';
 
 @Component({
   selector: 'll-contact',
@@ -7,9 +8,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactComponent implements OnInit {
 
-  constructor() { }
+  isSent = false;
+  isError = false;
+  form: any = {};
+
+  constructor(private api: ApiService) {}
 
   ngOnInit(): void {
   }
 
+  onClickSubmit(): void {
+    this.isSent = true;
+    this.api.sendHelpRequest(this.form.email, this.form.pib + this.form.text).subscribe(
+      {
+        next: value => {
+          console.log(value);
+        },
+        error: err => {
+          this.isError = true;
+          console.log(err);
+        }
+      }
+    );
+  }
 }

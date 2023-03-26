@@ -6,11 +6,11 @@ import {environment} from '../../../environments/environment';
 import {HelpRequest} from '../../shared/interfaces/help-request';
 
 @Component({
-  selector: 'app-dashboard-moderator-help-requests',
-  templateUrl: './dashboard-moderator-help-requests.component.html',
-  styleUrls: ['./dashboard-moderator-help-requests.component.scss']
+  selector: 'app-dashboard-moderator',
+  templateUrl: './dashboard-moderator.component.html',
+  styleUrls: ['./dashboard-moderator.component.scss']
 })
-export class DashboardModeratorHelpRequestsComponent implements OnInit {
+export class DashboardModeratorComponent implements OnInit {
 
   constructor(public dialog: MatDialog) { }
 

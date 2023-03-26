@@ -4,7 +4,7 @@ import { DashboardIndexComponent } from './dashboard-index/dashboard-index.compo
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 import { DashboardProfileComponent } from './dashboard-profile/dashboard-profile.component';
 import {AuthGuardService} from '../_services/auth-guard.service';
-import {DashboardModeratorHelpRequestsComponent} from './dashboard-moderator-help-requests/dashboard-moderator-help-requests.component';
+import {DashboardModeratorComponent} from './dashboard-moderator/dashboard-moderator.component';
 import {ModeratorAuthGuardService} from '../_services/moderator-auth-guard.service';
 
 const DashboardChildrenRoute: Routes = [
@@ -18,8 +18,12 @@ const DashboardChildrenRoute: Routes = [
     component: DashboardProfileComponent
   },
   {
-    path: 'help-requests',
-    component: DashboardModeratorHelpRequestsComponent,
+    path: 'books',
+    component: DashboardProfileComponent
+  },
+  {
+    path: 'moderate',
+    component: DashboardModeratorComponent,
     canActivate: [ModeratorAuthGuardService]
   }
 ];

@@ -9,18 +9,11 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class DashboardIndexComponent implements OnInit {
   isLoggedIn = false;
-  userId = '-1';
-  email = 'error';
 
   constructor(private activatedRoute: ActivatedRoute,
               private tokenStorageService: TokenStorageService) {}
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-    if (this.isLoggedIn) {
-      const user = this.tokenStorageService.getUser();
-      this.userId = user.id;
-      this.email = user.email;
-    }
   }
 }

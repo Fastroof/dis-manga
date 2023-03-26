@@ -9,7 +9,7 @@ import {TokenStorageService} from '../../_services/token-storage.service';
 export class DashboardProfileComponent implements OnInit {
 
   isLoggedIn = false;
-  name = 'error';
+  username = 'error';
   email = 'error';
 
   constructor(private tokenStorageService: TokenStorageService) { }
@@ -18,7 +18,7 @@ export class DashboardProfileComponent implements OnInit {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
-      this.name = user.name;
+      this.username = user.username;
       this.email = user.email;
     }
   }
