@@ -1,4 +1,4 @@
-package com.fastroof.ftpr.request;
+package com.fastroof.ftpr.pojo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @Setter
-public class HelpRequest {
+public class HelpRequestPojo {
     @NotBlank
     private String email;
     @NotBlank

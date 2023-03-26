@@ -103,7 +103,6 @@ dist
 # TernJS port file
 .tern-port
 src/.idea/compiler.xml
-*.properties
 *.class
 src/target/*
 src/.idea/*

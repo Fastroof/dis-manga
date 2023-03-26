@@ -23,12 +23,13 @@ alter table add_book_file_requests
 
 CREATE TABLE if not EXISTS books
 (
-    id         bigint NOT NULL,
-    updated_at date   NOT NULL,
-    created_at date   NOT NULL,
-    tag_id     bigint,
-    name       text   NOT NULL,
-    owner_id   bigint NOT NULL
+    id            bigint NOT NULL,
+    updated_at    date   NOT NULL,
+    created_at    date   NOT NULL,
+    tag_id        bigint,
+    name          text   NOT NULL,
+    owner_id      bigint NOT NULL,
+    link_to_cover text
 );
 
 alter table books

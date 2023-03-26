@@ -1,11 +1,14 @@
 package com.fastroof.ftpr.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fastroof.ftpr.entity.*;
 import com.fastroof.ftpr.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +57,14 @@ public class BookApiController {
         return StreamSupport
                 .stream(bookRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/books")
+    public MultipartFile postNewBook(@RequestParam @NotBlank String name,
+                                           @RequestParam(required = false) @JsonProperty("tag_id") Integer tagId,
+                                           @RequestParam MultipartFile files,
+                                           @RequestParam(required = false) @JsonProperty("cover_file") MultipartFile coverFile) {
+        return files;
     }
 
     @GetMapping("/books/{bookId}/comments")
