@@ -1,21 +1,20 @@
 package com.fastroof.ftpr.controller;
 
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.fastroof.ftpr.entity.User;
 import com.fastroof.ftpr.repository.UserRepository;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.fastroof.ftpr.entity.User;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class UserController {
@@ -29,7 +28,7 @@ public class UserController {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User user = userRepository.findByEmail(email);
         if (user != null) {
-            if (passwordEncoder.matches(password,user.getPassword())) {
+            if (passwordEncoder.matches(password, user.getPassword())) {
                 if (user.getRole() == 1) {
                     return getUserJWTToken(email);
                 } else if (user.getRole() == 2) {

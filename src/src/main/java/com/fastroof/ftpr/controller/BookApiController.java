@@ -34,7 +34,7 @@ public class BookApiController {
 
     @GetMapping("/books")
     public List<Book> getBooks(@RequestParam(value = "query", required = false) String query,
-                                  @RequestParam(value = "tagId", required = false) Integer tagId) {
+                               @RequestParam(value = "tagId", required = false) Integer tagId) {
         if (query != null) {
             // Search by name
             return bookRepository.getBooksByNameContains(query);
@@ -147,7 +147,7 @@ public class BookApiController {
 
     }
 
-    private User getUserByToken(){
+    private User getUserByToken() {
         return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
     }
 }

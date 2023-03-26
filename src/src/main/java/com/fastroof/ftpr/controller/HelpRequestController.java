@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 
 @RestController
@@ -15,12 +16,7 @@ public class HelpRequestController {
     HelpRequestRepository helpRequestRepository;
 
     @PostMapping("/help-request")
-    public Response postHelpRequest(@RequestBody HelpRequest sentHelpRequest) {
-
-        if (sentHelpRequest.getText() == null || sentHelpRequest.getEmail() == null) {
-            return new Response(400, "Request text or email is invalid");
-        }
-
+    public Response postHelpRequest(@Valid @RequestBody com.fastroof.ftpr.request.HelpRequest sentHelpRequest) {
         HelpRequest helpRequest = new HelpRequest();
         helpRequest.setEmail(sentHelpRequest.getEmail());
         helpRequest.setText(sentHelpRequest.getText());
