@@ -1,5 +1,6 @@
 package com.fastroof.security.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,10 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "role_id", referencedColumnName = "id")
+	private Role role;
+
 	@NotBlank
 	private String username;
 
@@ -32,14 +37,13 @@ public class User {
 	private String email;
 
 	@NotBlank
+	@JsonIgnore
 	@Size(max = 200)
 	private String password;
 
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(	name = "user_roles", 
-				joinColumns = @JoinColumn(name = "user_id"), 
-				inverseJoinColumns = @JoinColumn(name = "role_id"))
-	private Set<Role> roles = new HashSet<>();
+	@NotBlank
+	@Size(max = 200)
+	private String provider;
 
 	public User() {
 	}

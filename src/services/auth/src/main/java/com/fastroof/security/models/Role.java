@@ -11,12 +11,11 @@ import javax.persistence.*;
 @Table(name = "roles")
 public class Role {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	@Column(name = "id", nullable = false, unique = true, updatable = false)
+	@GeneratedValue(generator = "increment")
+	private Long id;
 
 	@Enumerated(EnumType.STRING)
 	@Column(length = 20)
 	private ERole name;
-
-	public Role() {}
 }

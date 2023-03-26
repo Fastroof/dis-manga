@@ -7,7 +7,7 @@ export const environment = {
   back: 'http://localhost:8080/api',
   redirect_uri: 'http://localhost:8080/api/sessions/oauth/google',
   core: 'http://localhost:8080',
-  auth: 'http://localhost:8080/api/gallery',
+  auth: 'http://localhost:8084/api/auth',
   fileStorage: 'http://localhost:8080/api/file-storage',
   mailer: 'http://localhost:8080/api/mailer',
 };

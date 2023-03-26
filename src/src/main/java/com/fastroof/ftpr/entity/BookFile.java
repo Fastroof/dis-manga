@@ -20,13 +20,9 @@ public class BookFile {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "updated_at", nullable = false)
-    @JsonProperty("updated_at")
-    private LocalDate updatedAt;
-
-    @Column(name = "created_at", nullable = false)
-    @JsonProperty("created_at")
-    private LocalDate createdAt;
+    @Column(name = "uploaded_at", nullable = false)
+    @JsonProperty("uploaded_at")
+    private LocalDate uploadedAt;
 
     @Column(name = "book_id", nullable = false)
     @JsonProperty("book_id")
@@ -35,8 +31,4 @@ public class BookFile {
     @Column(name = "link_to_file", nullable = false)
     @JsonProperty("link_to_file")
     private String linkToFile;
-
-    @Column(name = "owner_id", nullable = false)
-    @JsonProperty("owner_id")
-    private Integer ownerId;
 }

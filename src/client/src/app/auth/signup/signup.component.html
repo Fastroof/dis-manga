@@ -36,17 +36,17 @@
           <mat-label> ПІБ </mat-label>
           <input matInput
             class="ring-0"
-            id="name"
+            id="username"
             type="text"
-            name="name"
+            name="username"
             placeholder="прикл. Тарас Григорович Шевченко"
-            [(ngModel)]="form.name"
+            [(ngModel)]="form.username"
             required
             minlength="3"
-            #name="ngModel"
+            #username="ngModel"
           />
-          <mat-error *ngIf="name.errors?.['required']">Введіть прізвище, ім'я, по-балькові</mat-error>
-          <mat-error *ngIf="name.errors?.['minlength']">
+          <mat-error *ngIf="username.errors?.['required']">Введіть прізвище, ім'я, по-балькові</mat-error>
+          <mat-error *ngIf="username.errors?.['minlength']">
             Мінімум 3 символи
           </mat-error>
         </mat-form-field>

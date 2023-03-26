@@ -24,7 +24,7 @@ CREATE TABLE if not exists book_files
 (
     id           bigint NOT NULL,
     name         text   NOT NULL,
-    uploaded_at   date   NOT NULL,
+    uploaded_at  date   NOT NULL,
     book_id      bigint NOT NULL,
     link_to_file text   NOT NULL
 );
@@ -79,9 +79,8 @@ alter table tags
 CREATE TABLE if not exists users
 (
     id         bigint NOT NULL,
-    role       bigint NOT NULL,
-    first_name text   NOT NULL,
-    last_name  text   NOT NULL,
+    role_id    bigint NOT NULL,
+    username   text   NOT NULL,
     email      text   NOT NULL,
     password   text   NOT NULL,
     provider   text   NOT NULL
@@ -196,7 +195,7 @@ ALTER TABLE ONLY books
     ADD CONSTRAINT books_fk_owner FOREIGN KEY (owner_id) REFERENCES users (id);
 
 ALTER TABLE ONLY users
-    ADD CONSTRAINT user_fk_role FOREIGN KEY (role) REFERENCES roles (id);
+    ADD CONSTRAINT user_fk_role FOREIGN KEY (role_id) REFERENCES roles (id);
 
 
 ALTER TABLE ONLY reports
@@ -251,8 +250,8 @@ values (default, 'moderator');
 insert into tags (id, name)
 values (default, 'all');
 
-insert into users (id, role, first_name, last_name, email, password, provider)
-values (default, 2, 'admin', 'admin', 'admin@admin.com',
+insert into users (id, role_id, username, email, password, provider)
+values (default, 2, 'admin', 'admin@admin.com',
         '$2a$10$iWOIpv08YdHeiemEEOqm/O3QHvYtjdBn6azEIipixYe7hoA6rRhxa', 'local');
 
 insert into books (id, updated_at, created_at, tag_id, name, owner_id)
