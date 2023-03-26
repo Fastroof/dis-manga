@@ -5,6 +5,7 @@ import com.fastroof.ftpr.entity.Report;
 import com.fastroof.ftpr.entity.User;
 import com.fastroof.ftpr.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,14 +27,6 @@ public class ModeratorApiController {
     private HelpRequestRepository helpRequestRepository;
     @Autowired
     private ReportRepository reportRepository;
-    @Autowired
-    private AddBookFileRequestRepository addBookFileRequestRepository;
-    @Autowired
-    private EditBookFileRequestRepository editBookFileRequestRepository;
-    @Autowired
-    private BookRepository bookRepository;
-    @Autowired
-    private BookFileRepository bookFileRepository;
 
     @GetMapping("/moderator/help-requests")
     public List<HelpRequest> getHelpRequests() {
@@ -47,27 +40,34 @@ public class ModeratorApiController {
     }
 
     @PostMapping("/moderator/help-requests/{id}/process")
-    public Response processHelpRequest(@PathVariable Integer id) {
+    public ResponseEntity<Response> processHelpRequest(@PathVariable Integer id) {
         if (!tokenHasModeratorRole()) {
-            return new Response(403, "User not moderator");
+            return ResponseEntity
+                    .status(403)
+                    .body(new Response("User not moderator"));
         }
 
         Optional<HelpRequest> helpRequestOptional = helpRequestRepository.findById(id);
 
         if (helpRequestOptional.isEmpty()) {
-            return new Response(404, "Help request not found");
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
 
         HelpRequest helpRequest = helpRequestOptional.get();
 
         if (helpRequest.getStatus() != 1) {
-            return new Response(406, "Help request already processed");
+            return ResponseEntity
+                    .badRequest()
+                    .body(new Response("Help request already processed"));
         }
 
         helpRequest.setModeratorId(getUserByToken().getId());
         helpRequest.setStatus(2);
         helpRequestRepository.save(helpRequest);
-        return new Response(200, "Help request processed");
+        return ResponseEntity
+                .ok(new Response("Help request processed"));
     }
 
     @GetMapping("/moderator/reports")
@@ -82,27 +82,34 @@ public class ModeratorApiController {
     }
 
     @PostMapping("/moderator/reports/{id}/process")
-    public Response processReport(@PathVariable Integer id) {
+    public ResponseEntity<Response> processReport(@PathVariable Integer id) {
         if (!tokenHasModeratorRole()) {
-            return new Response(403, "User not moderator");
+            return ResponseEntity
+                    .status(403)
+                    .body(new Response("User not moderator"));
         }
 
         Optional<Report> reportOptional = reportRepository.findById(id);
 
         if (reportOptional.isEmpty()) {
-            return new Response(404, "Report not found");
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
 
         Report report = reportOptional.get();
 
         if (report.getStatus() != 1) {
-            return new Response(406, "Report already processed");
+            return ResponseEntity
+                    .badRequest()
+                    .body(new Response("Report already processed"));
         }
 
         report.setStatus(2);
         report.setModeratorId(getUserByToken().getId());
         reportRepository.save(report);
-        return new Response(200, "Report processed");
+        return ResponseEntity
+                .ok(new Response("Report processed"));
     }
 
 //    @RequestMapping("/moderator/unprocessedAddBookFileRequests")

@@ -5,6 +5,7 @@ import com.fastroof.ftpr.pojo.PatchBookRequestPojo;
 import com.fastroof.ftpr.pojo.PostBookRequestPojo;
 import com.fastroof.ftpr.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,9 +61,22 @@ public class BookApiController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/books/{bookId}")
+    public ResponseEntity<Book> getBook(@PathVariable Integer bookId) {
+        Optional<Book> bookOptional = bookRepository.findById(bookId);
+        if (bookOptional.isEmpty()) {
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        }
+
+        return ResponseEntity
+                .ok(bookOptional.get());
+    }
+
     @PostMapping("/books")
     @Transactional
-    public Response postNewBook(@Valid @ModelAttribute PostBookRequestPojo postBookRequestPojo) {
+    public ResponseEntity<Response> postNewBook(@Valid @ModelAttribute PostBookRequestPojo postBookRequestPojo) {
         User user = getUserByToken();
         Book book = new Book();
         book.setCreatedAt(LocalDate.now());
@@ -77,23 +91,28 @@ public class BookApiController {
 
         // TODO: upload provided book files
 
-        return new Response(200, "Book posted");
+        return ResponseEntity
+                .ok(new Response("Book posted"));
     }
 
     @PatchMapping("/books/{bookId}")
     @Transactional
-    public Response patchBook(@PathVariable Integer bookId, @ModelAttribute PatchBookRequestPojo patchBookRequestPojo) {
+    public ResponseEntity<Response> patchBook(@PathVariable Integer bookId, @ModelAttribute PatchBookRequestPojo patchBookRequestPojo) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
         User user = getUserByToken();
 
         if (bookOptional.isEmpty()) {
-            return new Response(404, "Book not found");
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
 
         Book book = bookOptional.get();
 
         if (!Objects.equals(book.getOwnerId(), user.getId())) {
-            return new Response(403, "User not owner of the book");
+            return ResponseEntity
+                    .badRequest()
+                    .body(new Response("User not owner of the book"));
         }
 
         if (patchBookRequestPojo.getName() != null) {
@@ -116,54 +135,66 @@ public class BookApiController {
         }
 
         bookRepository.save(book);
-        return new Response(200, "Book updated");
+        return ResponseEntity
+                .ok(new Response("Book updated"));
     }
 
     @DeleteMapping("/books/{bookId}")
-    public Response deleteBook(@PathVariable Integer bookId) {
+    public ResponseEntity<Response> deleteBook(@PathVariable Integer bookId) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
         User user = getUserByToken();
 
         if (bookOptional.isEmpty()) {
-            return new Response(404, "Book not found");
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
 
         Book book = bookOptional.get();
 
         if (!Objects.equals(book.getOwnerId(), user.getId())) {
-            return new Response(403, "User not owner of the book");
+            return ResponseEntity
+                    .badRequest()
+                    .body(new Response("User not owner of the book"));
         }
 
         bookFileRepository.deleteAll(bookFileRepository.findAllByBookId(book.getId()));
         bookRepository.delete(book);
 
-        return new Response(200, "Book deleted");
+        return ResponseEntity
+                .ok(new Response("Book deleted"));
     }
 
     @GetMapping("/books/{bookId}/comments")
-    public List<Comment> getComments(@PathVariable Integer bookId) {
+    public ResponseEntity<List<Comment>> getComments(@PathVariable Integer bookId) {
         Optional<Book> book = bookRepository.findById(bookId);
 
         if (book.isPresent()) {
-            return commentRepository.findAllByBookId(bookId);
+            return ResponseEntity
+                    .ok(commentRepository.findAllByBookId(bookId));
         } else {
-            return new ArrayList<>();
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
     }
 
     @GetMapping("/books/{bookId}/files")
-    public List<BookFile> getBookFiles(@PathVariable Integer bookId) {
+    public ResponseEntity<List<BookFile>> getBookFiles(@PathVariable Integer bookId) {
         Optional<Book> book = bookRepository.findById(bookId);
 
         if (book.isPresent()) {
-            return bookFileRepository.findAllByBookId(book.get().getId());
+            return ResponseEntity
+                    .ok(bookFileRepository.findAllByBookId(book.get().getId()));
         } else {
-            return new ArrayList<>();
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
     }
 
     @PostMapping("/books/{bookId}/comments")
-    public Response postComment(@PathVariable Integer bookId, @RequestBody String text) {
+    public ResponseEntity<Response> postComment(@PathVariable Integer bookId, @RequestBody String text) {
         User user = getUserByToken();
         Optional<Book> book = bookRepository.findById(bookId);
 
@@ -177,13 +208,16 @@ public class BookApiController {
             newComment.setBookId(presentBook.getId());
 
             commentRepository.save(newComment);
-            return new Response(200, "Successful");
+            return ResponseEntity
+                    .ok(new Response("Comment posted"));
         }
-        return new Response(404, "Book not found");
+        return ResponseEntity
+                .notFound()
+                .build();
     }
 
     @PostMapping("/books/{bookId}/report")
-    public Response postReport(@PathVariable Integer bookId, @RequestBody String text) {
+    public ResponseEntity<Response> postReport(@PathVariable Integer bookId, @RequestBody String text) {
         User user = getUserByToken();
         Optional<Book> book = bookRepository.findById(bookId);
 
@@ -198,18 +232,23 @@ public class BookApiController {
             newReport.setBookId(presentBook.getId());
 
             reportRepository.save(newReport);
-            return new Response(200, "Successful");
+            return ResponseEntity
+                    .ok(new Response("Report sent"));
         }
-        return new Response(404, "Book not found");
+        return ResponseEntity
+                .notFound()
+                .build();
     }
 
     @PostMapping("/books/{bookId}/personal-library")
-    public Response addToPersonalLibrary(@PathVariable Integer bookId) {
+    public ResponseEntity<Response> addToPersonalLibrary(@PathVariable Integer bookId) {
         User user = getUserByToken();
         Optional<Book> book = bookRepository.findById(bookId);
 
         if (book.isEmpty()) {
-            return new Response(404, "Book not found");
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
 
         Book presentBook = book.get();
@@ -224,9 +263,12 @@ public class BookApiController {
 
             personalLibraryRepository.save(newPersonalLibraryEntry);
 
-            return new Response(200, "Successful");
+            return ResponseEntity
+                    .ok(new Response("Book added to personal library"));
         } else {
-            return new Response(406, "Book already in personal library");
+            return ResponseEntity
+                    .badRequest()
+                    .body(new Response("Book already in personal library"));
         }
 
     }

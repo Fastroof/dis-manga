@@ -23,10 +23,6 @@ public class UserApiController {
     @Autowired
     private BookRepository bookRepository;
     @Autowired
-    private AddBookFileRequestRepository addBookFileRequestRepository;
-    @Autowired
-    private EditBookFileRequestRepository editBookFileRequestRepository;
-    @Autowired
     private PersonalLibraryRepository personalLibraryRepository;
 
     @GetMapping("/user/personal-library")

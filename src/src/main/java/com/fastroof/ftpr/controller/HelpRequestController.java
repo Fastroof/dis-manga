@@ -4,6 +4,7 @@ import com.fastroof.ftpr.entity.HelpRequest;
 import com.fastroof.ftpr.pojo.HelpRequestPojo;
 import com.fastroof.ftpr.repository.HelpRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ public class HelpRequestController {
     HelpRequestRepository helpRequestRepository;
 
     @PostMapping("/help-request")
-    public Response postHelpRequest(@Valid @RequestBody HelpRequestPojo sentHelpRequestPojo) {
+    public ResponseEntity<Response> postHelpRequest(@Valid @RequestBody HelpRequestPojo sentHelpRequestPojo) {
         HelpRequest helpRequest = new HelpRequest();
         helpRequest.setEmail(sentHelpRequestPojo.getEmail());
         helpRequest.setText(sentHelpRequestPojo.getText());
@@ -26,6 +27,7 @@ public class HelpRequestController {
 
         helpRequestRepository.save(helpRequest);
 
-        return new Response(200, "Successful");
+        return ResponseEntity
+                .ok(new Response("Help request sent"));
     }
 }
