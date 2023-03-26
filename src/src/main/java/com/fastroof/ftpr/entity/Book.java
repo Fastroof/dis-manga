@@ -30,4 +30,7 @@ public class Book {
 
     @Column(name = "owner_id", nullable = false)
     private Integer ownerId;
+
+    @Column(name = "link_to_cover")
+    private String linkToCover;
 }

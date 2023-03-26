@@ -1,14 +1,15 @@
 package com.fastroof.ftpr.controller;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fastroof.ftpr.entity.*;
+import com.fastroof.ftpr.pojo.PatchBookRequestPojo;
+import com.fastroof.ftpr.pojo.PostBookRequestPojo;
 import com.fastroof.ftpr.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotBlank;
+import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,11 +61,81 @@ public class BookApiController {
     }
 
     @PostMapping("/books")
-    public MultipartFile postNewBook(@RequestParam @NotBlank String name,
-                                           @RequestParam(required = false) @JsonProperty("tag_id") Integer tagId,
-                                           @RequestParam MultipartFile files,
-                                           @RequestParam(required = false) @JsonProperty("cover_file") MultipartFile coverFile) {
-        return files;
+    @Transactional
+    public Response postNewBook(@Valid @ModelAttribute PostBookRequestPojo postBookRequestPojo) {
+        Book book = new Book();
+        book.setCreatedAt(LocalDate.now());
+        book.setUpdatedAt(LocalDate.now());
+        book.setName(postBookRequestPojo.getName());
+        book.setTagId(postBookRequestPojo.getTagId());
+
+        // TODO: upload cover if provided
+
+        bookRepository.save(book);
+
+        // TODO: upload provided book files
+
+        return new Response(200, "Book posted");
+    }
+
+    @PatchMapping("/books/{bookId}")
+    @Transactional
+    public Response patchBook(@PathVariable Integer bookId, @ModelAttribute PatchBookRequestPojo patchBookRequestPojo) {
+        Optional<Book> bookOptional = bookRepository.findById(bookId);
+        User user = getUserByToken();
+
+        if (bookOptional.isEmpty()) {
+            return new Response(404, "Book not found");
+        }
+
+        Book book = bookOptional.get();
+
+        if (!Objects.equals(book.getOwnerId(), user.getId())) {
+            return new Response(403, "User not owner of the book");
+        }
+
+        if (patchBookRequestPojo.getName() != null) {
+            book.setName(patchBookRequestPojo.getName());
+        }
+
+        if (patchBookRequestPojo.getTagId() != null) {
+            book.setTagId(patchBookRequestPojo.getTagId());
+        }
+
+        if (patchBookRequestPojo.getCoverFile() != null) {
+            // TODO: upload cover file
+            // book.setLinkToCover(...);
+        }
+
+        if (patchBookRequestPojo.getFiles() != null) {
+            // TODO: upload provided files
+            // ...
+            // bookFileRepository.saveAll(newFiles)
+        }
+
+        bookRepository.save(book);
+        return new Response(200, "Book updated");
+    }
+
+    @DeleteMapping("/books/{bookId}")
+    public Response deleteBook(@PathVariable Integer bookId) {
+        Optional<Book> bookOptional = bookRepository.findById(bookId);
+        User user = getUserByToken();
+
+        if (bookOptional.isEmpty()) {
+            return new Response(404, "Book not found");
+        }
+
+        Book book = bookOptional.get();
+
+        if (!Objects.equals(book.getOwnerId(), user.getId())) {
+            return new Response(403, "User not owner of the book");
+        }
+
+        bookFileRepository.deleteAll(bookFileRepository.findAllByBookId(book.getId()));
+        bookRepository.delete(book);
+
+        return new Response(200, "Book deleted");
     }
 
     @GetMapping("/books/{bookId}/comments")
