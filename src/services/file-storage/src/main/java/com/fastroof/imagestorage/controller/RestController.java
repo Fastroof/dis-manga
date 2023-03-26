@@ -64,7 +64,7 @@ public class RestController {
                 ProductImage productImage = new ProductImage();
                 productImage.setProductId(product_id);
                 productImage.setFile(matcher.group(1).replaceAll("\\\\/", "/"));
-                productImageRepository.save(productImage);
+                //productImageRepository.save(productImage);
             }
         }
         return respBody;
