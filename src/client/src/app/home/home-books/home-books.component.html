@@ -1,0 +1,22 @@
+<div class="product-list">
+  <div class="container">
+    <div class="ll-section-head text-center mb-5"></div>
+    <div class="grid grid-cols-12 gap-6 xxl:gap-8">
+      <div *ngFor="let product of books | slice:0:9" class="col-span-12 md:col-span-6 xl:col-span-4">
+        <mat-card class="ll-product">
+          <img mat-card-image [routerLink]="['/products', product.id]" [src]="product?.images[0].file" alt="{{ product.name }}" style="width: 100%; height: 300px; object-fit: cover; margin: 0 0 20px; cursor: pointer;" />
+          <mat-card-content class="flex">
+            <div class="flex-grow pl-3">
+              <h2 class="ll-product__name">
+                <a [routerLink]="['/products', product.id]">{{ product.name }}</a>
+              </h2>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <div class="text-center mt-10">
+      <a mat-raised-button color="warn" [routerLink]="['/products']" class="px-8 py-2 text-lg">Показати більше</a>
+    </div>
+  </div>
+</div>

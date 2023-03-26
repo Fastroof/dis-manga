@@ -19,16 +19,6 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {FormsModule} from '@angular/forms';
 import { CategoryEditDialogComponent } from './dashboard-admin-categories/category-edit-dialog/category-edit-dialog.component';
 import { CategoryDeleteDialogComponent } from './dashboard-admin-categories/category-delete-dialog/category-delete-dialog.component';
-import { DashboardAdminProductsComponent } from './dashboard-admin-products/dashboard-admin-products.component';
-import { ProductDialogComponent } from './dashboard-admin-products/product-dialog/product-dialog.component';
-import { ProductEditDialogComponent } from './dashboard-admin-products/product-edit-dialog/product-edit-dialog.component';
-import { ProductDeleteDialogComponent } from './dashboard-admin-products/product-delete-dialog/product-delete-dialog.component';
-import { ProductImageDialogComponent } from './dashboard-admin-products/product-image-dialog/product-image-dialog.component';
-import { ProductImageEditDialogComponent } from './dashboard-admin-products/product-image-edit-dialog/product-image-edit-dialog.component';
-import { ProductImageDeleteDialogComponent } from './dashboard-admin-products/product-image-delete-dialog/product-image-delete-dialog.component';
-import { ProductIncomingDeleteDialogComponent } from './dashboard-admin-products/product-incoming-delete-dialog/product-incoming-delete-dialog.component';
-import { ProductIncomingDialogComponent } from './dashboard-admin-products/product-incoming-dialog/product-incoming-dialog.component';
-import { ProductIncomingEditDialogComponent } from './dashboard-admin-products/product-incoming-edit-dialog/product-incoming-edit-dialog.component';
 import { DashboardAdminOrdersComponent } from './dashboard-admin-orders/dashboard-admin-orders.component';
 import { OrderEditDialogComponent } from './dashboard-admin-orders/order-edit-dialog/order-edit-dialog.component';
 import {MatSelectModule} from '@angular/material/select';
@@ -42,16 +32,6 @@ import {MatSelectModule} from '@angular/material/select';
     CategoryDialogComponent,
     CategoryEditDialogComponent,
     CategoryDeleteDialogComponent,
-    DashboardAdminProductsComponent,
-    ProductDialogComponent,
-    ProductEditDialogComponent,
-    ProductDeleteDialogComponent,
-    ProductImageDialogComponent,
-    ProductImageEditDialogComponent,
-    ProductImageDeleteDialogComponent,
-    ProductIncomingDeleteDialogComponent,
-    ProductIncomingDialogComponent,
-    ProductIncomingEditDialogComponent,
     DashboardAdminOrdersComponent,
     OrderEditDialogComponent
   ],

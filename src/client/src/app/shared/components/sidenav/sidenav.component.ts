@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { menuList } from '../../data/menus';
 import {TokenStorageService} from '../../../_services/token-storage.service';
-import {CartService} from '../../../_services/cart.service';
 
 @Component({
   selector: 'll-sidenav',
@@ -16,8 +15,7 @@ export class SidenavComponent implements OnInit {
   isAdmin = false;
   isModerator = false;
 
-  constructor(private tokenStorageService: TokenStorageService,
-              private cartService: CartService) { }
+  constructor(private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
     this.navList = menuList;
@@ -33,9 +31,5 @@ export class SidenavComponent implements OnInit {
   logout(): void {
     this.tokenStorageService.signOut();
     window.location.reload();
-  }
-
-  openCart(): void {
-    this.cartService.openCart();
   }
 }

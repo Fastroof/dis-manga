@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {Product} from '../../shared/interfaces/product';
 import {ActivatedRoute} from '@angular/router';
 import {GalleryItem, ImageItem} from 'ng-gallery';
-import {CartService} from '../../_services/cart.service';
 import {environment} from '../../../environments/environment';
 
 @Component({
@@ -16,8 +15,7 @@ export class ProductDetailsComponent implements OnInit {
   images: GalleryItem[] = [];
   available = 0;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private cartService: CartService) { }
+  constructor(private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(d => {
@@ -33,13 +31,6 @@ export class ProductDetailsComponent implements OnInit {
       .catch(() => this.exchange = 'error');
     for (const image of this.product?.images) {
       this.images.push(new ImageItem({ src: image.file, thumb: image.file }));
-    }
-  }
-
-  // tslint:disable-next-line:typedef
-  addToCart(product: Product) {
-    if (this.available !== 0) {
-      this.cartService.addToCart(product);
     }
   }
 }

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {Product} from '../../shared/interfaces/product';
 import {ActivatedRoute} from '@angular/router';
 import $ from 'jquery';
-import {CartService} from '../../_services/cart.service';
 import {environment} from '../../../environments/environment';
 
 @Component({
@@ -16,8 +15,7 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
   exchange: any;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private cartService: CartService) {}
+  constructor(private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -91,12 +89,5 @@ export class ProductListComponent implements OnInit {
       });
       this.isLoaded = true;
     }, 500);
-  }
-
-  // tslint:disable-next-line:typedef
-  addToCart(product: Product) {
-    if (product.available !== 0) {
-      this.cartService.addToCart(product);
-    }
   }
 }

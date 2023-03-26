@@ -26,36 +26,6 @@ export class ApiService {
     return this.http.get<ProductImage[]>(environment.storage + '/products-images', {observe: 'response'});
   }
 
-  // tslint:disable-next-line:typedef variable-name
-  createOrder(user_id: string | undefined | null,
-              address: string,
-              email: string,
-              payment: string,
-              // tslint:disable-next-line:variable-name
-              payment_type: string,
-              phone: string,
-              username: string,
-              orderItemCreateRequests: OrderItemForOrder[]) {
-    const status = 'pending';
-    const type = 'INTERNET';
-    if (user_id === undefined) {
-      user_id = null;
-    }
-    const body = {
-      status,
-      type,
-      user_id,
-      address,
-      email,
-      payment,
-      payment_type,
-      phone,
-      username,
-      order_items: orderItemCreateRequests
-    };
-    return this.http.post(environment.order + '/order', body, {responseType: 'text'});
-  }
-
   // tslint:disable-next-line:typedef
   addCategory(name: string) {
     const body = new FormData();

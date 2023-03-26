@@ -6,7 +6,6 @@ import { DashboardProfileComponent } from './dashboard-profile/dashboard-profile
 import {AuthGuardService} from '../_services/auth-guard.service';
 import {DashboardAdminCategoriesComponent} from './dashboard-admin-categories/dashboard-admin-categories.component';
 import {AdminAuthGuardService} from '../_services/admin-auth-guard.service';
-import {DashboardAdminProductsComponent} from './dashboard-admin-products/dashboard-admin-products.component';
 import {DashboardAdminOrdersComponent} from './dashboard-admin-orders/dashboard-admin-orders.component';
 
 const DashboardChildrenRoute: Routes = [
@@ -22,11 +21,6 @@ const DashboardChildrenRoute: Routes = [
   {
     path: 'categories',
     component: DashboardAdminCategoriesComponent,
-    canActivate: [AdminAuthGuardService]
-  },
-  {
-    path: 'products',
-    component: DashboardAdminProductsComponent,
     canActivate: [AdminAuthGuardService]
   },
   {

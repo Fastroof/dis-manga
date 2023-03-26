@@ -15,7 +15,6 @@ import { MatListModule } from '@angular/material/list';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { HttpClientModule } from '@angular/common/http';
 import {MatMenuModule} from '@angular/material/menu';
-import {ShoppingCartComponent} from './components/shopping-cart/shopping-cart.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatBadgeModule} from '@angular/material/badge';
 
@@ -31,7 +30,7 @@ const commonModules = [
 ];
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, BaseLayoutComponent, LoaderComponent, SidenavComponent, ShoppingCartComponent],
+  declarations: [HeaderComponent, FooterComponent, BaseLayoutComponent, LoaderComponent, SidenavComponent],
     imports: [CommonModule, RouterModule, ...commonModules, MatMenuModule, MatDialogModule, MatBadgeModule],
   exports: [HeaderComponent, FooterComponent, BaseLayoutComponent, LoaderComponent, SidenavComponent, ...commonModules]
 })

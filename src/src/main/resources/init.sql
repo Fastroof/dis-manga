@@ -24,11 +24,9 @@ CREATE TABLE if not exists book_files
 (
     id           bigint NOT NULL,
     name         text   NOT NULL,
-    updated_at   date   NOT NULL,
-    created_at   date   NOT NULL,
+    uploaded_at   date   NOT NULL,
     book_id      bigint NOT NULL,
-    link_to_file text   NOT NULL,
-    owner_id     bigint NOT NULL
+    link_to_file text   NOT NULL
 );
 
 alter table book_files
@@ -190,9 +188,6 @@ ALTER TABLE ONLY comments
 
 ALTER TABLE ONLY book_files
     ADD CONSTRAINT book_file_books_id_fk FOREIGN KEY (book_id) REFERENCES books (id);
-
-ALTER TABLE ONLY book_files
-    ADD CONSTRAINT book_files_fk_owner FOREIGN KEY (owner_id) REFERENCES users (id);
 
 ALTER TABLE ONLY books
     ADD CONSTRAINT books_fk_tag FOREIGN KEY (tag_id) REFERENCES tags (id);

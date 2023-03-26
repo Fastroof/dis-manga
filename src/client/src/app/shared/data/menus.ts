@@ -6,14 +6,10 @@ export interface Menu {
 export const menuList: Menu[] = [
   {
     path: '/products',
-    name: 'Товари'
+    name: 'Каталог'
   },
   {
     path: '/contact',
     name: 'Контакти'
-  },
-  {
-    path: '/gallery',
-    name: 'Галерея'
   }
 ];
