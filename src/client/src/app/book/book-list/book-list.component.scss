@@ -1,0 +1,16 @@
+@media (max-width: 1080px) {
+  .book-list {
+    margin-top: 8rem;
+  }
+}
+
+.grid-cols-x {
+  grid-template-columns: repeat(24, minmax(0, 1fr));
+}
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

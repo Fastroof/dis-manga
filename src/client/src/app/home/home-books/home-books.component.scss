@@ -4,8 +4,8 @@
   }
 }
 
-.grid-cols-16 {
-  grid-template-columns: repeat(16, minmax(0, 1fr));
+.grid-cols-x {
+  grid-template-columns: repeat(24, minmax(0, 1fr));
 }
 
 .line-clamp {
