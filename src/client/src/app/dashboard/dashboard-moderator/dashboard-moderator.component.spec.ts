@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DashboardModeratorHelpRequestsComponent } from './dashboard-moderator-help-requests.component';
+import { DashboardModeratorComponent } from './dashboard-moderator.component';
 
 describe('DashboardAdminCategoriesComponent', () => {
-  let component: DashboardModeratorHelpRequestsComponent;
-  let fixture: ComponentFixture<DashboardModeratorHelpRequestsComponent>;
+  let component: DashboardModeratorComponent;
+  let fixture: ComponentFixture<DashboardModeratorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardModeratorHelpRequestsComponent ]
+      declarations: [ DashboardModeratorComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(DashboardModeratorHelpRequestsComponent);
+    fixture = TestBed.createComponent(DashboardModeratorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

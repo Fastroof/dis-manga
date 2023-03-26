@@ -21,7 +21,16 @@ export class ApiService {
   }
 
   // tslint:disable-next-line:typedef
+  sendHelpRequest(email: string, text: string) {
+    const body = new FormData();
+    body.append('email', email);
+    body.append('text', text);
+    return this.http.post(environment.core + '/help-request', body, {responseType: 'text'});
+  }
+
+  // tslint:disable-next-line:typedef
   processHelpRequest(id: number) {
-    return this.http.post(environment.core + '/moderator/help-requests/'  + id + '/process', {responseType: 'text'});
+    const body = new FormData();
+    return this.http.post(environment.core + '/moderator/help-requests/'  + id + '/process', body, {responseType: 'text'});
   }
 }

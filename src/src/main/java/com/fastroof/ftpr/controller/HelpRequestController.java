@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -16,11 +15,16 @@ import java.time.LocalDate;
 @RestController
 @CrossOrigin(origins = "*")
 public class HelpRequestController {
+
+    private final HelpRequestRepository helpRequestRepository;
+
     @Autowired
-    HelpRequestRepository helpRequestRepository;
+    public HelpRequestController(HelpRequestRepository helpRequestRepository) {
+        this.helpRequestRepository = helpRequestRepository;
+    }
 
     @PostMapping("/help-request")
-    public ResponseEntity<Response> postHelpRequest(@Valid @RequestBody HelpRequestPojo sentHelpRequestPojo) {
+    public ResponseEntity<Response> postHelpRequest(@Valid HelpRequestPojo sentHelpRequestPojo) {
         HelpRequest helpRequest = new HelpRequest();
         helpRequest.setEmail(sentHelpRequestPojo.getEmail());
         helpRequest.setText(sentHelpRequestPojo.getText());

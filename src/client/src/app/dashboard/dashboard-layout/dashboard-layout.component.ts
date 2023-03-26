@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 })
 export class DashboardLayoutComponent implements OnInit {
   isLessThenLargeDevice: any;
-  isAdmin = false;
   isModerator = false;
 
   constructor(private breakpointObserver: BreakpointObserver,
@@ -19,7 +18,6 @@ export class DashboardLayoutComponent implements OnInit {
 
   ngOnInit(): void {
     const role = this.tokenStorageService.getUser().role;
-    this.isAdmin = role === 'admin';
     this.isModerator = role === 'moderator';
 
     this.breakpointObserver.observe(['(max-width: 1199px)']).subscribe(({ matches }) => {

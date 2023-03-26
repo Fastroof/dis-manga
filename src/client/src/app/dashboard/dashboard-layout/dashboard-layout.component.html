@@ -12,35 +12,28 @@
             [routerLinkActiveOptions]="{ exact: true }"
             routerLinkActive="bg-gray-200"
             class="font-semibold text-gray-500 hover:text-primary"
-            ><mat-icon class="mr-2">dashboard</mat-icon> Замовлення</a
+          ><mat-icon class="mr-2">book</mat-icon> Бібліотека</a
           >
           <a
             mat-list-item
             routerLink="/dashboard/profile"
             routerLinkActive="bg-gray-200"
             class="font-semibold text-gray-500 hover:text-primary"
-            ><mat-icon class="mr-2">account_circle</mat-icon> Профіль</a
+          ><mat-icon class="mr-2">account_circle</mat-icon> Профіль</a
           >
-          <a *ngIf="isAdmin"
+          <a
+            mat-list-item
+            routerLink="/dashboard/books"
+            routerLinkActive="bg-gray-200"
+            class="font-semibold text-gray-500 hover:text-primary"
+          ><mat-icon class="mr-2">dashboard</mat-icon> Керування книгами</a
+          >
+          <a *ngIf="isModerator"
              mat-list-item
-             routerLink="/dashboard/categories"
+             routerLink="/dashboard/moderate"
              routerLinkActive="bg-gray-200"
              class="font-semibold text-gray-500 hover:text-primary"
-          ><mat-icon class="mr-2">format_list_numbered</mat-icon> Керування категоріями</a
-          >
-          <a *ngIf="isAdmin"
-             mat-list-item
-             routerLink="/dashboard/products"
-             routerLinkActive="bg-gray-200"
-             class="font-semibold text-gray-500 hover:text-primary"
-          ><mat-icon class="mr-2">apps</mat-icon> Керування товарами</a
-          >
-          <a *ngIf="isAdmin"
-             mat-list-item
-             routerLink="/dashboard/orders"
-             routerLinkActive="bg-gray-200"
-             class="font-semibold text-gray-500 hover:text-primary"
-          ><mat-icon class="mr-2">book</mat-icon> Керування замовленнями</a
+          ><mat-icon class="mr-2">format_list_numbered</mat-icon> Обробка запитів</a
           >
           <a (click)="logout()" mat-list-item class="font-semibold text-gray-500 hover:text-primary"><mat-icon class="mr-2">logout</mat-icon> Вихід</a>
         </mat-nav-list>
@@ -51,7 +44,7 @@
         <div class="container">
           <div class="flex items-center">
             <div class="flex items-center">
-              <a class="logo" [routerLink]="['']"><img src="assets/images/logo.png" alt="Logo" /></a>
+              <a class="logo" [routerLink]="['']"><img src="assets/images/logo.png" alt="Logo" style="height: 36px" /></a>
             </div>
             <button
               *ngIf="isLessThenLargeDevice"
@@ -86,7 +79,7 @@
                       [routerLinkActiveOptions]="{ exact: true }"
                       routerLinkActive="bg-gray-200"
                       class="font-semibold text-gray-500 hover:text-primary"
-                      ><mat-icon class="mr-2">dashboard</mat-icon> Замовлення</a
+                      ><mat-icon class="mr-2">book</mat-icon> Бібліотека</a
                     >
                     <a
                       mat-list-item
@@ -95,28 +88,21 @@
                       class="font-semibold text-gray-500 hover:text-primary"
                       ><mat-icon class="mr-2">account_circle</mat-icon> Профіль</a
                     >
-                    <a *ngIf="isAdmin"
+                    <a
+                       mat-list-item
+                       routerLink="/dashboard/books"
+                       routerLinkActive="bg-gray-200"
+                       class="font-semibold text-gray-500 hover:text-primary"
+                    ><mat-icon class="mr-2">dashboard</mat-icon> Керування книгами</a
+                    >
+                    <a *ngIf="isModerator"
                       mat-list-item
-                      routerLink="/dashboard/categories"
+                      routerLink="/dashboard/moderate"
                       routerLinkActive="bg-gray-200"
                       class="font-semibold text-gray-500 hover:text-primary"
-                    ><mat-icon class="mr-2">format_list_numbered</mat-icon> Керування категоріями</a
+                    ><mat-icon class="mr-2">format_list_numbered</mat-icon> Обробка запитів</a
                     >
-                    <a *ngIf="isAdmin"
-                       mat-list-item
-                       routerLink="/dashboard/products"
-                       routerLinkActive="bg-gray-200"
-                       class="font-semibold text-gray-500 hover:text-primary"
-                    ><mat-icon class="mr-2">apps</mat-icon> Керування товарами</a
-                    >
-                    <a *ngIf="isAdmin"
-                       mat-list-item
-                       routerLink="/dashboard/orders"
-                       routerLinkActive="bg-gray-200"
-                       class="font-semibold text-gray-500 hover:text-primary"
-                    ><mat-icon class="mr-2">book</mat-icon> Керування замовленнями</a
-                    >
-                    <a (click)="logout()" mat-list-item class="font-semibold text-gray-500 hover:text-primary"><mat-icon class="mr-2">logout</mat-icon> Вихід</a>
+                    <a (click)="logout()" mat-list-item class="font-semibold text-gray-500 hover:text-primary"><mat-icon class="mr-2">logout</mat-icon> Вихід з акаунта</a>
                   </mat-nav-list>
                 </div>
               </div>

@@ -3,25 +3,74 @@
     <div class="grid grid-cols-12 gap-4 lg:gap-8 xxl:gap-16">
       <div class="col-span-12 lg:col-span-7 p-8 mt-10 lg:mt-0">
         <h3>Напишіть нам</h3>
-        <form>
+        <div *ngIf="isSent && isError" class="mt-4">
+          <div class="circle-border"></div>
+          <div class="circle">
+            <div class="error"></div>
+          </div>
+          <p class="mt-4">Сталася помилка при спробі відправлення звернення</p>
+        </div>
+        <div *ngIf="isSent && !isError" class="mt-4">
+          <div class="success-checkmark">
+            <div class="check-icon">
+              <span class="icon-line line-tip"></span>
+              <span class="icon-line line-long"></span>
+              <div class="icon-circle"></div>
+              <div class="icon-fix"></div>
+            </div>
+          </div>
+          <p>Ваше звернення вже в нас.<br> Ми відповімо вам на email згодом</p>
+        </div>
+        <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && onClickSubmit()" novalidate *ngIf="!isSent">
+
           <label for="pib" class="mt-4">ПІБ</label>
-          <input type="text" id="pib" name="pib">
+          <input
+            type="text"
+            id="pib"
+            name="pib"
+            [(ngModel)]="form.pib"
+          >
 
-          <label for="email">Email</label>
-          <input type="text" id="email" name="email">
+          <label for="email">Email *</label>
+          <div *ngIf="email.errors?.['required']">
+            (Уведіть email)
+          </div>
+          <div *ngIf="email.errors?.['email']">
+            (Неправильний email)
+          </div>
+          <div *ngIf="email.errors?.['maxlength']">
+            (Email не може перевищувати 50 символів)
+          </div>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            [(ngModel)]="form.email"
+            required
+            email
+            maxlength="50"
+            #email="ngModel"
+          >
 
-          <label for="type">Вид повідомлення</label>
-          <select id="type" name="type">
-            <option value="Звернення">Звернення</option>
-            <option value="Питання">Питання</option>
-            <option value="Скарга">Скарга</option>
-          </select>
-
-          <label for="text">Текст</label>
-          <textarea id="text" name="text" placeholder="Напишіть ваше повідомлення тут.." style="height:140px"></textarea>
+          <label for="text">Текст *</label>
+          <div *ngIf="text.errors?.['required']">
+            (Уведіть текст)
+          </div>
+          <div *ngIf="text.errors?.['maxlength']">
+            (Текст не може перевищувати 2000 символів)
+          </div>
+          <textarea
+            id="text"
+            name="text"
+            placeholder="Напишіть ваше повідомлення тут.."
+            style="height:140px"
+            [(ngModel)]="form.text"
+            required
+            maxlength="2000"
+            #text="ngModel"
+          ></textarea>
 
           <input type="submit" value="Відправити">
-
         </form>
       </div>
       <div class="col-span-12 lg:col-span-5 bg-black bg-opacity-90 text-white rounded p-8 xxl:px-16 mt-10 lg:mt-0">

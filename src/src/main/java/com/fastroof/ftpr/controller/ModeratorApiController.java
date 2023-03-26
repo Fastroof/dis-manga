@@ -19,12 +19,18 @@ import java.util.stream.StreamSupport;
 @CrossOrigin(origins = "*")
 public class ModeratorApiController {
 
+    private final UserRepository userRepository;
+    private final HelpRequestRepository helpRequestRepository;
+    private final ReportRepository reportRepository;
+
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private HelpRequestRepository helpRequestRepository;
-    @Autowired
-    private ReportRepository reportRepository;
+    public ModeratorApiController(UserRepository userRepository,
+                                  HelpRequestRepository helpRequestRepository,
+                                  ReportRepository reportRepository) {
+        this.userRepository = userRepository;
+        this.helpRequestRepository = helpRequestRepository;
+        this.reportRepository = reportRepository;
+    }
 
     @GetMapping("/moderator/help-requests")
     public List<HelpRequest> getHelpRequests() {

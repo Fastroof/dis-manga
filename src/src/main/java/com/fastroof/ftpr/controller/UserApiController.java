@@ -18,14 +18,21 @@ import java.util.Optional;
 @CrossOrigin(origins = "*")
 public class UserApiController {
 
+    private final UserRepository userRepository;
+    private final BookFileRepository bookFileRepository;
+    private final BookRepository bookRepository;
+    private final PersonalLibraryRepository personalLibraryRepository;
+
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BookFileRepository bookFileRepository;
-    @Autowired
-    private BookRepository bookRepository;
-    @Autowired
-    private PersonalLibraryRepository personalLibraryRepository;
+    public UserApiController(UserRepository userRepository,
+                             BookFileRepository bookFileRepository,
+                             BookRepository bookRepository,
+                             PersonalLibraryRepository personalLibraryRepository) {
+        this.userRepository = userRepository;
+        this.bookFileRepository = bookFileRepository;
+        this.bookRepository = bookRepository;
+        this.personalLibraryRepository = personalLibraryRepository;
+    }
 
     @GetMapping("/user/personal-library")
     public List<Book> getPersonalLibrary() {
