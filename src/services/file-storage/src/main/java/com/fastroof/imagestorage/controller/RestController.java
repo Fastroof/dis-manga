@@ -40,6 +40,7 @@ public class RestController {
      * Application name.
      */
     private static final String APPLICATION_NAME = "dis-manga";
+    private static final String FOLDER_ID = "1knOgegL95YzXktDb_3YoHS1HKljxFNMz";
 
     /**
      * Global instance of the JSON factory.
@@ -71,6 +72,7 @@ public class RestController {
                 .setServiceAccountId(serviceAccount)
                 .setServiceAccountPrivateKeyFromP12File(inputStream)
                 .setServiceAccountScopes(SCOPES)
+                //.setServiceAccountUser("dis.manga.team@gmail.com")
                 .build();
     }
 
@@ -83,6 +85,7 @@ public class RestController {
 
         FileList result = service.files().list()
                 .setPageSize(10)
+                .setQ("mimeType='application/pdf'")
                 .setFields("nextPageToken, files(id, name, webViewLink, webContentLink)")
                 .execute();
 
@@ -108,7 +111,8 @@ public class RestController {
 
         File fileMetadata = new File();
         fileMetadata.setName(file.getOriginalFilename());
-        FileContent mediaContent = new FileContent("*/*", fileToUpload);
+        fileMetadata.setParents(List.of(FOLDER_ID));
+        FileContent mediaContent = new FileContent("application/pdf", fileToUpload);
 
         try {
             File uploadedFile = service
@@ -134,7 +138,7 @@ public class RestController {
 
 
     private java.io.File convertMultipartFileToFile(MultipartFile file) throws IOException {
-        java.io.File convertedFile = new java.io.File(file.getOriginalFilename());
+        java.io.File convertedFile = new java.io.File("uploads/" + file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convertedFile);
         fos.write(file.getBytes());
         fos.close();
