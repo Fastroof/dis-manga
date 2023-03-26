@@ -36,7 +36,7 @@ alter table book_files
 -- Name: request_statuses; Type: TABLE;
 --
 
-CREATE TABLE request_statuses
+CREATE TABLE if not exists request_statuses
 (
     id   bigint NOT NULL,
     name text   NOT NULL
@@ -49,7 +49,7 @@ alter table request_statuses
 -- Name: roles; Type: TABLE;
 --
 
-CREATE TABLE roles
+CREATE TABLE if not exists roles
 (
     id   bigint NOT NULL,
     name text   NOT NULL
@@ -62,7 +62,7 @@ alter table roles
 -- Name: tags; Type: TABLE;
 --
 
-CREATE TABLE tags
+CREATE TABLE if not exists tags
 (
     id       bigint NOT NULL,
     name     text   NOT NULL,
@@ -76,7 +76,7 @@ alter table tags
 -- Name: users; Type: TABLE;
 --
 
-CREATE TABLE users
+CREATE TABLE if not exists users
 (
     id         bigint NOT NULL,
     role       bigint NOT NULL,
