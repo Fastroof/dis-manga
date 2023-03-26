@@ -63,11 +63,13 @@ public class BookApiController {
     @PostMapping("/books")
     @Transactional
     public Response postNewBook(@Valid @ModelAttribute PostBookRequestPojo postBookRequestPojo) {
+        User user = getUserByToken();
         Book book = new Book();
         book.setCreatedAt(LocalDate.now());
         book.setUpdatedAt(LocalDate.now());
         book.setName(postBookRequestPojo.getName());
         book.setTagId(postBookRequestPojo.getTagId());
+        book.setOwnerId(user.getId());
 
         // TODO: upload cover if provided
 
