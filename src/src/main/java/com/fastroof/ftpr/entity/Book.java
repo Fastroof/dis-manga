@@ -1,5 +1,6 @@
 package com.fastroof.ftpr.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,20 +18,25 @@ public class Book {
     private Integer id;
 
     @Column(name = "updated_at", nullable = false)
+    @JsonProperty("updated_at")
     private LocalDate updatedAt;
 
     @Column(name = "created_at", nullable = false)
+    @JsonProperty("created_at")
     private LocalDate createdAt;
 
     @Column(name = "tag_id")
+    @JsonProperty("tag_id")
     private Integer tagId;
 
     @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "owner_id", nullable = false)
+    @JsonProperty("owner_id")
     private Integer ownerId;
 
     @Column(name = "link_to_cover")
+    @JsonProperty("link_to_cover")
     private String linkToCover;
 }

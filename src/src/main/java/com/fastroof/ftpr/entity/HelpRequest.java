@@ -1,5 +1,6 @@
 package com.fastroof.ftpr.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ public class HelpRequest {
     private Integer id;
 
     @Column(name = "created_at", nullable = false)
+    @JsonProperty("created_at")
     private LocalDate createdAt;
 
     @Column(name = "text", nullable = false)
@@ -29,5 +31,6 @@ public class HelpRequest {
     private Integer status;
 
     @Column(name = "moderator_id")
+    @JsonProperty("moderator_id")
     private Integer moderatorId;
 }

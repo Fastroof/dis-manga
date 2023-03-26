@@ -9,12 +9,12 @@ const routes: Routes = [
   {
     path: '',
     component: BookListComponent,
-    resolve: { products: BooksResolver}
+    resolve: { books: BooksResolver}
   },
   {
     path: ':id',
     component: BookDetailsComponent,
-    resolve: { product: BookResolver}
+    resolve: { book: BookResolver}
   },
 ];
 
