@@ -16,20 +16,18 @@ public class User {
     @GeneratedValue(generator = "increment")
     private Integer id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
+    private Role role;
+
+    @Column(name = "username", nullable = false)
+    private String username;
+
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)
     private String password;
-
-    @Column(name = "first_name", nullable = false)
-    private String firstName;
-
-    @Column(name = "last_name", nullable = false)
-    private String lastName;
-
-    @Column(name = "role", nullable = false)
-    private Integer role;
 
     @Column(name = "provider", nullable = false)
     private String provider;

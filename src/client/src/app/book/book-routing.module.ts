@@ -5,6 +5,7 @@ import { BookListComponent } from './book-list/book-list.component';
 import {BookResolver} from '../shared/data/book';
 import {BooksResolver} from '../shared/data/books';
 import {BookFilesResolver} from '../shared/data/book-files';
+import {CommentsResolver} from '../shared/data/comments';
 
 const routes: Routes = [
   {
@@ -15,7 +16,9 @@ const routes: Routes = [
   {
     path: ':id',
     component: BookDetailsComponent,
-    resolve: { book: BookResolver, bookFiles: BookFilesResolver}
+    resolve: { book: BookResolver,
+      bookFiles: BookFilesResolver,
+      comments: CommentsResolver}
   },
 ];
 

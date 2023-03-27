@@ -295,6 +295,7 @@ public class BookApiController {
     }
 
     private User getUserByToken() {
-        return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        return userRepository.findById(1).orElse(null);
+        //return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
     }
 }

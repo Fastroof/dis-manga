@@ -9,6 +9,7 @@ import { BookDetailsComponent } from './book-details/book-details.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import {GalleryModule} from 'ng-gallery';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [BookListComponent, BookDetailsComponent],
@@ -20,7 +21,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         NgParticlesModule,
         NgxSkeletonLoaderModule,
         GalleryModule,
-        MatTooltipModule
+        MatTooltipModule,
+        FormsModule
     ]
 })
 export class BookModule { }

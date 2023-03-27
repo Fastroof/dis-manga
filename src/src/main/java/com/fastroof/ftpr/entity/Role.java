@@ -13,8 +13,9 @@ public class Role {
     @Id
     @Column(name = "id", nullable = false, unique = true, updatable = false)
     @GeneratedValue(generator = "increment")
-    private Integer id;
+    private Long id;
 
-    @Column(name = "name", nullable = false, unique = true)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private ERole name;
 }
