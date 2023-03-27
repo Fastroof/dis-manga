@@ -102,6 +102,10 @@ public class RestController {
         if (files == null || files.isEmpty()) {
             return Collections.emptyList();
         } else {
+            files.forEach(file ->
+                    // Add embeddable link
+                    file.set("previewLink", file.getWebViewLink().replace("/view?usp=drivesdk", "/preview"))
+            );
             return files;
         }
     }
@@ -137,6 +141,9 @@ public class RestController {
                     .permissions()
                     .create(uploadedFile.getId(), anyoneCanReadPermission)
                     .execute();
+
+            // Add embeddable link
+            uploadedFile.set("previewLink", uploadedFile.getWebViewLink().replace("/view?usp=drivesdk", "/preview"));
 
             return ResponseEntity
                     .ok(uploadedFile);
