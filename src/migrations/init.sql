@@ -254,5 +254,50 @@ insert into users (id, role_id, username, email, password, provider)
 values (default, 2, 'admin', 'admin@admin.com',
         '$2a$10$iWOIpv08YdHeiemEEOqm/O3QHvYtjdBn6azEIipixYe7hoA6rRhxa', 'local');
 
-insert into books (id, updated_at, created_at, tag_id, name, owner_id)
-values (default, now(), now(), 1, 'Init', 1);
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Володимир Лис, “Століття Якова”', 1, 'https://i.grenka.ua/shop/1/4/670/stolittya-yakova_0d7.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Дарина Гнатко, “Притулок семи вітрів”', 1, 'https://i.grenka.ua/shop/1/10/505/pritulok-semi-vitriv_e51.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Ірена Карпа, «Як виходити заміж стільки разів, скільки захочете»', 1, 'https://i.grenka.ua/shop/1/10/803/yak-vikhoditi-zamizh-stilki-raziv-skilki-zakhochete_725.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Максим Бутченко, «Жінка в темряві. Зелений клин»', 1, 'https://i.grenka.ua/shop/1/11/4/zhinka-v-temryavi-zelenij-klin_404.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Стівен Кінг, «Довга Хода»', 1, 'https://i.grenka.ua/shop/1/12/928/dovga-khoda_367.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'В. Е. Шваб, «Незриме життя Адді Лярю»', 1, 'https://i.grenka.ua/shop/1/12/929/nezrime-zhittya-addi-lyaryu_998.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Юрай Червенак, «Богатир. Книга 1: Сталеве жезло»', 1, 'https://i.grenka.ua/shop/1/12/933/bogatir-kniga-1-staleve-zhezlo_fa1.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Анна Беннінг, «Вихрь 2. Девушка, которая прорвалась сквозь время»', 1, 'https://i.grenka.ua/shop/1/12/467/vikhr-2-devushka-kotoraya-prorvalas-skvoz-vremya_af5.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Кен Лю, «Прихована дівчина та інші оповідання»', 1, 'https://i.grenka.ua/shop/1/12/690/prikhovana-divchina-ta-inshi-opovidannya_47f.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Діна Бухольц, «Неофіційна кулінарна книга Гаррі Поттера»', 1, 'https://i.grenka.ua/shop/1/12/899/neofitsijna-kulinarna-kniga-garri-pottera_6fd.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Михайло Жирохов, «Зброя Перемоги»', 1, 'https://i.grenka.ua/shop/1/12/917/zbroya-peremogi_1c1.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Ірина Тараненко, Марта Лешак, «Книга-мандрівка. Незалежні»', 1, 'https://i.grenka.ua/shop/1/12/929/kniga-mandrivka-nezalezhni_2c4.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Том Шиппі, «Сміючись і помру: про життя і смерть видатних вікінгів»', 1, 'https://i.grenka.ua/shop/1/12/931/smiyuchis-i-pomru-pro-zhittya-i-smert-vidatnikh-vikingiv_093.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Дмитро Муравський, «Через війну»', 1, 'https://i.grenka.ua/shop/1/9/787/cherez-vijnu_885.jpg');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Шелбі Мег`юрін, «Змія і голуб»', 1, 'https://i.grenka.ua/shop/1/12/929/zmiya-i-golub_7db.png');
+
+insert into books (id, updated_at, created_at, tag_id, name, owner_id, link_to_cover)
+values (default, now(), now(), 1, 'Сергій Плохій, «Ядерне безумство. Історія Карибської кризи»', 1, 'https://i.grenka.ua/shop/1/12/907/yaderne-bezumstvo-istoriya-karibskoyi-krizi_a86.jpg');
