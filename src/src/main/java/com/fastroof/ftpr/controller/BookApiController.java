@@ -5,6 +5,7 @@ import com.fastroof.ftpr.pojo.PatchBookRequestPojo;
 import com.fastroof.ftpr.pojo.PostBookRequestPojo;
 import com.fastroof.ftpr.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,15 @@ public class BookApiController {
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
     private final PersonalLibraryRepository personalLibraryRepository;
+
+    @Value("${link.to.file-storage.service}")
+    private String linkToFileStorageService;
+
+    @Value("${link.to.auth.service}")
+    private String linkToAuthService;
+
+    @Value("${link.to.messenger.service}")
+    private String linkToMessengerService;
 
     @Autowired
     public BookApiController(BookRepository bookRepository,
