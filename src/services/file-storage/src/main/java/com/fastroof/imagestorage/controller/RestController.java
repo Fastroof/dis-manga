@@ -18,6 +18,7 @@ import com.google.api.services.drive.model.Permission;
 import okhttp3.RequestBody;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,6 +41,10 @@ public class RestController {
      * Application name.
      */
     private static final String APPLICATION_NAME = "dis-manga";
+
+    /**
+     * Files will be uploaded to folder with FOLDER_ID
+     */
     private static final String FOLDER_ID = "1knOgegL95YzXktDb_3YoHS1HKljxFNMz";
 
     /**
@@ -52,6 +57,12 @@ public class RestController {
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
     private static final Set<String> SCOPES = DriveScopes.all();
+
+    // Build a new authorized API client service.
+    final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+            .setApplicationName(APPLICATION_NAME)
+            .build();
 
 
     /**
@@ -77,15 +88,12 @@ public class RestController {
     }
 
     @GetMapping("/files")
-    public List<File> getFiles() throws GeneralSecurityException, IOException {
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
+    public List<File> getFiles() throws IOException {
 
         FileList result = service.files().list()
                 .setPageSize(10)
                 .setQ("mimeType='application/pdf'")
+                .set("trashed", false)
                 .setFields("nextPageToken, files(id, name, webViewLink, webContentLink)")
                 .execute();
 
@@ -99,28 +107,28 @@ public class RestController {
     }
 
     @PostMapping("/files")
-    public String postFile(@RequestParam MultipartFile file)
-            throws GeneralSecurityException, IOException {
-        // Build a new authorized API client service.
-        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
-                .setApplicationName(APPLICATION_NAME)
-                .build();
+    public ResponseEntity<?> postFile(@RequestParam MultipartFile file)
+            throws IOException {
 
+        // Convert MultiPartFile to java.io.File
         java.io.File fileToUpload = convertMultipartFileToFile(file);
 
+        // Create file metadata(name, parent folder)
         File fileMetadata = new File();
         fileMetadata.setName(file.getOriginalFilename());
         fileMetadata.setParents(List.of(FOLDER_ID));
+        // Create file contents(pdf)
         FileContent mediaContent = new FileContent("application/pdf", fileToUpload);
 
         try {
+            // Upload file to Google Drive
             File uploadedFile = service
                     .files()
                     .create(fileMetadata, mediaContent)
-                    .setFields("id")
+                    .setFields("id, name, webViewLink, webContentLink")
                     .execute();
 
+            // Make file readable by anyone
             Permission anyoneCanReadPermission = new Permission();
             anyoneCanReadPermission.setType("anyone");
             anyoneCanReadPermission.setRole("reader");
@@ -130,12 +138,14 @@ public class RestController {
                     .create(uploadedFile.getId(), anyoneCanReadPermission)
                     .execute();
 
-            return uploadedFile.getId();
+            return ResponseEntity
+                    .ok(uploadedFile);
         } catch (GoogleJsonResponseException e) {
-            return e.getMessage();
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
         }
     }
-
 
     private java.io.File convertMultipartFileToFile(MultipartFile file) throws IOException {
         java.io.File convertedFile = new java.io.File("uploads/" + file.getOriginalFilename());
@@ -145,11 +155,24 @@ public class RestController {
         return convertedFile;
     }
 
+    @DeleteMapping("/files/{id}")
+    public ResponseEntity<String> deleteFile(@PathVariable String id) {
+        try {
+            service.files().delete(String.valueOf(id)).execute();
+            return ResponseEntity
+                    .ok("Successful");
+        } catch (IOException e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(e.getMessage());
+        }
+    }
+
 
     private String status = "OK";
 
     @Autowired
-    public RestController(ProductImageRepository productImageRepository) {
+    public RestController(ProductImageRepository productImageRepository) throws GeneralSecurityException, IOException {
         this.productImageRepository = productImageRepository;
     }
 
@@ -167,8 +190,8 @@ public class RestController {
         return "Broken";
     }
 
-    @PostMapping("/upload")
-    public String uploadImage(@RequestParam MultipartFile file, @RequestParam Long product_id) throws IOException {
+    @PostMapping("/images")
+    public String postImage(@RequestParam MultipartFile file, @RequestParam Long product_id) throws IOException {
         if (product_id == null) {
             return "Не введено product_id";
         }
@@ -197,7 +220,7 @@ public class RestController {
         return respBody;
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/images/{id}")
     public String updateImage(@PathVariable Long id, @RequestParam Long product_id) {
         if (product_id == null) {
             return "Не введено product_id";
@@ -212,7 +235,7 @@ public class RestController {
         return "Трапилася помилка";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/images/{id}")
     public String deleteImage(@PathVariable Long id) {
         try {
             productImageRepository.deleteById(id);
