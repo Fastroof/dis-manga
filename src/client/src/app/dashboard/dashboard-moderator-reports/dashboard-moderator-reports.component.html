@@ -1,0 +1,59 @@
+<mat-form-field appearance="standard">
+  <mat-label>Фільтер</mat-label>
+  <input matInput (keyup)="applyFilter($event)" #input>
+</mat-form-field>
+
+<table id="reports" mat-table [dataSource]="reports" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef> id </th>
+    <td mat-cell *matCellDef="let report"> {{report.id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="text">
+    <th mat-header-cell *matHeaderCellDef> Текст </th>
+    <td mat-cell *matCellDef="let report"> {{report.text}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let report"> {{report.status}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="created_at">
+    <th mat-header-cell *matHeaderCellDef> Створено </th>
+    <td mat-cell *matCellDef="let report"> {{report.created_at}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="user_id">
+    <th mat-header-cell *matHeaderCellDef> id користувача </th>
+    <td mat-cell *matCellDef="let report"> {{report.user_id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="moderator_id">
+    <th mat-header-cell *matHeaderCellDef> id модератора </th>
+    <td mat-cell *matCellDef="let report"> {{report.moderator_id}} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="book_id">
+    <th mat-header-cell *matHeaderCellDef> book_id </th>
+    <td mat-cell *matCellDef="let report"> {{report.book_id}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef> Дія </th>
+    <td mat-cell *matCellDef="let report">
+      <button *ngIf="report.status === 1" mat-icon-button color="accent" (click)="processReport(report.id)">
+        <mat-icon>check_circle_out_line_icon</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="['id', 'text', 'status', 'created_at', 'user_id', 'moderator_id', 'book_id', 'action']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['id', 'text', 'status', 'created_at', 'user_id', 'moderator_id', 'book_id', 'action'];"></tr>
+
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="3">Нема категорії "{{input.value}}"</td>
+  </tr>
+</table>

@@ -22,12 +22,6 @@ export class ApiService {
     return this.http.get<Book>(environment.core + '/books/' + id);
   }
 
-  // tslint:disable-next-line:typedef
-  processHelpRequest(id: number) {
-    const body = new FormData();
-    return this.http.post(environment.core + '/moderator/help-requests/'  + id + '/process', body, {responseType: 'text'});
-  }
-
   getBookFilesByBookId(id: string): Observable<BookFile[]> {
     return this.http.get<BookFile[]>(environment.core + '/books/' + id + '/files');
   }
@@ -47,5 +41,32 @@ export class ApiService {
     body.append('email', email);
     body.append('text', text);
     return this.http.post(environment.core + '/help-request', body, {responseType: 'text'});
+  }
+
+  // tslint:disable-next-line:typedef
+  sendReport(id: number, text: string) {
+    return this.http.post(environment.core + '/books/' + id + '/report', text, {responseType: 'text'});
+  }
+
+  // tslint:disable-next-line:typedef
+  addToPersonalLibrary(id: number) {
+    return this.http.post(environment.core + '/books/'  + id + '/personal-library', '', {responseType: 'text'});
+  }
+
+  // tslint:disable-next-line:typedef
+  processHelpRequest(id: number) {
+    const body = new FormData();
+    return this.http.post(environment.core + '/moderator/help-requests/'  + id + '/process', body, {responseType: 'text'});
+  }
+
+  // tslint:disable-next-line:typedef
+  processReport(id: number) {
+    const body = new FormData();
+    return this.http.post(environment.core + '/moderator/reports/'  + id + '/process', body, {responseType: 'text'});
+  }
+
+  // tslint:disable-next-line:typedef
+  deleteBook(id: number) {
+    return this.http.delete(environment.core + '/books/'  + id, {responseType: 'text'});
   }
 }

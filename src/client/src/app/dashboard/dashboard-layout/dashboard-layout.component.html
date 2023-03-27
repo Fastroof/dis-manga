@@ -35,6 +35,13 @@
              class="font-semibold text-gray-500 hover:text-primary"
           ><mat-icon class="mr-2">format_list_numbered</mat-icon> Обробка запитів</a
           >
+          <a *ngIf="isModerator"
+             mat-list-item
+             routerLink="/dashboard/moderate-reports"
+             routerLinkActive="bg-gray-200"
+             class="font-semibold text-gray-500 hover:text-primary"
+          ><mat-icon class="mr-2">report</mat-icon> Обробка скарг</a
+          >
           <a (click)="logout()" mat-list-item class="font-semibold text-gray-500 hover:text-primary"><mat-icon class="mr-2">logout</mat-icon> Вихід</a>
         </mat-nav-list>
       </div>
@@ -101,6 +108,13 @@
                       routerLinkActive="bg-gray-200"
                       class="font-semibold text-gray-500 hover:text-primary"
                     ><mat-icon class="mr-2">format_list_numbered</mat-icon> Обробка запитів</a
+                    >
+                    <a *ngIf="isModerator"
+                       mat-list-item
+                       routerLink="/dashboard/moderate-reports"
+                       routerLinkActive="bg-gray-200"
+                       class="font-semibold text-gray-500 hover:text-primary"
+                    ><mat-icon class="mr-2">report</mat-icon> Обробка скарг</a
                     >
                     <a (click)="logout()" mat-list-item class="font-semibold text-gray-500 hover:text-primary"><mat-icon class="mr-2">logout</mat-icon> Вихід з акаунта</a>
                   </mat-nav-list>

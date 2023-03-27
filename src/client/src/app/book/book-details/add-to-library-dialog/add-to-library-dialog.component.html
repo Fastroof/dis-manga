@@ -1,0 +1,18 @@
+<div *ngIf="!isSubmitted">
+  <div mat-dialog-content>
+    <h5 class="mb-4 text-center">Точно додати книгу в бібліотеку?</h5>
+  </div>
+  <div mat-dialog-actions [align]="'center'">
+    <button mat-raised-button (click)="onNoClick()">Не додавати</button>
+    <button mat-raised-button (click)="onSubmit()">Додати</button>
+  </div>
+</div>
+<div *ngIf="isSubmitted">
+  <div mat-dialog-content [align]="'center'">
+    <span class="text-xl">Результат</span>
+    <p class="mt-2">{{ result }}</p>
+  </div>
+  <div mat-dialog-actions [align]="'center'">
+    <button mat-raised-button [mat-dialog-close]="result">Продовжити</button>
+  </div>
+</div>

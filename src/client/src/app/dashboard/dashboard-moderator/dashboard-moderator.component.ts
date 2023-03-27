@@ -14,27 +14,27 @@ export class DashboardModeratorComponent implements OnInit {
 
   constructor(public dialog: MatDialog) { }
 
-  categories: MatTableDataSource<HelpRequest> = new MatTableDataSource<HelpRequest>();
+  requests: MatTableDataSource<HelpRequest> = new MatTableDataSource<HelpRequest>();
 
   @ViewChild(MatTable) table: MatTable<HelpRequest> | undefined;
 
   ngOnInit(): void {
     fetch(environment.core + '/moderator/help-requests')
       .then((response) => response.json())
-      .then((data: HelpRequest[]) => this.categories = new MatTableDataSource<HelpRequest>(data.sort((a, b) => {
+      .then((data: HelpRequest[]) => this.requests = new MatTableDataSource<HelpRequest>(data.sort((a, b) => {
         return a.id - b.id;
       })));
   }
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.categories.filter = filterValue.trim().toLowerCase();
+    this.requests.filter = filterValue.trim().toLowerCase();
   }
 
   processHelpRequest(id: number): void {
     const dialogRef = this.dialog.open(HelpRequestProcessDialogComponent, {
       width: '280px',
-      data: {id}
+      data: id
     });
     dialogRef.afterClosed().subscribe(() => window.location.reload());
   }

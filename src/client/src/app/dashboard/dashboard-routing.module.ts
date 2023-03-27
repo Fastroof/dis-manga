@@ -6,6 +6,8 @@ import { DashboardProfileComponent } from './dashboard-profile/dashboard-profile
 import {AuthGuardService} from '../_services/auth-guard.service';
 import {DashboardModeratorComponent} from './dashboard-moderator/dashboard-moderator.component';
 import {ModeratorAuthGuardService} from '../_services/moderator-auth-guard.service';
+import {DashboardModeratorReportsComponent} from './dashboard-moderator-reports/dashboard-moderator-reports.component';
+import {DashboardBooksComponent} from './dashboard-books/dashboard-books.component';
 
 const DashboardChildrenRoute: Routes = [
   {
@@ -19,11 +21,16 @@ const DashboardChildrenRoute: Routes = [
   },
   {
     path: 'books',
-    component: DashboardProfileComponent
+    component: DashboardBooksComponent
   },
   {
     path: 'moderate',
     component: DashboardModeratorComponent,
+    canActivate: [ModeratorAuthGuardService]
+  },
+  {
+    path: 'moderate-reports',
+    component: DashboardModeratorReportsComponent,
     canActivate: [ModeratorAuthGuardService]
   }
 ];

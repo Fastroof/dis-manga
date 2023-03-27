@@ -1,0 +1,18 @@
+<div *ngIf="!isProcessed">
+  <div mat-dialog-content>
+    <h5 class="mb-4">Позначити скаргу як прочитану id = {{data}}?</h5>
+  </div>
+  <div mat-dialog-actions [align]="'center'">
+    <button mat-raised-button (click)="onNoClick()">Не зберегти</button>
+    <button mat-raised-button (click)="onSubmit()">Зберегти</button>
+  </div>
+</div>
+<div *ngIf="isProcessed">
+  <div mat-dialog-content [align]="'center'">
+    <span class="text-xl">Результат</span>
+    <p class="mt-2">{{ result }}</p>
+  </div>
+  <div mat-dialog-actions [align]="'center'">
+    <button mat-raised-button [mat-dialog-close]="result">Продовжити</button>
+  </div>
+</div>

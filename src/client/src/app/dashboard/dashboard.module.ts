@@ -18,6 +18,14 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {FormsModule} from '@angular/forms';
 import { HelpRequestProcessDialogComponent } from './dashboard-moderator/help-request-process-dialog/help-request-process-dialog.component';
 import {MatSelectModule} from '@angular/material/select';
+import {DashboardModeratorReportsComponent} from './dashboard-moderator-reports/dashboard-moderator-reports.component';
+import {
+  ReportProcessDialogComponent
+} from './dashboard-moderator-reports/help-request-process-dialog/report-process-dialog.component';
+import {DashboardBooksComponent} from './dashboard-books/dashboard-books.component';
+import {BookDialogComponent} from './dashboard-books/book-dialog/book-dialog.component';
+import {BookEditDialogComponent} from './dashboard-books/book-edit-dialog/book-edit-dialog.component';
+import {BookDeleteDialogComponent} from './dashboard-books/book-delete-dialog/book-delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +33,12 @@ import {MatSelectModule} from '@angular/material/select';
     DashboardIndexComponent,
     DashboardProfileComponent,
     DashboardModeratorComponent,
+    DashboardModeratorReportsComponent,
+    ReportProcessDialogComponent,
+    DashboardBooksComponent,
+    BookDialogComponent,
+    BookEditDialogComponent,
+    BookDeleteDialogComponent,
     HelpRequestProcessDialogComponent
   ],
   imports: [

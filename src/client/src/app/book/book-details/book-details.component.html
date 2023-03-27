@@ -11,14 +11,14 @@
             <div class="flex justify-between items-center mb-6">
               <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Коментарі</h2>
             </div>
-            <form class="mb-6" name="form" #f="ngForm" (ngSubmit)="f.form.valid && onClickSubmit(book.id)">
+            <form *ngIf="isLoggedIn" class="mb-6" name="form" #f="ngForm" (ngSubmit)="f.form.valid && onClickSubmit(book.id)">
               <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                 <label for="text" class="sr-only"></label>
                 <div *ngIf="text.errors?.['maxlength']">
                   (Текст не може перевищувати 2000 символів)
                 </div>
                 <textarea id="text" rows="6" name="text"
-                          class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                          class="px-0 w-full text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                           placeholder="Коментар буде корисним для всіх..."
                           [(ngModel)]="form.text"
                           required
@@ -66,19 +66,18 @@
                     d="M19.5 21a3 3 0 003-3V9a3 3 0 00-3-3h-5.379a.75.75 0 01-.53-.22L11.47 3.66A2.25 2.25 0 009.879 3H4.5a3 3 0 00-3 3v12a3 3 0 003 3h15zm-6.75-10.5a.75.75 0 00-1.5 0v4.19l-1.72-1.72a.75.75 0 00-1.06 1.06l3 3a.75.75 0 001.06 0l3-3a.75.75 0 10-1.06-1.06l-1.72 1.72V10.5z"
                     clip-rule="evenodd" />
                 </svg>
-                Завантажити {{i+1}} файл
+                Завантажити файл №{{i+1}}
               </a>
             </div>
-            <a class="mt-2 w-100" mat-raised-button color="primary">
+            <button *ngIf="isLoggedIn" class="mt-2 w-100" mat-raised-button color="primary" (click)="openAddToLibraryDialog(book.id)">
               <i class="fa-solid fa-bookmark mr-1"></i>
               Додати до власної бібліотеки
-            </a>
-            <a class="mt-2 w-100" mat-raised-button color="warn">
+            </button>
+            <button *ngIf="isLoggedIn" class="mt-2 w-100" mat-raised-button color="warn" (click)="openReportDialog(book.id)">
               <i class="fa-solid fa-flag mr-1"></i>
               Поскаржатися на книгу чи коментар
-            </a>
+            </button>
           </div>
-
         </div>
       </div>
     </div>

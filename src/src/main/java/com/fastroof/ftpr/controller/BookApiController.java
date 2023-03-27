@@ -310,7 +310,7 @@ public class BookApiController {
 
             reportRepository.save(newReport);
             return ResponseEntity
-                    .ok(new Response("Report sent"));
+                    .ok(new Response("Скаргу відправлено"));
         }
         return ResponseEntity
                 .notFound()
@@ -341,11 +341,11 @@ public class BookApiController {
             personalLibraryRepository.save(newPersonalLibraryEntry);
 
             return ResponseEntity
-                    .ok(new Response("Book added to personal library"));
+                    .ok(new Response("Книга додана до вашої бібліотеки"));
         } else {
             return ResponseEntity
                     .badRequest()
-                    .body(new Response("Book already in personal library"));
+                    .body(new Response("Дана книга вже у вашій бібліотеці"));
         }
 
     }

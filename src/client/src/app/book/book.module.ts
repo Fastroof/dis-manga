@@ -10,19 +10,25 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import {GalleryModule} from 'ng-gallery';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {FormsModule} from '@angular/forms';
+import {AddToLibraryDialogComponent} from './book-details/add-to-library-dialog/add-to-library-dialog.component';
+import {ReportDialogComponent} from './book-details/report-dialog/report-dialog.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
-  declarations: [BookListComponent, BookDetailsComponent],
-    imports: [
-        CommonModule,
-        BookRoutingModule,
-        SharedModule,
-        MatExpansionModule,
-        NgParticlesModule,
-        NgxSkeletonLoaderModule,
-        GalleryModule,
-        MatTooltipModule,
-        FormsModule
-    ]
+  declarations: [BookListComponent, BookDetailsComponent, AddToLibraryDialogComponent, ReportDialogComponent],
+  imports: [
+    CommonModule,
+    BookRoutingModule,
+    SharedModule,
+    MatExpansionModule,
+    NgParticlesModule,
+    NgxSkeletonLoaderModule,
+    GalleryModule,
+    MatTooltipModule,
+    FormsModule,
+    MatDialogModule,
+    MatInputModule
+  ]
 })
 export class BookModule { }
