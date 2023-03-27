@@ -29,8 +29,8 @@ func main() {
 	router.POST("/send/mail", SendMail)
 
 	// Start the server
-	log.Println("Starting server on port 8080")
-	err = server.Run("localhost:8080")
+	log.Println("Starting server on port 8082")
+	err = server.Run("localhost:8082")
 	if err != nil {
 		log.Fatal(err)
 	}
