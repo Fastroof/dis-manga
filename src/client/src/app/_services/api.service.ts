@@ -4,6 +4,7 @@ import {TokenStorageService} from './token-storage.service';
 import {Book} from '../shared/interfaces/book';
 import {environment} from '../../environments/environment';
 import {Observable} from 'rxjs';
+import {BookFile} from '../shared/interfaces/book-file';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,9 @@ export class ApiService {
   processHelpRequest(id: number) {
     const body = new FormData();
     return this.http.post(environment.core + '/moderator/help-requests/'  + id + '/process', body, {responseType: 'text'});
+  }
+
+  getBookFilesByBookId(id: string): Observable<BookFile[]> {
+    return this.http.get<BookFile[]>(environment.core + '/books/' + id + '/files');
   }
 }
