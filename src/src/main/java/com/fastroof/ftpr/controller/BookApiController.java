@@ -4,14 +4,18 @@ import com.fastroof.ftpr.entity.*;
 import com.fastroof.ftpr.pojo.PatchBookRequestPojo;
 import com.fastroof.ftpr.pojo.PostBookRequestPojo;
 import com.fastroof.ftpr.repository.*;
+import com.fastroof.ftpr.service.filestorage.FileStorage;
+import com.fastroof.ftpr.service.filestorage.UploadFileResponse;
+import com.fastroof.ftpr.service.filestorage.UploadImageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +35,7 @@ public class BookApiController {
     private final ReportRepository reportRepository;
     private final UserRepository userRepository;
     private final PersonalLibraryRepository personalLibraryRepository;
-
-    @Value("${link.to.file-storage.service}")
-    private String linkToFileStorageService;
+    private final FileStorage fileStorage;
 
     @Value("${link.to.auth.service}")
     private String linkToAuthService;
@@ -48,7 +50,7 @@ public class BookApiController {
                              CommentRepository commentRepository,
                              ReportRepository reportRepository,
                              UserRepository userRepository,
-                             PersonalLibraryRepository personalLibraryRepository) {
+                             PersonalLibraryRepository personalLibraryRepository, FileStorage fileStorage) {
         this.bookRepository = bookRepository;
         this.bookFileRepository = bookFileRepository;
         this.tagRepository = tagRepository;
@@ -56,6 +58,7 @@ public class BookApiController {
         this.reportRepository = reportRepository;
         this.userRepository = userRepository;
         this.personalLibraryRepository = personalLibraryRepository;
+        this.fileStorage = fileStorage;
     }
 
     @GetMapping("/books")
@@ -97,6 +100,7 @@ public class BookApiController {
 
     @PostMapping("/books")
     @Transactional
+    // @JsonProperty DOES NOT WORK HERE! Provide tagId and coverFile in JSON
     public ResponseEntity<Response> postNewBook(@Valid @ModelAttribute PostBookRequestPojo postBookRequestPojo) {
         User user = getUserByToken();
         Book book = new Book();
@@ -106,11 +110,39 @@ public class BookApiController {
         book.setTagId(postBookRequestPojo.getTagId());
         book.setOwnerId(user.getId());
 
-        // TODO: upload cover if provided
+        // Upload cover if provided
+        if (postBookRequestPojo.getCoverFile() != null) {
+            try {
+                UploadImageResponse response = fileStorage.uploadImage(postBookRequestPojo.getCoverFile());
+                book.setLinkToCover(response.getData().getLink());
+            } catch (RuntimeException | IOException e) {
+                return ResponseEntity
+                        .internalServerError()
+                        .body(new Response(e.getMessage()));
+            }
+        }
 
         bookRepository.save(book);
 
-        // TODO: upload provided book files
+        // Upload provided files
+        for (MultipartFile file : postBookRequestPojo.getFiles()) {
+            try {
+                BookFile bookFile = new BookFile();
+                bookFile.setBookId(book.getId());
+                bookFile.setUploadedAt(LocalDate.now());
+
+                UploadFileResponse response = fileStorage.uploadFile(file);
+
+                bookFile.setName(response.getName());
+                bookFile.setGoogleDriveId(response.getId());
+
+                bookFileRepository.save(bookFile);
+            } catch (RuntimeException | IOException e) {
+                return ResponseEntity
+                        .internalServerError()
+                        .body(new Response(e.getMessage()));
+            }
+        }
 
         return ResponseEntity
                 .ok(new Response("Book posted"));
@@ -118,6 +150,7 @@ public class BookApiController {
 
     @PatchMapping("/books/{bookId}")
     @Transactional
+    // @JsonProperty DOES NOT WORK HERE! Provide tagId and coverFile in JSON
     public ResponseEntity<Response> patchBook(@PathVariable Integer bookId, @ModelAttribute PatchBookRequestPojo patchBookRequestPojo) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
         User user = getUserByToken();
@@ -144,15 +177,38 @@ public class BookApiController {
             book.setTagId(patchBookRequestPojo.getTagId());
         }
 
+        // Upload new cover, if provided
         if (patchBookRequestPojo.getCoverFile() != null) {
-            // TODO: upload cover file
-            // book.setLinkToCover(...);
+            try {
+                UploadImageResponse response = fileStorage.uploadImage(patchBookRequestPojo.getCoverFile());
+                book.setLinkToCover(response.getData().getLink());
+            } catch (RuntimeException | IOException e) {
+                return ResponseEntity
+                        .internalServerError()
+                        .body(new Response(e.getMessage()));
+            }
         }
 
+        // Upload new files
         if (patchBookRequestPojo.getFiles() != null) {
-            // TODO: upload provided files
-            // ...
-            // bookFileRepository.saveAll(newFiles)
+            for (MultipartFile file : patchBookRequestPojo.getFiles()) {
+                try {
+                    BookFile bookFile = new BookFile();
+                    bookFile.setBookId(book.getId());
+                    bookFile.setUploadedAt(LocalDate.now());
+
+                    UploadFileResponse response = fileStorage.uploadFile(file);
+
+                    bookFile.setName(response.getName());
+                    bookFile.setGoogleDriveId(response.getId());
+
+                    bookFileRepository.save(bookFile);
+                } catch (RuntimeException | IOException e) {
+                    return ResponseEntity
+                            .internalServerError()
+                            .body(new Response(e.getMessage()));
+                }
+            }
         }
 
         bookRepository.save(book);
