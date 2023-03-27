@@ -26,7 +26,7 @@ CREATE TABLE if not exists book_files
     name         text   NOT NULL,
     uploaded_at  date   NOT NULL,
     book_id      bigint NOT NULL,
-    link_to_file text   NOT NULL
+    google_drive_id text   NOT NULL
 );
 
 alter table book_files

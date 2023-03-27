@@ -28,7 +28,7 @@ public class BookFile {
     @JsonProperty("book_id")
     private Integer bookId;
 
-    @Column(name = "link_to_file", nullable = false)
-    @JsonProperty("link_to_file")
-    private String linkToFile;
+    @Column(name = "google_drive_id", nullable = false)
+    @JsonProperty("google_drive_id")
+    private String googleDriveId;
 }
