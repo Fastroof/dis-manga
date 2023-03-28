@@ -69,4 +69,24 @@ export class ApiService {
   deleteBook(id: number) {
     return this.http.delete(environment.core + '/books/'  + id, {responseType: 'text'});
   }
+
+  // tslint:disable-next-line:typedef
+  addBook(name: string | undefined, tagId: number | undefined, files: File[] | undefined, cover: File | undefined) {
+    const body = new FormData();
+    if (name !== undefined) {
+      body.append('name', name);
+    }
+    if (tagId !== undefined) {
+      body.append('tagId', tagId.toString());
+    }
+    if (files !== undefined) {
+      for (const file of files) {
+        body.append('files', file, file.name);
+      }
+    }
+    if (cover !== undefined) {
+      body.append('cover', cover, cover.name);
+    }
+    return this.http.post(environment.core + '/books', body, {responseType: 'text'});
+  }
 }

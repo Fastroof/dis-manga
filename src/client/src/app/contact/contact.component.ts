@@ -19,7 +19,7 @@ export class ContactComponent implements OnInit {
 
   onClickSubmit(): void {
     this.isSent = true;
-    this.api.sendHelpRequest(this.form.email, this.form.pib + this.form.text).subscribe(
+    this.api.sendHelpRequest(this.form.email, this.form.pib + '///' + this.form.text).subscribe(
       {
         next: value => {
           console.log(value);

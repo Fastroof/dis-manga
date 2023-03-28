@@ -1,28 +1,25 @@
 <div *ngIf="!isCreated">
   <div mat-dialog-content>
-    <h5 class="mb-4">Створення товара</h5>
+    <h5 class="mb-4">Додання нової книги</h5>
     <mat-form-field appearance="fill" class="w-full">
-      <mat-label>Назва товара</mat-label>
+      <mat-label>Назва книги</mat-label>
       <input matInput [(ngModel)]="name">
     </mat-form-field>
     <mat-form-field appearance="fill" class="w-full">
-      <mat-label>id категорії</mat-label>
+      <mat-label>id тегу</mat-label>
       <input type="number" matInput [(ngModel)]="tagId">
     </mat-form-field>
     <label for="files">Файли</label>
-    <input
-      id="files"
-      type="files"
-      multiple
-      class="form-control"
-      (change)="onFilesChange($event)">
+    <input class="form-control mb-4"
+           id="files"
+           type="file"
+           multiple
+           (change)="onFilesChange($event)">
     <label for="cover">Обкладинка</label>
-    <input
-      id="cover"
-      type="cover"
-      multiple
-      class="form-control"
-      (change)="onCoverChange($event)">
+    <input class="form-control"
+           id="cover"
+           type="file"
+           (change)="onCoverChange($event)">
   </div>
   <div mat-dialog-actions [align]="'center'">
     <button mat-raised-button (click)="onNoClick()">Не створювати</button>
