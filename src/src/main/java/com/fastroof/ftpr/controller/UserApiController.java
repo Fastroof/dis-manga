@@ -17,7 +17,8 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "*")
-@PreAuthorize("hasAuthority('user')")
+@PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
+@RequestMapping("/user")
 public class UserApiController {
 
     private final UserRepository userRepository;
@@ -33,7 +34,7 @@ public class UserApiController {
         this.personalLibraryRepository = personalLibraryRepository;
     }
 
-    @GetMapping("/user/personal-library")
+    @GetMapping("/personal-library")
     public List<Book> getPersonalLibrary() {
         User user = getUserByContext();
 
@@ -49,7 +50,7 @@ public class UserApiController {
         return result;
     }
 
-    @DeleteMapping("/user/personal-library/{bookId}")
+    @DeleteMapping("/personal-library/{bookId}")
     public ResponseEntity<Response> deleteBookFromPersonalLibrary(@PathVariable Integer bookId) {
         User user = getUserByContext();
 
