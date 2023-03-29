@@ -85,8 +85,28 @@ export class ApiService {
       }
     }
     if (cover !== undefined) {
-      body.append('cover', cover, cover.name);
+      body.append('coverFile', cover, cover.name);
     }
     return this.http.post(environment.core + '/books', body, {responseType: 'text'});
+  }
+
+  // tslint:disable-next-line:typedef
+  editBook(id: number, name: string, tagId: number, files: File[] | undefined, cover: File | undefined) {
+    const body = new FormData();
+    if (name !== null) {
+      body.append('name', name);
+    }
+    if (tagId !== null) {
+      body.append('tagId', tagId.toString());
+    }
+    if (files !== undefined) {
+      for (const file of files) {
+        body.append('files', file, file.name);
+      }
+    }
+    if (cover !== undefined) {
+      body.append('coverFile', cover, cover.name);
+    }
+    return this.http.patch(environment.core + '/books/' + id, body, {responseType: 'text'});
   }
 }

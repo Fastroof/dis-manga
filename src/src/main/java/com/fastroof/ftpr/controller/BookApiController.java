@@ -102,57 +102,51 @@ public class BookApiController {
     @Transactional
     // @JsonProperty DOES NOT WORK HERE! Provide tagId and coverFile in JSON
     public ResponseEntity<Response> postNewBook(@Valid @ModelAttribute PostBookRequestPojo postBookRequestPojo) {
-        try {
-            User user = getUserByToken();
-            if (!tagRepository.existsById(postBookRequestPojo.getTagId()) && postBookRequestPojo.getTagId() != null) {
-                return ResponseEntity
-                        .internalServerError()
-                        .body(new Response("Тега з id = " + postBookRequestPojo.getTagId() + " не існує"));
-            }
-            Book book = new Book();
-            book.setCreatedAt(LocalDate.now());
-            book.setUpdatedAt(LocalDate.now());
-            book.setName(postBookRequestPojo.getName());
-            book.setTagId(postBookRequestPojo.getTagId());
-            book.setOwnerId(user.getId());
-
-            // Upload cover if provided
-            if (postBookRequestPojo.getCoverFile() != null) {
-                try {
-                    UploadImageResponse response = fileStorage.uploadImage(postBookRequestPojo.getCoverFile());
-                    book.setLinkToCover(response.getData().getLink());
-                } catch (RuntimeException | IOException e) {
-                    return ResponseEntity
-                            .internalServerError()
-                            .body(new Response(e.getMessage()));
-                }
-            }
-
-            bookRepository.save(book);
-
-            // Upload provided files
-            for (MultipartFile file : postBookRequestPojo.getFiles()) {
-                try {
-                    BookFile bookFile = new BookFile();
-                    bookFile.setBookId(book.getId());
-                    bookFile.setUploadedAt(LocalDate.now());
-
-                    UploadFileResponse response = fileStorage.uploadFile(file);
-
-                    bookFile.setName(response.getName());
-                    bookFile.setGoogleDriveId(response.getId());
-
-                    bookFileRepository.save(bookFile);
-                } catch (RuntimeException | IOException e) {
-                    return ResponseEntity
-                            .internalServerError()
-                            .body(new Response(e.getMessage()));
-                }
-            }
-        } catch (Exception e) {
+        User user = getUserByToken();
+        if (postBookRequestPojo.getTagId() != null && !tagRepository.existsById(postBookRequestPojo.getTagId())) {
             return ResponseEntity
                     .internalServerError()
-                    .body(new Response(e.getMessage()));
+                    .body(new Response("Тега з id = " + postBookRequestPojo.getTagId() + " не існує"));
+        }
+        Book book = new Book();
+        book.setCreatedAt(LocalDate.now());
+        book.setUpdatedAt(LocalDate.now());
+        book.setName(postBookRequestPojo.getName());
+        book.setTagId(postBookRequestPojo.getTagId());
+        book.setOwnerId(user.getId());
+
+        // Upload cover if provided
+        if (postBookRequestPojo.getCoverFile() != null) {
+            try {
+                UploadImageResponse response = fileStorage.uploadImage(postBookRequestPojo.getCoverFile());
+                book.setLinkToCover(response.getData().getLink());
+            } catch (RuntimeException | IOException e) {
+                return ResponseEntity
+                        .internalServerError()
+                        .body(new Response(e.getMessage()));
+            }
+        }
+
+        bookRepository.save(book);
+
+        // Upload provided files
+        for (MultipartFile file : postBookRequestPojo.getFiles()) {
+            try {
+                BookFile bookFile = new BookFile();
+                bookFile.setBookId(book.getId());
+                bookFile.setUploadedAt(LocalDate.now());
+
+                UploadFileResponse response = fileStorage.uploadFile(file);
+
+                bookFile.setName(response.getName());
+                bookFile.setGoogleDriveId(response.getId());
+
+                bookFileRepository.save(bookFile);
+            } catch (RuntimeException | IOException e) {
+                return ResponseEntity
+                        .internalServerError()
+                        .body(new Response(e.getMessage()));
+            }
         }
         return ResponseEntity
                 .ok(new Response("Book posted"));

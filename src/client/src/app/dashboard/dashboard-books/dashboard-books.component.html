@@ -46,7 +46,7 @@
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef> Дія </th>
     <td mat-cell *matCellDef="let element">
-      <button mat-icon-button class="ml-2" (click)="editBook(element.id, element.category_id, element.name, element.updated_at, element.price)">
+      <button mat-icon-button class="ml-2" (click)="editBook(element.id, element.name, element.tag_id)">
         <mat-icon>edit</mat-icon>
       </button>
       <button mat-icon-button class="ml-2" color="accent" (click)="deleteBook(element.id)">

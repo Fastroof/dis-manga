@@ -43,14 +43,13 @@ export class DashboardBooksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => window.location.reload());
   }
 
-  // tslint:disable-next-line:variable-name
-  editBook(id: number, category_id: string, name: string, info: string, price: number): void {
+  editBook(id: number, name: string, tagId: number): void {
     const dialogRef = this.dialog.open(BookEditDialogComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',
       height: '100%',
       width: '100%',
-      data: {id, category_id, name, info, price}
+      data: {id, name, tagId}
     });
     dialogRef.afterClosed().subscribe(() => window.location.reload());
   }
