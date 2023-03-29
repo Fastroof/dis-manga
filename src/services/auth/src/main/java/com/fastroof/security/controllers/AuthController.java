@@ -5,11 +5,14 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import com.fastroof.security.models.ERole;
 import com.fastroof.security.payload.request.SignupRequest;
+import com.fastroof.security.payload.request.ValidateTokenRequest;
 import com.fastroof.security.payload.response.JwtResponse;
 import com.fastroof.security.payload.response.MessageResponse;
 import com.fastroof.security.repository.RoleRepository;
 import com.fastroof.security.repository.UserRepository;
+import com.fastroof.security.security.jwt.AuthTokenFilter;
 import com.fastroof.security.security.jwt.JwtUtils;
+import com.fastroof.security.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -18,12 +21,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.web.bind.annotation.*;
 import com.fastroof.security.models.Role;
 import com.fastroof.security.models.User;
 import com.fastroof.security.payload.request.LoginRequest;
@@ -40,17 +41,21 @@ public class AuthController {
 	private final RoleRepository roleRepository;
 	private final PasswordEncoder encoder;
 	private final JwtUtils jwtUtils;
+	private final UserDetailsServiceImpl userDetailsService;
+
 	@Autowired
 	public AuthController(AuthenticationManager authenticationManager,
 						  UserRepository userRepository,
 						  RoleRepository roleRepository,
 						  PasswordEncoder encoder,
-						  JwtUtils jwtUtils) {
+						  JwtUtils jwtUtils,
+						  UserDetailsServiceImpl userDetailsService) {
 		this.authenticationManager = authenticationManager;
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.encoder = encoder;
 		this.jwtUtils = jwtUtils;
+		this.userDetailsService = userDetailsService;
 	}
 
 	@PostMapping("/login")
@@ -81,6 +86,23 @@ public class AuthController {
 			return ResponseEntity
 					.badRequest()
 					.body(new MessageResponse("Не правильний email або пароль"));
+		}
+	}
+
+	@PostMapping("/validate")
+	public ResponseEntity<UserDetails> validateToken(@Valid @RequestBody ValidateTokenRequest validateTokenRequest) {
+		String jwt = validateTokenRequest.getToken();
+		if (jwtUtils.validateJwtToken(jwt)) {
+			String username = jwtUtils.getUserNameFromJwtToken(jwt);
+
+			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+			return ResponseEntity
+					.ok(userDetails);
+		} else {
+			return ResponseEntity
+					.status(403)
+					.build();
 		}
 	}
 

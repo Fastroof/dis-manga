@@ -7,12 +7,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.fastroof.security.models.User;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@ToString
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 

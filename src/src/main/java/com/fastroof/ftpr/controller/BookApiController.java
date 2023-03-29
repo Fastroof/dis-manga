@@ -4,12 +4,13 @@ import com.fastroof.ftpr.entity.*;
 import com.fastroof.ftpr.pojo.PatchBookRequestPojo;
 import com.fastroof.ftpr.pojo.PostBookRequestPojo;
 import com.fastroof.ftpr.repository.*;
+import com.fastroof.ftpr.security.UserDetailsImpl;
 import com.fastroof.ftpr.service.filestorage.FileStorage;
 import com.fastroof.ftpr.service.filestorage.UploadFileResponse;
 import com.fastroof.ftpr.service.filestorage.UploadImageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +27,7 @@ import java.util.stream.StreamSupport;
 
 @RestController
 @CrossOrigin(origins = "*")
+@RequestMapping("/books")
 public class BookApiController {
 
     private final BookRepository bookRepository;
@@ -36,12 +38,6 @@ public class BookApiController {
     private final UserRepository userRepository;
     private final PersonalLibraryRepository personalLibraryRepository;
     private final FileStorage fileStorage;
-
-    @Value("${link.to.auth.service}")
-    private String linkToAuthService;
-
-    @Value("${link.to.messenger.service}")
-    private String linkToMessengerService;
 
     @Autowired
     public BookApiController(BookRepository bookRepository,
@@ -61,7 +57,7 @@ public class BookApiController {
         this.fileStorage = fileStorage;
     }
 
-    @GetMapping("/books")
+    @GetMapping("/")
     public List<Book> getBooks(@RequestParam(value = "query", required = false) String query,
                                @RequestParam(value = "tag_id", required = false) Integer tagId,
                                @RequestParam(value = "owner_id", required = false) Integer ownerId) {
@@ -91,7 +87,7 @@ public class BookApiController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/books/{bookId}")
+    @GetMapping("/{bookId}")
     public ResponseEntity<Book> getBook(@PathVariable Integer bookId) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
         if (bookOptional.isEmpty()) {
@@ -104,11 +100,11 @@ public class BookApiController {
                 .ok(bookOptional.get());
     }
 
-    @PostMapping("/books")
+    @PostMapping("/")
     @Transactional
     // @JsonProperty DOES NOT WORK HERE! Provide tagId and coverFile in JSON
     public ResponseEntity<Response> postNewBook(@Valid @ModelAttribute PostBookRequestPojo postBookRequestPojo) {
-        User user = getUserByToken();
+        User user = getUserByContext();
         if (postBookRequestPojo.getTagId() != null && !tagRepository.existsById(postBookRequestPojo.getTagId())) {
             return ResponseEntity
                     .internalServerError()
@@ -158,12 +154,12 @@ public class BookApiController {
                 .ok(new Response("Book posted"));
     }
 
-    @PatchMapping("/books/{bookId}")
+    @PatchMapping("/{bookId}")
     @Transactional
     // @JsonProperty DOES NOT WORK HERE! Provide tagId and coverFile in JSON
     public ResponseEntity<Response> patchBook(@PathVariable Integer bookId, @ModelAttribute PatchBookRequestPojo patchBookRequestPojo) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
-        User user = getUserByToken();
+        User user = getUserByContext();
 
         if (bookOptional.isEmpty()) {
             return ResponseEntity
@@ -226,11 +222,11 @@ public class BookApiController {
                 .ok(new Response("Book updated"));
     }
 
-    @DeleteMapping("/books/{bookId}")
+    @DeleteMapping("/{bookId}")
     @Transactional
     public ResponseEntity<Response> deleteBook(@PathVariable Integer bookId) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
-        User user = getUserByToken();
+        User user = getUserByContext();
 
         if (bookOptional.isEmpty()) {
             return ResponseEntity
@@ -253,7 +249,7 @@ public class BookApiController {
                 .ok(new Response("Book deleted"));
     }
 
-    @GetMapping("/books/{bookId}/comments")
+    @GetMapping("/{bookId}/comments")
     public ResponseEntity<List<Comment>> getComments(@PathVariable Integer bookId) {
         Optional<Book> book = bookRepository.findById(bookId);
 
@@ -267,7 +263,7 @@ public class BookApiController {
         }
     }
 
-    @GetMapping("/books/{bookId}/files")
+    @GetMapping("/{bookId}/files")
     public ResponseEntity<List<BookFile>> getBookFiles(@PathVariable Integer bookId) {
         Optional<Book> book = bookRepository.findById(bookId);
 
@@ -281,10 +277,10 @@ public class BookApiController {
         }
     }
 
-    @DeleteMapping("/books/{bookId}/files/{fileId}")
+    @DeleteMapping("/{bookId}/files/{fileId}")
     public ResponseEntity<Response> deleteBookFile(@PathVariable Integer bookId, @PathVariable Integer fileId) {
         Optional<Book> book = bookRepository.findById(bookId);
-        User user = getUserByToken();
+        User user = getUserByContext();
 
         if (book.isEmpty()) {
             return ResponseEntity
@@ -311,9 +307,9 @@ public class BookApiController {
         }
     }
 
-    @PostMapping("/books/{bookId}/comments")
+    @PostMapping("/{bookId}/comments")
     public ResponseEntity<Response> postComment(@PathVariable Integer bookId, @RequestBody String text) {
-        User user = getUserByToken();
+        User user = getUserByContext();
         Optional<Book> book = bookRepository.findById(bookId);
 
         if (book.isPresent()) {
@@ -334,9 +330,9 @@ public class BookApiController {
                 .build();
     }
 
-    @PostMapping("/books/{bookId}/report")
+    @PostMapping("/{bookId}/report")
     public ResponseEntity<Response> postReport(@PathVariable Integer bookId, @RequestBody String text) {
-        User user = getUserByToken();
+        User user = getUserByContext();
         Optional<Book> book = bookRepository.findById(bookId);
 
         if (book.isPresent()) {
@@ -358,9 +354,9 @@ public class BookApiController {
                 .build();
     }
 
-    @PostMapping("/books/{bookId}/personal-library")
+    @PostMapping("/{bookId}/personal-library")
     public ResponseEntity<Response> addToPersonalLibrary(@PathVariable Integer bookId) {
-        User user = getUserByToken();
+        User user = getUserByContext();
         Optional<Book> book = bookRepository.findById(bookId);
 
         if (book.isEmpty()) {
@@ -391,8 +387,8 @@ public class BookApiController {
 
     }
 
-    private User getUserByToken() {
-        return userRepository.findById(8).orElse(null);
-        //return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+    private User getUserByContext() {
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userRepository.findByEmail(userDetails.getEmail());
     }
 }
