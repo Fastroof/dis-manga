@@ -14,6 +14,7 @@ import {Book} from '../../shared/interfaces/book';
 })
 export class DashboardBooksComponent implements OnInit {
 
+  core = environment.core;
   books: MatTableDataSource<Book> = new MatTableDataSource<Book>();
 
   constructor(public dialog: MatDialog) { }
@@ -31,7 +32,7 @@ export class DashboardBooksComponent implements OnInit {
     this.books.filter = filterValue.trim().toLowerCase();
   }
 
-  addProduct(): void {
+  addBook(): void {
     const dialogRef = this.dialog.open(BookDialogComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',
@@ -42,19 +43,18 @@ export class DashboardBooksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => window.location.reload());
   }
 
-  // tslint:disable-next-line:variable-name
-  editProduct(id: number, category_id: string, name: string, info: string, price: number): void {
+  editBook(id: number, name: string, tagId: number): void {
     const dialogRef = this.dialog.open(BookEditDialogComponent, {
       maxWidth: '100vw',
       maxHeight: '100vh',
       height: '100%',
       width: '100%',
-      data: {id, category_id, name, info, price}
+      data: {id, name, tagId}
     });
     dialogRef.afterClosed().subscribe(() => window.location.reload());
   }
 
-  deleteProduct(id: number): void {
+  deleteBook(id: number): void {
     const dialogRef = this.dialog.open(BookDeleteDialogComponent, {
       width: '300px',
       data: id

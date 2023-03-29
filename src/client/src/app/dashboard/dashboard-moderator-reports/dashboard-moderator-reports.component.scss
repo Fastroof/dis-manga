@@ -6,3 +6,53 @@ table {
   font-size: 14px;
   width: 100%;
 }
+
+.mat-column-id {
+  flex: 0 0 2% !important;
+  width: 2% !important;
+}
+
+.mat-column-text {
+  flex: 0 0 30% !important;
+  width: 30% !important;
+}
+
+.mat-column-status {
+  flex: 0 0 2% !important;
+  width: 2% !important;
+}
+
+.mat-column-created_at {
+  flex: 0 0 5% !important;
+  width: 5% !important;
+}
+
+.mat-column-user_id {
+  flex: 0 0 3% !important;
+  width: 3% !important;
+}
+
+.mat-column-moderator_id {
+  flex: 0 0 3% !important;
+  width: 3% !important;
+}
+
+.mat-column-book_id {
+  flex: 0 0 3% !important;
+  width: 3% !important;
+}
+.mat-column-action {
+  flex: 0 0 2% !important;
+  width: 2% !important;
+}
+
+.mat-cell {
+  white-space: unset !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}

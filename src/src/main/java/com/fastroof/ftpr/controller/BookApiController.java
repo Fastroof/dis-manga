@@ -109,6 +109,11 @@ public class BookApiController {
     // @JsonProperty DOES NOT WORK HERE! Provide tagId and coverFile in JSON
     public ResponseEntity<Response> postNewBook(@Valid @ModelAttribute PostBookRequestPojo postBookRequestPojo) {
         User user = getUserByToken();
+        if (postBookRequestPojo.getTagId() != null && !tagRepository.existsById(postBookRequestPojo.getTagId())) {
+            return ResponseEntity
+                    .internalServerError()
+                    .body(new Response("Тега з id = " + postBookRequestPojo.getTagId() + " не існує"));
+        }
         Book book = new Book();
         book.setCreatedAt(LocalDate.now());
         book.setUpdatedAt(LocalDate.now());
@@ -149,7 +154,6 @@ public class BookApiController {
                         .body(new Response(e.getMessage()));
             }
         }
-
         return ResponseEntity
                 .ok(new Response("Book posted"));
     }
@@ -223,6 +227,7 @@ public class BookApiController {
     }
 
     @DeleteMapping("/books/{bookId}")
+    @Transactional
     public ResponseEntity<Response> deleteBook(@PathVariable Integer bookId) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
         User user = getUserByToken();

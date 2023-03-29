@@ -13,8 +13,6 @@ export class BookDialogComponent implements OnInit {
   result = 'Завантаження...';
   name: string | undefined;
   tagId: number | undefined;
-  fileNames: string[] = [];
-  coverName: string | undefined;
   files: File[] | undefined;
   cover: File | undefined;
 
@@ -32,21 +30,19 @@ export class BookDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
-    console.log(this.name, this.tagId, this.files, this.cover);
-    // this.apiService.addBook(this.name, this.tagId, this.files, this.cover)
-    //   .subscribe({
-    //     next: value => {
-    //       this.result = value;
-    //     },
-    //     error: err => {
-    //       this.result = err.error;
-    //     }
-    //   });
-    // this.isCreated = true;
+    this.apiService.addBook(this.name, this.tagId, this.files, this.cover)
+      .subscribe({
+        next: value => {
+          this.result = value.toString();
+        },
+        error: err => {
+          this.result = err.error.toString();
+        }
+      });
+    this.isCreated = true;
   }
 
   onFilesChange(event: Event): void {
-    this.fileNames = [];
     this.files = [];
     // @ts-ignore
     // tslint:disable-next-line:prefer-for-of
@@ -54,7 +50,6 @@ export class BookDialogComponent implements OnInit {
       // @ts-ignore
       const file = event.target.files[i];
       if (file) {
-        this.fileNames.push(file.name);
         this.files?.push(file);
       }
     }
@@ -64,7 +59,6 @@ export class BookDialogComponent implements OnInit {
     // @ts-ignore
     const file: File = event.target.files[0];
     if (file) {
-      this.coverName = file.name;
       this.cover = file;
     }
   }
