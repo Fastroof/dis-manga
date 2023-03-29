@@ -10,4 +10,5 @@ import java.util.List;
 public interface BookRepository extends CrudRepository<Book, Integer> {
     List<Book> getBooksByNameContains(String name);
     List<Book> findAllByTagId(Integer tagId);
+    List<Book> getBooksByOwnerId(Integer ownerId);
 }

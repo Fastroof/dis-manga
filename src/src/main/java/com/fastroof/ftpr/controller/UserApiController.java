@@ -5,10 +5,9 @@ import com.fastroof.ftpr.entity.PersonalLibraryEntry;
 import com.fastroof.ftpr.entity.User;
 import com.fastroof.ftpr.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +47,23 @@ public class UserApiController {
         });
 
         return result;
+    }
+
+    @DeleteMapping("/user/personal-library/{bookId}")
+    public ResponseEntity<Response> deleteBookFromPersonalLibrary(@PathVariable Integer bookId) {
+        User user = getUserByToken();
+
+        PersonalLibraryEntry entry = personalLibraryRepository.getByUserIdAndBookId(user.getId(), bookId);
+
+        if (entry != null) {
+            personalLibraryRepository.delete(entry);
+            return ResponseEntity
+                    .ok(new Response("Book removed from personal library"));
+        } else {
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        }
     }
 
 
@@ -113,7 +129,8 @@ public class UserApiController {
 //    }
 
     private User getUserByToken() {
-        return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+        return userRepository.findById(8).orElse(null);
+        //return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
     }
 
     private boolean tokenHasUserRole() {

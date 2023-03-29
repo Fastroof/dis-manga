@@ -63,7 +63,8 @@ public class BookApiController {
 
     @GetMapping("/books")
     public List<Book> getBooks(@RequestParam(value = "query", required = false) String query,
-                               @RequestParam(value = "tagId", required = false) Integer tagId) {
+                               @RequestParam(value = "tag_id", required = false) Integer tagId,
+                               @RequestParam(value = "owner_id", required = false) Integer ownerId) {
         if (query != null) {
             // Search by name
             return bookRepository.getBooksByNameContains(query);
@@ -79,7 +80,12 @@ public class BookApiController {
             }
         }
 
-        // Return all datasets
+        if (ownerId != null) {
+            // Search by ownerId
+            return bookRepository.getBooksByOwnerId(ownerId);
+        }
+
+        // Return all books
         return StreamSupport
                 .stream(bookRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
@@ -270,6 +276,36 @@ public class BookApiController {
         }
     }
 
+    @DeleteMapping("/books/{bookId}/files/{fileId}")
+    public ResponseEntity<Response> deleteBookFile(@PathVariable Integer bookId, @PathVariable Integer fileId) {
+        Optional<Book> book = bookRepository.findById(bookId);
+        User user = getUserByToken();
+
+        if (book.isEmpty()) {
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        }
+
+        if (!Objects.equals(book.get().getOwnerId(), user.getId())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new Response("User not owner of the book"));
+        }
+
+        BookFile bookFile = bookFileRepository.findByIdAndBookId(fileId, book.get().getId());
+
+        if (bookFile != null) {
+            bookFileRepository.delete(bookFile);
+            return ResponseEntity
+                    .ok(new Response("Book file deleted"));
+        } else {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new Response("Book file not found"));
+        }
+    }
+
     @PostMapping("/books/{bookId}/comments")
     public ResponseEntity<Response> postComment(@PathVariable Integer bookId, @RequestBody String text) {
         User user = getUserByToken();
@@ -351,7 +387,7 @@ public class BookApiController {
     }
 
     private User getUserByToken() {
-        return userRepository.findById(1).orElse(null);
+        return userRepository.findById(8).orElse(null);
         //return userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
     }
 }

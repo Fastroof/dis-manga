@@ -12,6 +12,9 @@ import javax.persistence.*;
 @Table(name = "personal_libraries")
 public class PersonalLibraryEntry {
     @Id
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(generator = "increment")
+    private Integer id;
     @Column(name = "user_id", nullable = false)
     @JsonProperty("user_id")
     private Integer userId;

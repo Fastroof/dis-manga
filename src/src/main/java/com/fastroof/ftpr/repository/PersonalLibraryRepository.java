@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface PersonalLibraryRepository extends CrudRepository<PersonalLibraryEntry, Integer> {
     List<PersonalLibraryEntry> getAllByUserId(Integer userId);
+    PersonalLibraryEntry getByUserIdAndBookId(Integer userId, Integer bookId);
 }
