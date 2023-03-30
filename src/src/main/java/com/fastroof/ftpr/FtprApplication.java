@@ -34,7 +34,8 @@ public class FtprApplication {
 			http.csrf().disable()
 					.addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
-					.antMatchers(HttpMethod.POST, "/login","/register", "/help-request").permitAll()
+					.antMatchers(HttpMethod.GET, "/books","/books/**").permitAll()
+					.antMatchers(HttpMethod.POST, "/help-request").permitAll()
 					.anyRequest().authenticated();
 		}
 	}

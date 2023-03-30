@@ -10,6 +10,7 @@ import com.fastroof.ftpr.service.filestorage.UploadFileResponse;
 import com.fastroof.ftpr.service.filestorage.UploadImageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -57,7 +58,7 @@ public class BookApiController {
         this.fileStorage = fileStorage;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<Book> getBooks(@RequestParam(value = "query", required = false) String query,
                                @RequestParam(value = "tag_id", required = false) Integer tagId,
                                @RequestParam(value = "owner_id", required = false) Integer ownerId) {
@@ -100,8 +101,9 @@ public class BookApiController {
                 .ok(bookOptional.get());
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     @Transactional
+    @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
     // @JsonProperty DOES NOT WORK HERE! Provide tagId and coverFile in JSON
     public ResponseEntity<Response> postNewBook(@Valid @ModelAttribute PostBookRequestPojo postBookRequestPojo) {
         User user = getUserByContext();
@@ -156,6 +158,7 @@ public class BookApiController {
 
     @PatchMapping("/{bookId}")
     @Transactional
+    @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
     // @JsonProperty DOES NOT WORK HERE! Provide tagId and coverFile in JSON
     public ResponseEntity<Response> patchBook(@PathVariable Integer bookId, @ModelAttribute PatchBookRequestPojo patchBookRequestPojo) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
@@ -224,6 +227,7 @@ public class BookApiController {
 
     @DeleteMapping("/{bookId}")
     @Transactional
+    @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
     public ResponseEntity<Response> deleteBook(@PathVariable Integer bookId) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
         User user = getUserByContext();
@@ -278,6 +282,7 @@ public class BookApiController {
     }
 
     @DeleteMapping("/{bookId}/files/{fileId}")
+    @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
     public ResponseEntity<Response> deleteBookFile(@PathVariable Integer bookId, @PathVariable Integer fileId) {
         Optional<Book> book = bookRepository.findById(bookId);
         User user = getUserByContext();
@@ -308,6 +313,7 @@ public class BookApiController {
     }
 
     @PostMapping("/{bookId}/comments")
+    @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
     public ResponseEntity<Response> postComment(@PathVariable Integer bookId, @RequestBody String text) {
         User user = getUserByContext();
         Optional<Book> book = bookRepository.findById(bookId);
@@ -331,6 +337,7 @@ public class BookApiController {
     }
 
     @PostMapping("/{bookId}/report")
+    @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
     public ResponseEntity<Response> postReport(@PathVariable Integer bookId, @RequestBody String text) {
         User user = getUserByContext();
         Optional<Book> book = bookRepository.findById(bookId);
@@ -355,6 +362,7 @@ public class BookApiController {
     }
 
     @PostMapping("/{bookId}/personal-library")
+    @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
     public ResponseEntity<Response> addToPersonalLibrary(@PathVariable Integer bookId) {
         User user = getUserByContext();
         Optional<Book> book = bookRepository.findById(bookId);
