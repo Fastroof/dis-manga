@@ -36,6 +36,12 @@ public class FtprApplication {
 					.authorizeRequests()
 					.antMatchers(HttpMethod.GET, "/books","/books/**").permitAll()
 					.antMatchers(HttpMethod.POST, "/help-request").permitAll()
+					.antMatchers("/v2/api-docs",
+							"/configuration/ui",
+							"/swagger-resources/**",
+							"/configuration/security",
+							"/swagger-ui/",
+							"/webjars/**").permitAll()
 					.anyRequest().authenticated();
 		}
 	}
