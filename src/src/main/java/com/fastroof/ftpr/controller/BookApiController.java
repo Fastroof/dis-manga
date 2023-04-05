@@ -8,6 +8,7 @@ import com.fastroof.ftpr.security.UserDetailsImpl;
 import com.fastroof.ftpr.service.filestorage.FileStorage;
 import com.fastroof.ftpr.service.filestorage.UploadFileResponse;
 import com.fastroof.ftpr.service.filestorage.UploadImageResponse;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -91,14 +92,10 @@ public class BookApiController {
     @GetMapping("/{bookId}")
     public ResponseEntity<Book> getBook(@PathVariable Integer bookId) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
-        if (bookOptional.isEmpty()) {
-            return ResponseEntity
-                    .notFound()
-                    .build();
-        }
+        return bookOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity
+                .notFound()
+                .build());
 
-        return ResponseEntity
-                .ok(bookOptional.get());
     }
 
     @PostMapping("")
@@ -120,9 +117,24 @@ public class BookApiController {
         book.setOwnerId(user.getId());
 
         // Upload cover if provided
-        if (postBookRequestPojo.getCoverFile() != null) {
+        ResponseEntity<Response> coverUploadResponse = uploadCover(book, postBookRequestPojo.getCoverFile());
+        if (coverUploadResponse != null) return coverUploadResponse;
+
+        bookRepository.save(book);
+
+        // Upload provided files
+        ResponseEntity<Response> fileUploadResponse = uploadFiles(book, postBookRequestPojo.getFiles());
+        if (fileUploadResponse != null) return fileUploadResponse;
+
+        return ResponseEntity
+                .ok(new Response("Book posted"));
+    }
+
+    @Nullable
+    private ResponseEntity<Response> uploadCover(Book book, MultipartFile coverFile) {
+        if (coverFile != null) {
             try {
-                UploadImageResponse response = fileStorage.uploadImage(postBookRequestPojo.getCoverFile());
+                UploadImageResponse response = fileStorage.uploadImage(coverFile);
                 book.setLinkToCover(response.getData().getLink());
             } catch (RuntimeException | IOException e) {
                 return ResponseEntity
@@ -130,11 +142,12 @@ public class BookApiController {
                         .body(new Response(e.getMessage()));
             }
         }
+        return null;
+    }
 
-        bookRepository.save(book);
-
-        // Upload provided files
-        for (MultipartFile file : postBookRequestPojo.getFiles()) {
+    @Nullable
+    private ResponseEntity<Response> uploadFiles(Book book, List<MultipartFile> files) {
+        for (MultipartFile file : files) {
             try {
                 BookFile bookFile = new BookFile();
                 bookFile.setBookId(book.getId());
@@ -152,8 +165,7 @@ public class BookApiController {
                         .body(new Response(e.getMessage()));
             }
         }
-        return ResponseEntity
-                .ok(new Response("Book posted"));
+        return null;
     }
 
     @PatchMapping("/{bookId}")
@@ -166,7 +178,7 @@ public class BookApiController {
         if (!patchBookRequestPojo.isValid()) {
             return ResponseEntity
                     .badRequest()
-                    .body(new Response("Path request body empty"));
+                    .body(new Response("Patch request body empty"));
         }
 
         User user = getUserByContext();
@@ -180,7 +192,7 @@ public class BookApiController {
 
         if (!Objects.equals(book.getOwnerId(), user.getId())) {
             return ResponseEntity
-                    .badRequest()
+                    .status(403)
                     .body(new Response("User not owner of the book"));
         }
 
@@ -193,37 +205,13 @@ public class BookApiController {
         }
 
         // Upload new cover, if provided
-        if (patchBookRequestPojo.getCoverFile() != null) {
-            try {
-                UploadImageResponse response = fileStorage.uploadImage(patchBookRequestPojo.getCoverFile());
-                book.setLinkToCover(response.getData().getLink());
-            } catch (RuntimeException | IOException e) {
-                return ResponseEntity
-                        .internalServerError()
-                        .body(new Response(e.getMessage()));
-            }
-        }
+        ResponseEntity<Response> coverUploadResponse = uploadCover(book, patchBookRequestPojo.getCoverFile());
+        if (coverUploadResponse != null) return coverUploadResponse;
 
         // Upload new files
         if (patchBookRequestPojo.getFiles() != null) {
-            for (MultipartFile file : patchBookRequestPojo.getFiles()) {
-                try {
-                    BookFile bookFile = new BookFile();
-                    bookFile.setBookId(book.getId());
-                    bookFile.setUploadedAt(LocalDate.now());
-
-                    UploadFileResponse response = fileStorage.uploadFile(file);
-
-                    bookFile.setName(response.getName());
-                    bookFile.setGoogleDriveId(response.getId());
-
-                    bookFileRepository.save(bookFile);
-                } catch (RuntimeException | IOException e) {
-                    return ResponseEntity
-                            .internalServerError()
-                            .body(new Response(e.getMessage()));
-                }
-            }
+            ResponseEntity<Response> fileUploadResponse = uploadFiles(book, patchBookRequestPojo.getFiles());
+            if (fileUploadResponse != null) return fileUploadResponse;
         }
 
         bookRepository.save(book);
@@ -248,7 +236,7 @@ public class BookApiController {
 
         if (!Objects.equals(book.getOwnerId(), user.getId())) {
             return ResponseEntity
-                    .badRequest()
+                    .status(403)
                     .body(new Response("User not owner of the book"));
         }
 
@@ -277,14 +265,10 @@ public class BookApiController {
     public ResponseEntity<List<BookFile>> getBookFiles(@PathVariable Integer bookId) {
         Optional<Book> book = bookRepository.findById(bookId);
 
-        if (book.isPresent()) {
-            return ResponseEntity
-                    .ok(bookFileRepository.findAllByBookId(book.get().getId()));
-        } else {
-            return ResponseEntity
-                    .notFound()
-                    .build();
-        }
+        return book.map(value -> ResponseEntity
+                .ok(bookFileRepository.findAllByBookId(value.getId()))).orElseGet(() -> ResponseEntity
+                .notFound()
+                .build());
     }
 
     @DeleteMapping("/{bookId}/files/{fileId}")
@@ -301,7 +285,7 @@ public class BookApiController {
 
         if (!Objects.equals(book.get().getOwnerId(), user.getId())) {
             return ResponseEntity
-                    .badRequest()
+                    .status(403)
                     .body(new Response("User not owner of the book"));
         }
 
