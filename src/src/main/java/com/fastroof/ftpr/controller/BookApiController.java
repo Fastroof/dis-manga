@@ -162,8 +162,14 @@ public class BookApiController {
     // @JsonProperty DOES NOT WORK HERE! Provide tagId and coverFile in JSON
     public ResponseEntity<Response> patchBook(@PathVariable Integer bookId, @ModelAttribute PatchBookRequestPojo patchBookRequestPojo) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
-        User user = getUserByContext();
 
+        if (!patchBookRequestPojo.isValid()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new Response("Path request body empty"));
+        }
+
+        User user = getUserByContext();
         if (bookOptional.isEmpty()) {
             return ResponseEntity
                     .notFound()
