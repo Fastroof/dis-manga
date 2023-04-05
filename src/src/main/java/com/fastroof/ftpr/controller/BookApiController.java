@@ -297,8 +297,8 @@ public class BookApiController {
                     .ok(new Response("Book file deleted"));
         } else {
             return ResponseEntity
-                    .badRequest()
-                    .body(new Response("Book file not found"));
+                    .notFound()
+                    .build();
         }
     }
 
