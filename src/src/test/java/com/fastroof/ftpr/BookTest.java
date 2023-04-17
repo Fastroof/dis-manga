@@ -113,7 +113,7 @@ public class BookTest {
 
         this.mvc.perform(delete("/books/8").header(HEADER, PREFIX + returnToken()))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isForbidden());
     }
 
     @Test
