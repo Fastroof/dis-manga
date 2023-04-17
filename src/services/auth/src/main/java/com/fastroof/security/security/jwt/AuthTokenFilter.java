@@ -19,15 +19,31 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fastroof.security.security.services.UserDetailsServiceImpl;
 
+/**
+ * The AuthTokenFilter Class.
+ */
 public class AuthTokenFilter extends OncePerRequestFilter {
+	
+	/** The jwt utils. */
 	@Autowired
 	private JwtUtils jwtUtils;
 
+	/** The user details service. */
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
 
+	/** The logger Constant. */
 	private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
 
+	/**
+	 * Filter HttpServletRequest.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @param filterChain the filter chain
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -50,6 +66,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 
+	/**
+	 * Parses the jwt.
+	 *
+	 * @param request the request
+	 * @return the string
+	 */
 	public static String parseJwt(HttpServletRequest request) {
 		String headerAuth = request.getHeader("Authorization");
 

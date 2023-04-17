@@ -11,16 +11,29 @@ import org.springframework.stereotype.Component;
 import com.fastroof.security.security.services.UserDetailsImpl;
 import io.jsonwebtoken.*;
 
+/**
+ * The JwtUtils Class.
+ */
 @Component
 public class JwtUtils {
+	
+	/** The logger Constant. */
 	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
+	/** The jwt secret. */
 	@Value("${apricotka.app.jwtSecret}")
 	private String jwtSecret;
 
+	/** The jwt expiration ms. */
 	@Value("${apricotka.app.jwtExpirationMs}")
 	private int jwtExpirationMs;
 
+	/**
+	 * Generate jwt token.
+	 *
+	 * @param authentication the authentication
+	 * @return the string
+	 */
 	public String generateJwtToken(Authentication authentication) {
 
 		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
@@ -33,10 +46,22 @@ public class JwtUtils {
 				.compact();
 	}
 
+	/**
+	 * Gets the username from jwt token.
+	 *
+	 * @param token the token
+	 * @return the username from jwt token
+	 */
 	public String getUserNameFromJwtToken(String token) {
 		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
 	}
 
+	/**
+	 * Validate jwt token.
+	 *
+	 * @param authToken the auth token
+	 * @return true, if successful
+	 */
 	public boolean validateJwtToken(String authToken) {
 		try {
 			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
