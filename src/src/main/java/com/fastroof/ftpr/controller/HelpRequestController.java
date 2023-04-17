@@ -12,17 +12,33 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.time.LocalDate;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class HelpRequestController.
+ */
 @RestController
 @CrossOrigin(origins = "*")
 public class HelpRequestController {
 
+    /** The help request repository. */
     private final HelpRequestRepository helpRequestRepository;
 
+    /**
+     * Instantiates a new help request controller.
+     *
+     * @param helpRequestRepository the help request repository
+     */
     @Autowired
     public HelpRequestController(HelpRequestRepository helpRequestRepository) {
         this.helpRequestRepository = helpRequestRepository;
     }
 
+    /**
+     * Post help request.
+     *
+     * @param sentHelpRequestPojo the sent help request pojo
+     * @return the response entity
+     */
     @PostMapping("/help-request")
     public ResponseEntity<Response> postHelpRequest(@Valid HelpRequestPojo sentHelpRequestPojo) {
         HelpRequest helpRequest = new HelpRequest();

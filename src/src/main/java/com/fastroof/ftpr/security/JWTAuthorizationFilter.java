@@ -19,25 +19,46 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
+/**
+ * The JWTAuthorizationFilter Class.
+ */
 @Component
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
+    /** The authorization header. */
     private final String HEADER = "Authorization";
+    
+    /** The authorization prefix. */
     private final String PREFIX = "Bearer ";
 
+    /** The auth service. */
     private final Auth authService;
 
+    /**
+     * Instantiates a new JWT authorization filter.
+     *
+     * @param authService the auth service
+     */
     @Autowired
     public JWTAuthorizationFilter(Auth authService) {
         this.authService = authService;
     }
 
+    /**
+     * Filter HttpServletRequest.
+     *
+     * @param request the request
+     * @param response the response
+     * @param chain the chain
+     * @throws ServletException the servlet exception
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Override
     protected void doFilterInternal(@NotNull HttpServletRequest request,
                                     @NotNull HttpServletResponse response,
                                     @NotNull FilterChain chain) throws ServletException, IOException {
         try {
-            if (checkJWTToken(request)) {
+            if (hasValidAuthenticationHeader(request)) {
                 UserDetailsImpl userDetails = validateToken(request);
                 if (userDetails != null) {
                     setUpSpringAuthentication(userDetails);
@@ -54,11 +75,23 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         }
     }
 
+    /**
+     * Validate token with Auth Service.
+     *
+     * @param request the request
+     * @return the user details impl
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     private UserDetailsImpl validateToken(HttpServletRequest request) throws IOException {
         String jwtToken = request.getHeader(HEADER).replace(PREFIX, "");
         return authService.validateToken(jwtToken);
     }
 
+    /**
+     * Sets up the authentication in SecurityContext.
+     *
+     * @param userDetails the user details
+     */
     private void setUpSpringAuthentication(UserDetailsImpl userDetails) {
         Collection<GrantedAuthority> authorities = userDetails.getAuthorities();
         UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails,
@@ -68,7 +101,13 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(auth);
     }
 
-    private boolean checkJWTToken(HttpServletRequest request) {
+    /**
+     * Check if request has valid authentication header.
+     *
+     * @param request the request
+     * @return true, if valid
+     */
+    private boolean hasValidAuthenticationHeader(HttpServletRequest request) {
         String authenticationHeader = request.getHeader(HEADER);
         return authenticationHeader != null && authenticationHeader.startsWith(PREFIX);
     }

@@ -18,16 +18,32 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ModeratorApiController.
+ */
 @RestController
 @CrossOrigin(origins = "*")
 @PreAuthorize("hasAuthority('moderator')")
 @RequestMapping("/moderator")
 public class ModeratorApiController {
 
+    /** The user repository. */
     private final UserRepository userRepository;
+    
+    /** The help request repository. */
     private final HelpRequestRepository helpRequestRepository;
+    
+    /** The report repository. */
     private final ReportRepository reportRepository;
 
+    /**
+     * Instantiates a new moderator api controller.
+     *
+     * @param userRepository the user repository
+     * @param helpRequestRepository the help request repository
+     * @param reportRepository the report repository
+     */
     @Autowired
     public ModeratorApiController(UserRepository userRepository,
                                   HelpRequestRepository helpRequestRepository,
@@ -37,6 +53,11 @@ public class ModeratorApiController {
         this.reportRepository = reportRepository;
     }
 
+    /**
+     * Gets the help requests.
+     *
+     * @return the help requests
+     */
     @GetMapping("/help-requests")
     public List<HelpRequest> getHelpRequests() {
         return StreamSupport
@@ -44,6 +65,12 @@ public class ModeratorApiController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Process help request.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @PostMapping("/help-requests/{id}/process")
     public ResponseEntity<Response> processHelpRequest(@PathVariable Integer id) {
         Optional<HelpRequest> helpRequestOptional = helpRequestRepository.findById(id);
@@ -69,6 +96,11 @@ public class ModeratorApiController {
                 .ok(new Response("Help request processed"));
     }
 
+    /**
+     * Gets the reports.
+     *
+     * @return the reports
+     */
     @GetMapping("/reports")
     public List<Report> getReports() {
         return StreamSupport
@@ -76,6 +108,12 @@ public class ModeratorApiController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Process report.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @PostMapping("/reports/{id}/process")
     public ResponseEntity<Response> processReport(@PathVariable Integer id) {
         Optional<Report> reportOptional = reportRepository.findById(id);
@@ -101,6 +139,11 @@ public class ModeratorApiController {
                 .ok(new Response("Report processed"));
     }
 
+    /**
+     * Gets the user by context.
+     *
+     * @return the user by context
+     */
     private User getUserByContext() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepository.findByEmail(userDetails.getEmail());

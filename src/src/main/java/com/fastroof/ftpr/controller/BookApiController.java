@@ -27,20 +27,51 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BookApiController.
+ */
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/books")
 public class BookApiController {
 
+    /** The book repository. */
     private final BookRepository bookRepository;
+    
+    /** The book file repository. */
     private final BookFileRepository bookFileRepository;
+    
+    /** The tag repository. */
     private final TagRepository tagRepository;
+    
+    /** The comment repository. */
     private final CommentRepository commentRepository;
+    
+    /** The report repository. */
     private final ReportRepository reportRepository;
+    
+    /** The user repository. */
     private final UserRepository userRepository;
+    
+    /** The personal library repository. */
     private final PersonalLibraryRepository personalLibraryRepository;
+    
+    /** The file storage. */
     private final FileStorage fileStorage;
 
+    /**
+     * Instantiates a new book api controller.
+     *
+     * @param bookRepository the book repository
+     * @param bookFileRepository the book file repository
+     * @param tagRepository the tag repository
+     * @param commentRepository the comment repository
+     * @param reportRepository the report repository
+     * @param userRepository the user repository
+     * @param personalLibraryRepository the personal library repository
+     * @param fileStorage the file storage
+     */
     @Autowired
     public BookApiController(BookRepository bookRepository,
                              BookFileRepository bookFileRepository,
@@ -59,6 +90,14 @@ public class BookApiController {
         this.fileStorage = fileStorage;
     }
 
+    /**
+     * Gets the books.
+     *
+     * @param query the query
+     * @param tagId the tag id
+     * @param ownerId the owner id
+     * @return the books
+     */
     @GetMapping("")
     public List<Book> getBooks(@RequestParam(value = "query", required = false) String query,
                                @RequestParam(value = "tag_id", required = false) Integer tagId,
@@ -89,6 +128,12 @@ public class BookApiController {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Gets the book.
+     *
+     * @param bookId the book id
+     * @return the book
+     */
     @GetMapping("/{bookId}")
     public ResponseEntity<Book> getBook(@PathVariable Integer bookId) {
         Optional<Book> bookOptional = bookRepository.findById(bookId);
@@ -98,6 +143,12 @@ public class BookApiController {
 
     }
 
+    /**
+     * Post new book.
+     *
+     * @param postBookRequestPojo the post book request pojo
+     * @return the response entity
+     */
     @PostMapping("")
     @Transactional
     @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
@@ -130,6 +181,13 @@ public class BookApiController {
                 .ok(new Response("Book posted"));
     }
 
+    /**
+     * Upload cover.
+     *
+     * @param book the book
+     * @param coverFile the cover file
+     * @return the response entity
+     */
     @Nullable
     private ResponseEntity<Response> uploadCover(Book book, MultipartFile coverFile) {
         if (coverFile != null) {
@@ -145,6 +203,13 @@ public class BookApiController {
         return null;
     }
 
+    /**
+     * Upload files.
+     *
+     * @param book the book
+     * @param files the files
+     * @return the response entity
+     */
     @Nullable
     private ResponseEntity<Response> uploadFiles(Book book, List<MultipartFile> files) {
         for (MultipartFile file : files) {
@@ -168,6 +233,13 @@ public class BookApiController {
         return null;
     }
 
+    /**
+     * Patch book.
+     *
+     * @param bookId the book id
+     * @param patchBookRequestPojo the patch book request pojo
+     * @return the response entity
+     */
     @PatchMapping("/{bookId}")
     @Transactional
     @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
@@ -219,6 +291,12 @@ public class BookApiController {
                 .ok(new Response("Book updated"));
     }
 
+    /**
+     * Delete book.
+     *
+     * @param bookId the book id
+     * @return the response entity
+     */
     @DeleteMapping("/{bookId}")
     @Transactional
     @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
@@ -247,6 +325,12 @@ public class BookApiController {
                 .ok(new Response("Book deleted"));
     }
 
+    /**
+     * Gets the comments.
+     *
+     * @param bookId the book id
+     * @return the comments
+     */
     @GetMapping("/{bookId}/comments")
     public ResponseEntity<List<Comment>> getComments(@PathVariable Integer bookId) {
         Optional<Book> book = bookRepository.findById(bookId);
@@ -261,6 +345,12 @@ public class BookApiController {
         }
     }
 
+    /**
+     * Gets the book files.
+     *
+     * @param bookId the book id
+     * @return the book files
+     */
     @GetMapping("/{bookId}/files")
     public ResponseEntity<List<BookFile>> getBookFiles(@PathVariable Integer bookId) {
         Optional<Book> book = bookRepository.findById(bookId);
@@ -271,6 +361,13 @@ public class BookApiController {
                 .build());
     }
 
+    /**
+     * Delete book file.
+     *
+     * @param bookId the book id
+     * @param fileId the file id
+     * @return the response entity
+     */
     @DeleteMapping("/{bookId}/files/{fileId}")
     @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
     public ResponseEntity<Response> deleteBookFile(@PathVariable Integer bookId, @PathVariable Integer fileId) {
@@ -302,6 +399,13 @@ public class BookApiController {
         }
     }
 
+    /**
+     * Post comment.
+     *
+     * @param bookId the book id
+     * @param text the text
+     * @return the response entity
+     */
     @PostMapping("/{bookId}/comments")
     @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
     public ResponseEntity<Response> postComment(@PathVariable Integer bookId, @RequestBody String text) {
@@ -326,6 +430,13 @@ public class BookApiController {
                 .build();
     }
 
+    /**
+     * Post report.
+     *
+     * @param bookId the book id
+     * @param text the text
+     * @return the response entity
+     */
     @PostMapping("/{bookId}/report")
     @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
     public ResponseEntity<Response> postReport(@PathVariable Integer bookId, @RequestBody String text) {
@@ -351,6 +462,12 @@ public class BookApiController {
                 .build();
     }
 
+    /**
+     * Adds the to personal library.
+     *
+     * @param bookId the book id
+     * @return the response entity
+     */
     @PostMapping("/{bookId}/personal-library")
     @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
     public ResponseEntity<Response> addToPersonalLibrary(@PathVariable Integer bookId) {
@@ -385,6 +502,11 @@ public class BookApiController {
 
     }
 
+    /**
+     * Gets the user by context.
+     *
+     * @return the user by context
+     */
     private User getUserByContext() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepository.findByEmail(userDetails.getEmail());

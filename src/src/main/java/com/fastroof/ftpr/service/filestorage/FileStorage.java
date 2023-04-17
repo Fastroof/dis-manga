@@ -11,13 +11,29 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * The FileStorage Service Class.
+ */
 @Service
 public class FileStorage {
+    
+    /** The link to file storage service. */
     @Value("${link.to.file-storage.service}")
     private String linkToFileStorageService;
-    private static final ObjectMapper objectMapper = new ObjectMapper();
-    private static final OkHttpClient client = new OkHttpClient().newBuilder().build();
+    
+    /** The objectMapper Constant. */
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    
+    /** The OkHttpClient Constant. */
+    private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient().newBuilder().build();
 
+    /**
+     * Upload file using external FileStorage Service.
+     *
+     * @param file the file
+     * @return the upload file response
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     public UploadFileResponse uploadFile(MultipartFile file) throws IOException {
         RequestBody body = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -29,15 +45,22 @@ public class FileStorage {
                 .method("POST", body)
                 .build();
 
-        try (Response response = client.newCall(request).execute()){
+        try (Response response = OK_HTTP_CLIENT.newCall(request).execute()){
             if (response.code() != 200) {
                 throw new RuntimeException("File storage service error on file upload");
             }
 
-            return objectMapper.readValue(response.body().string(), UploadFileResponse.class);
+            return OBJECT_MAPPER.readValue(response.body().string(), UploadFileResponse.class);
         }
     }
 
+    /**
+     * Upload image using external FileStorage Service.
+     *
+     * @param image the image
+     * @return the upload image response
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     public UploadImageResponse uploadImage(MultipartFile image) throws IOException {
         RequestBody body = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -49,12 +72,12 @@ public class FileStorage {
                 .method("POST", body)
                 .build();
 
-        try (Response response = client.newCall(request).execute()){
+        try (Response response = OK_HTTP_CLIENT.newCall(request).execute()){
             if (response.code() != 200) {
                 throw new RuntimeException("File storage service error on file upload");
             }
 
-            return objectMapper.readValue(response.body().string(), UploadImageResponse.class);
+            return OBJECT_MAPPER.readValue(response.body().string(), UploadImageResponse.class);
         }
     }
 }

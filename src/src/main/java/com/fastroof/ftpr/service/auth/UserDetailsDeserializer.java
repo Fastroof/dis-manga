@@ -11,8 +11,19 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.io.IOException;
 import java.util.Iterator;
 
+/**
+ * The UserDetailsDeserializer Class.
+ */
 public class UserDetailsDeserializer extends JsonDeserializer<UserDetailsImpl> {
 
+    /**
+     * Deserialize.
+     *
+     * @param jsonParser the json parser
+     * @param deserializationContext the deserialization context
+     * @return the user details impl
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Override
     public UserDetailsImpl deserialize(JsonParser jsonParser, DeserializationContext deserializationContext)
             throws IOException {

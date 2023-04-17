@@ -15,16 +15,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class UserApiController.
+ */
 @RestController
 @CrossOrigin(origins = "*")
 @PreAuthorize("hasAuthority('user') or hasAuthority('moderator')")
 @RequestMapping("/user")
 public class UserApiController {
 
+    /** The user repository. */
     private final UserRepository userRepository;
+    
+    /** The book repository. */
     private final BookRepository bookRepository;
+    
+    /** The personal library repository. */
     private final PersonalLibraryRepository personalLibraryRepository;
 
+    /**
+     * Instantiates a new user api controller.
+     *
+     * @param userRepository the user repository
+     * @param bookRepository the book repository
+     * @param personalLibraryRepository the personal library repository
+     */
     @Autowired
     public UserApiController(UserRepository userRepository,
                              BookRepository bookRepository,
@@ -34,6 +50,11 @@ public class UserApiController {
         this.personalLibraryRepository = personalLibraryRepository;
     }
 
+    /**
+     * Gets the personal library.
+     *
+     * @return the personal library
+     */
     @GetMapping("/personal-library")
     public List<Book> getPersonalLibrary() {
         User user = getUserByContext();
@@ -50,6 +71,12 @@ public class UserApiController {
         return result;
     }
 
+    /**
+     * Delete book from personal library.
+     *
+     * @param bookId the book id
+     * @return the response entity
+     */
     @DeleteMapping("/personal-library/{bookId}")
     public ResponseEntity<Response> deleteBookFromPersonalLibrary(@PathVariable Integer bookId) {
         User user = getUserByContext();
@@ -67,6 +94,11 @@ public class UserApiController {
         }
     }
 
+    /**
+     * Gets the user by context.
+     *
+     * @return the user by context
+     */
     private User getUserByContext() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepository.findByEmail(userDetails.getEmail());

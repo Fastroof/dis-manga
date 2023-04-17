@@ -9,11 +9,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The UploadImageData Class.
+ */
 @JsonIgnoreProperties(
         ignoreUnknown = true
 )
 @Getter
 @Setter
 public class UploadImageData {
+    
+    /** The link. */
     private String link;
 }

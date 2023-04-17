@@ -8,9 +8,19 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SpringFoxConfig.
+ */
 @Configuration
 @EnableSwagger2
 public class SpringFoxConfig {
+    
+    /**
+     * Api.
+     *
+     * @return the docket
+     */
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)

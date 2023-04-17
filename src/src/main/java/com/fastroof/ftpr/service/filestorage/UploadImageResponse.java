@@ -9,13 +9,22 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The UploadImageResponse Class.
+ */
 @JsonIgnoreProperties(
         ignoreUnknown = true
 )
 @Getter
 @Setter
 public class UploadImageResponse {
+    
+    /** The data. */
     private UploadImageData data;
+    
+    /** The success. */
     private Boolean success;
+    
+    /** The status. */
     private Integer status;
 }

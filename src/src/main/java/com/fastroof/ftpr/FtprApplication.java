@@ -13,22 +13,40 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * The Application Class.
+ */
 @SpringBootApplication
 @EnableSwagger2
 public class FtprApplication {
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(FtprApplication.class, args);
 	}
 
+	/**
+	 * The WebSecurityConfig Class.
+	 */
 	@EnableWebSecurity
 	@Configuration
 	@EnableGlobalMethodSecurity(prePostEnabled = true)
 	static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+		/** The JWT authorization filter. */
 		@Autowired
 		JWTAuthorizationFilter jwtAuthorizationFilter;
 
+		/**
+		 * Security configuration.
+		 *
+		 * @param http the http
+		 * @throws Exception the exception
+		 */
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
 			http.csrf().disable()
@@ -40,7 +58,7 @@ public class FtprApplication {
 							"/configuration/ui",
 							"/swagger-resources/**",
 							"/configuration/security",
-							"/swagger-ui/",
+							"/swagger-ui/**",
 							"/webjars/**").permitAll()
 					.anyRequest().authenticated();
 		}
