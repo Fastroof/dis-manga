@@ -15,9 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class UserApiController.
+ * The UserApiController Class.
  */
 @RestController
 @CrossOrigin(origins = "*")
@@ -53,7 +52,7 @@ public class UserApiController {
     /**
      * Gets the personal library.
      *
-     * @return the personal library
+     * @return the list of books in personal library
      */
     @GetMapping("/personal-library")
     public List<Book> getPersonalLibrary() {

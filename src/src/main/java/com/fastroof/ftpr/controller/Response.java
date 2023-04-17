@@ -6,9 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Response.
+ * The Response Class.
  */
 @Getter
 @Setter

@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.time.LocalDate;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class HelpRequestController.
+ * The HelpRequestController Class.
  */
 @RestController
 @CrossOrigin(origins = "*")
@@ -36,14 +35,14 @@ public class HelpRequestController {
     /**
      * Post help request.
      *
-     * @param sentHelpRequestPojo the sent help request pojo
+     * @param helpRequestPojo the help request pojo
      * @return the response entity
      */
     @PostMapping("/help-request")
-    public ResponseEntity<Response> postHelpRequest(@Valid HelpRequestPojo sentHelpRequestPojo) {
+    public ResponseEntity<Response> postHelpRequest(@Valid HelpRequestPojo helpRequestPojo) {
         HelpRequest helpRequest = new HelpRequest();
-        helpRequest.setEmail(sentHelpRequestPojo.getEmail());
-        helpRequest.setText(sentHelpRequestPojo.getText());
+        helpRequest.setEmail(helpRequestPojo.getEmail());
+        helpRequest.setText(helpRequestPojo.getText());
         helpRequest.setStatus(1);
         helpRequest.setCreatedAt(LocalDate.now());
 

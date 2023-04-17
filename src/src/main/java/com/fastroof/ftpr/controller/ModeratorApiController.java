@@ -18,9 +18,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ModeratorApiController.
+ * The ModeratorApiController Class.
  */
 @RestController
 @CrossOrigin(origins = "*")
@@ -56,7 +55,7 @@ public class ModeratorApiController {
     /**
      * Gets the help requests.
      *
-     * @return the help requests
+     * @return the list of help requests
      */
     @GetMapping("/help-requests")
     public List<HelpRequest> getHelpRequests() {
@@ -68,7 +67,7 @@ public class ModeratorApiController {
     /**
      * Process help request.
      *
-     * @param id the id
+     * @param id the help request id
      * @return the response entity
      */
     @PostMapping("/help-requests/{id}/process")
@@ -99,7 +98,7 @@ public class ModeratorApiController {
     /**
      * Gets the reports.
      *
-     * @return the reports
+     * @return the list of reports
      */
     @GetMapping("/reports")
     public List<Report> getReports() {
@@ -111,7 +110,7 @@ public class ModeratorApiController {
     /**
      * Process report.
      *
-     * @param id the id
+     * @param id the report id
      * @return the response entity
      */
     @PostMapping("/reports/{id}/process")

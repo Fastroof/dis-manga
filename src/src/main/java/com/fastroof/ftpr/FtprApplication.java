@@ -59,6 +59,7 @@ public class FtprApplication {
 							"/swagger-resources/**",
 							"/configuration/security",
 							"/swagger-ui/**",
+							"/javadoc/**",
 							"/webjars/**").permitAll()
 					.anyRequest().authenticated();
 		}

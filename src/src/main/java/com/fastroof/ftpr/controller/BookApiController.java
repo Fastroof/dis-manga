@@ -27,9 +27,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class BookApiController.
+ * The BookApiController Class.
  */
 @RestController
 @CrossOrigin(origins = "*")
@@ -93,10 +92,10 @@ public class BookApiController {
     /**
      * Gets the books.
      *
-     * @param query the query
-     * @param tagId the tag id
-     * @param ownerId the owner id
-     * @return the books
+     * @param query the query (Optional)
+     * @param tagId the tag id (Optional)
+     * @param ownerId the owner id (Optional)
+     * @return the list of books
      */
     @GetMapping("")
     public List<Book> getBooks(@RequestParam(value = "query", required = false) String query,
@@ -182,7 +181,7 @@ public class BookApiController {
     }
 
     /**
-     * Upload cover.
+     * Helper method to upload cover.
      *
      * @param book the book
      * @param coverFile the cover file
@@ -204,7 +203,7 @@ public class BookApiController {
     }
 
     /**
-     * Upload files.
+     * Helper method to upload files.
      *
      * @param book the book
      * @param files the files
@@ -329,7 +328,7 @@ public class BookApiController {
      * Gets the comments.
      *
      * @param bookId the book id
-     * @return the comments
+     * @return the list of comments
      */
     @GetMapping("/{bookId}/comments")
     public ResponseEntity<List<Comment>> getComments(@PathVariable Integer bookId) {
@@ -349,7 +348,7 @@ public class BookApiController {
      * Gets the book files.
      *
      * @param bookId the book id
-     * @return the book files
+     * @return the list of book files
      */
     @GetMapping("/{bookId}/files")
     public ResponseEntity<List<BookFile>> getBookFiles(@PathVariable Integer bookId) {
@@ -403,7 +402,7 @@ public class BookApiController {
      * Post comment.
      *
      * @param bookId the book id
-     * @param text the text
+     * @param text the comment text
      * @return the response entity
      */
     @PostMapping("/{bookId}/comments")
@@ -434,7 +433,7 @@ public class BookApiController {
      * Post report.
      *
      * @param bookId the book id
-     * @param text the text
+     * @param text the report text
      * @return the response entity
      */
     @PostMapping("/{bookId}/report")
@@ -463,7 +462,7 @@ public class BookApiController {
     }
 
     /**
-     * Adds the to personal library.
+     * Adds book to the personal library.
      *
      * @param bookId the book id
      * @return the response entity
