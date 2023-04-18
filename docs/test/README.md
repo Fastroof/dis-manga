@@ -555,7 +555,7 @@ public class UserApiTest {
 }
 ```
 
-## Результути виконання JUnit tests
+## Результати виконання JUnit tests
 
 <img src='./allTest_1.png' />
 
