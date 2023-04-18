@@ -19,6 +19,14 @@ public interface PersonalLibraryRepository extends CrudRepository<PersonalLibrar
      * @return the list of personal library entries
      */
     List<PersonalLibraryEntry> getAllByUserId(Integer userId);
+
+    /**
+     * Gets all personal library entries by book id.
+     *
+     * @param bookId the book id
+     * @return the list of personal library entries
+     */
+    List<PersonalLibraryEntry> getAllByBookId(Integer bookId);
     
     /**
      * Gets the personal library entry by user id and book id.

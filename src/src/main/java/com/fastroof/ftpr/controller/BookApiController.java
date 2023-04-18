@@ -318,6 +318,7 @@ public class BookApiController {
         }
 
         bookFileRepository.deleteAll(bookFileRepository.findAllByBookId(book.getId()));
+        personalLibraryRepository.deleteAll(personalLibraryRepository.getAllByBookId(book.getId()));
         bookRepository.delete(book);
 
         return ResponseEntity

@@ -31,18 +31,42 @@ import com.fastroof.security.payload.request.LoginRequest;
 import com.fastroof.security.security.services.UserDetailsImpl;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * The AuthController Class.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
+	/** The authentication manager. */
 	private final AuthenticationManager authenticationManager;
+	
+	/** The user repository. */
 	private final UserRepository userRepository;
+	
+	/** The role repository. */
 	private final RoleRepository roleRepository;
+	
+	/** The encoder. */
 	private final PasswordEncoder encoder;
+	
+	/** The jwt utils. */
 	private final JwtUtils jwtUtils;
+	
+	/** The user details service. */
 	private final UserDetailsServiceImpl userDetailsService;
 
+	/**
+	 * Instantiates a new auth controller.
+	 *
+	 * @param authenticationManager the authentication manager
+	 * @param userRepository the user repository
+	 * @param roleRepository the role repository
+	 * @param encoder the encoder
+	 * @param jwtUtils the jwt utils
+	 * @param userDetailsService the user details service
+	 */
 	@Autowired
 	public AuthController(AuthenticationManager authenticationManager,
 						  UserRepository userRepository,
@@ -58,6 +82,12 @@ public class AuthController {
 		this.userDetailsService = userDetailsService;
 	}
 
+	/**
+	 * Authenticate user.
+	 *
+	 * @param loginRequest the login request
+	 * @return the response entity
+	 */
 	@PostMapping("/login")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 		if (!userRepository.existsByEmail(loginRequest.getEmail())) {
@@ -89,6 +119,12 @@ public class AuthController {
 		}
 	}
 
+	/**
+	 * Validate token.
+	 *
+	 * @param validateTokenRequest the validate token request
+	 * @return the response entity
+	 */
 	@PostMapping("/validate")
 	public ResponseEntity<UserDetails> validateToken(@Valid @RequestBody ValidateTokenRequest validateTokenRequest) {
 		String jwt = validateTokenRequest.getToken();
@@ -106,6 +142,12 @@ public class AuthController {
 		}
 	}
 
+	/**
+	 * Register user.
+	 *
+	 * @param signUpRequest the sign-up request
+	 * @return the response entity
+	 */
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -128,10 +170,20 @@ public class AuthController {
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 	}
 
+	/** The link to messenger. */
 	@Value("${link.to.service.messenger}")
 	private String linkToMessenger;
+	
+	/** The rest template. */
 	private final RestTemplate restTemplate = new RestTemplate();
 
+	/**
+	 * Helper method to send messages.
+	 *
+	 * @param mail the mail
+	 * @param title the title
+	 * @param body the body
+	 */
 	public void sendMessage(String mail, String title, String body) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));

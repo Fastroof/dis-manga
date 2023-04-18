@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * The RestController Class.
+ */
 @org.springframework.web.bind.annotation.RestController
 @CrossOrigin(origins = "*")
 public class RestController {
@@ -39,9 +42,7 @@ public class RestController {
      */
     private static final String APPLICATION_NAME = "dis-manga";
 
-    /**
-     * Files will be uploaded to folder with FOLDER_ID
-     */
+    /** Files will be uploaded to folder with FOLDER_ID. */
     private static final String FOLDER_ID = "1knOgegL95YzXktDb_3YoHS1HKljxFNMz";
 
     /**
@@ -55,8 +56,11 @@ public class RestController {
      */
     private static final Set<String> SCOPES = DriveScopes.all();
 
+    /** The http transport. */
     // Build a new authorized API client service.
     final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+    
+    /** The Google Drive service. */
     Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
             .setApplicationName(APPLICATION_NAME)
             .build();
@@ -68,6 +72,7 @@ public class RestController {
      * @param HTTP_TRANSPORT The network HTTP Transport.
      * @return An authorized Credential object.
      * @throws IOException If the credentials.json file cannot be found.
+     * @throws GeneralSecurityException the general security exception
      */
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT)
             throws IOException, GeneralSecurityException {
@@ -80,10 +85,15 @@ public class RestController {
                 .setServiceAccountId(serviceAccount)
                 .setServiceAccountPrivateKeyFromP12File(inputStream)
                 .setServiceAccountScopes(SCOPES)
-                //.setServiceAccountUser("dis.manga.team@gmail.com")
                 .build();
     }
 
+    /**
+     * Gets the files.
+     *
+     * @return the list of files
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @GetMapping("/files")
     public List<File> getFiles() throws IOException {
 
@@ -107,6 +117,13 @@ public class RestController {
         }
     }
 
+    /**
+     * Post file to Google Drive.
+     *
+     * @param file the file
+     * @return the response entity
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @PostMapping("/files")
     public ResponseEntity<?> postFile(@RequestParam MultipartFile file)
             throws IOException {
@@ -151,6 +168,13 @@ public class RestController {
         }
     }
 
+    /**
+     * Helper method to convert multipart file to file.
+     *
+     * @param file the file
+     * @return the java.io. file
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     private java.io.File convertMultipartFileToFile(MultipartFile file) throws IOException {
         java.io.File convertedFile = new java.io.File("uploads/" + file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convertedFile);
@@ -159,6 +183,12 @@ public class RestController {
         return convertedFile;
     }
 
+    /**
+     * Delete file by id.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @DeleteMapping("/files/{id}")
     public ResponseEntity<String> deleteFile(@PathVariable String id) {
         try {
@@ -173,25 +203,33 @@ public class RestController {
     }
 
 
-    private String status = "OK";
-
+    /**
+     * Instantiates a new rest controller.
+     *
+     * @throws GeneralSecurityException the general security exception
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Autowired
-    public RestController() throws GeneralSecurityException, IOException {}
+    public RestController() throws GeneralSecurityException, IOException {
+    }
 
+    /**
+     * Return string if service is alive
+     *
+     * @return the string, if alive
+     */
     @GetMapping("/")
-    public String alive() throws InterruptedException {
-        if (!Objects.equals(status, "OK")) {
-            Thread.sleep(10 * 1000);
-        }
+    public String alive() {
         return "Слава Україні";
     }
 
-    @GetMapping("/untested-request")
-    public String broke() {
-        status = "FAILED";
-        return "Broken";
-    }
-
+    /**
+     * Post image to imgur.
+     *
+     * @param file the file
+     * @return the response entity
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @PostMapping({"/images"})
     public ResponseEntity<String> postImage(@RequestParam MultipartFile file) throws IOException {
         OkHttpClient client = new OkHttpClient()
@@ -217,35 +255,5 @@ public class RestController {
         String respBody = Objects.requireNonNull(response.body()).string();
         return respBody.contains("\"success\":true") ? ResponseEntity.ok(respBody) : ResponseEntity.badRequest().body(respBody);
     }
-
-//    @PutMapping("/images/{id}")
-//    public String updateImage(@PathVariable Long id, @RequestParam Long product_id) {
-//        if (product_id == null) {
-//            return "Не введено product_id";
-//        }
-//        Optional<ProductImage> optionalProductImage = productImageRepository.findById(id);
-//        if (optionalProductImage.isPresent()) {
-//            ProductImage productImage = optionalProductImage.get();
-//            productImage.setProductId(product_id);
-//            productImageRepository.save(productImage);
-//            return productImage.toString();
-//        }
-//        return "Трапилася помилка";
-//    }
-//
-//    @DeleteMapping("/images/{id}")
-//    public String deleteImage(@PathVariable Long id) {
-//        try {
-//            productImageRepository.deleteById(id);
-//        } catch (Exception e) {
-//            return e.getMessage();
-//        }
-//        return "true";
-//    }
-//
-//    @GetMapping("/products-images")
-//    public Iterable<ProductImage> getProductImages() {
-//        return productImageRepository.findAll();
-//    }
 
 }
