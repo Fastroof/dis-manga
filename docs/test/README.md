@@ -557,47 +557,46 @@ public class UserApiTest {
 
 ## Результути виконання JUnit tests
 
-![](allTest_1.png)
-
+<img src='./allTest_1.png' />
 
 ## Ручне тестування за допомогою Postman
 
-
 ### Реєстрація:
-![](authorization.png)
+
+<img src='./authorization.png' />
 
 ### Логін:
 
-![](login.jpg)
+<img src='./login.jpg' />
 
 ### Пост книги:
 
-![](postBook.jpg)
+<img src='./postBook.jpg' />
 
 ### Отримання книги по owner_id:
 
-![](getBookByOwnerId.jpg)
+<img src='./getBookByOwnerId.jpg' />
 
 ### Додавання тегу до книги(Patch):
 
-![](addingTagToBook.jpg)
+<img src='./addingTagToBook.jpg' />
 
 ### Тег додано:
 
-![](tegAdded.jpg)
+<img src='./tegAdded.jpg' />
 
 ### Додавання книги до особистої бібліотеки:
 
-![](addingBookToPersonalLibrary.jpg)
+<img src='./addingBookToPersonalLibrary.jpg' />
 
 ### Отримання книг в особистій бібліотеці:
 
-![](getBookInPersonalLibrary.jpg)
+<img src='./getBookInPersonalLibrary.jpg' />
 
 ### Видалення книги:
 
-![](deliteBookById.jpg)
+<img src='./deliteBookById.jpg' />
 
 ### Перевірка чи книга видалилась:
 
-![](CheckBookDeletion.jpg)
+<img src='./CheckBookDeletion.jpg' />
