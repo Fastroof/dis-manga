@@ -22,7 +22,7 @@ import java.util.stream.StreamSupport;
  * The ModeratorApiController Class.
  */
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "Authorization")
 @PreAuthorize("hasAuthority('moderator')")
 @RequestMapping("/moderator")
 public class ModeratorApiController {

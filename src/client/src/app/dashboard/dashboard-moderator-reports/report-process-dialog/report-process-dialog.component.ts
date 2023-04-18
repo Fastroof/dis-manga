@@ -36,8 +36,6 @@ export class ReportProcessDialogComponent implements OnInit {
             this.result = err.error;
           }
         });
-    } else {
-      this.result = 'Не задана id категорії';
     }
     this.isProcessed = true;
   }

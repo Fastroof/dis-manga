@@ -6,6 +6,7 @@ import {BookEditDialogComponent} from './book-edit-dialog/book-edit-dialog.compo
 import {BookDeleteDialogComponent} from './book-delete-dialog/book-delete-dialog.component';
 import {environment} from '../../../environments/environment';
 import {Book} from '../../shared/interfaces/book';
+import {TokenStorageService} from '../../_services/token-storage.service';
 
 @Component({
   selector: 'dashboard-books',
@@ -17,10 +18,10 @@ export class DashboardBooksComponent implements OnInit {
   core = environment.core;
   books: MatTableDataSource<Book> = new MatTableDataSource<Book>();
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
-    fetch(environment.core + '/books')
+    fetch(environment.core + '/books?owner_id=' + this.tokenStorageService.getUser().id)
       .then((response) => response.json())
       .then((data: Book[]) => this.books = new MatTableDataSource<Book>(data.sort((a, b) => {
         return a.id - b.id;

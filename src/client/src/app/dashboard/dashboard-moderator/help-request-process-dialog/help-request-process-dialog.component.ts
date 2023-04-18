@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ApiService} from '../../../_services/api.service';
 
 @Component({
-  selector: 'app-help-request-process-dialog',
+  selector: 'app-report-process-dialog',
   templateUrl: './help-request-process-dialog.component.html',
   styleUrls: ['./help-request-process-dialog.component.scss']
 })

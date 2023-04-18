@@ -8,12 +8,14 @@ import {DashboardModeratorComponent} from './dashboard-moderator/dashboard-moder
 import {ModeratorAuthGuardService} from '../_services/moderator-auth-guard.service';
 import {DashboardModeratorReportsComponent} from './dashboard-moderator-reports/dashboard-moderator-reports.component';
 import {DashboardBooksComponent} from './dashboard-books/dashboard-books.component';
+import {PersonalLibraryResolver} from '../shared/data/personal-library';
 
 const DashboardChildrenRoute: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: DashboardIndexComponent
+    component: DashboardIndexComponent,
+    resolve: { personalLibrary: PersonalLibraryResolver}
   },
   {
     path: 'profile',

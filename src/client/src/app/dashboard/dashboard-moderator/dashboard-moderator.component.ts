@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {HelpRequestProcessDialogComponent} from './help-request-process-dialog/help-request-process-dialog.component';
 import {environment} from '../../../environments/environment';
 import {HelpRequest} from '../../shared/interfaces/help-request';
+import {TokenStorageService} from '../../_services/token-storage.service';
 
 @Component({
   selector: 'app-dashboard-moderator',
@@ -12,18 +13,21 @@ import {HelpRequest} from '../../shared/interfaces/help-request';
 })
 export class DashboardModeratorComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private tokenStorageService: TokenStorageService) { }
 
   requests: MatTableDataSource<HelpRequest> = new MatTableDataSource<HelpRequest>();
 
   @ViewChild(MatTable) table: MatTable<HelpRequest> | undefined;
 
   ngOnInit(): void {
-    fetch(environment.core + '/moderator/help-requests')
+    fetch(environment.core + '/moderator/help-requests', {headers: new Headers({
+        Authorization: `Bearer ${this.tokenStorageService.getToken()}`
+      })})
       .then((response) => response.json())
       .then((data: HelpRequest[]) => this.requests = new MatTableDataSource<HelpRequest>(data.sort((a, b) => {
         return a.id - b.id;
-      })));
+      })))
+      .catch((error) => {console.error('Error:', error); });
   }
 
   applyFilter(event: Event): void {

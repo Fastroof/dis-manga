@@ -1,0 +1,22 @@
+<div class="book-list">
+  <div class="container">
+    <div class="grid grid-cols-x gap-6 xxl:gap-8">
+      <div *ngFor="let book of books" class="col-span-12 md:col-span-6 xl:col-span-4">
+        <mat-card class="book p-0">
+          <img *ngIf="book.link_to_cover" mat-card-image [routerLink]="['/books', book.id]" [src]="book.link_to_cover"  style="width: 100%; height: 320px; object-fit: cover; margin: 0 0 8px; cursor: pointer;"  alt=""/>
+          <img *ngIf="!book.link_to_cover" mat-card-image [routerLink]="['/books', book.id]" src="assets/images/template.jpg"  style="width: 100%; height: 320px; object-fit: cover; margin: 0 0 8px; cursor: pointer;"  alt=""/>
+          <mat-card-content class="flex">
+            <div class="flex-grow pl-2 pr-2 pb-2 flex" style="justify-content: center; align-items: center;">
+              <h2 class="book__name line-clamp" style="height: 4rem;">
+                <a [routerLink]="['/books', book.id]">{{ book.name }}</a>
+              </h2>
+              <button mat-mini-fab color="accent" (click)="delete(book.id)">
+                <mat-icon>clear</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,8 @@ import {MatTable, MatTableDataSource} from '@angular/material/table';
 import {MatDialog} from '@angular/material/dialog';
 import {environment} from '../../../environments/environment';
 import {Report} from '../../shared/interfaces/report';
-import {ReportProcessDialogComponent} from './help-request-process-dialog/report-process-dialog.component';
+import {ReportProcessDialogComponent} from './report-process-dialog/report-process-dialog.component';
+import {TokenStorageService} from '../../_services/token-storage.service';
 
 @Component({
   selector: 'dashboard-moderator-reports',
@@ -12,18 +13,21 @@ import {ReportProcessDialogComponent} from './help-request-process-dialog/report
 })
 export class DashboardModeratorReportsComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private tokenStorageService: TokenStorageService) {}
 
   reports: MatTableDataSource<Report> = new MatTableDataSource<Report>();
 
   @ViewChild(MatTable) table: MatTable<Report> | undefined;
 
   ngOnInit(): void {
-    fetch(environment.core + '/moderator/reports')
+    fetch(environment.core + '/moderator/reports', {headers: new Headers({
+        Authorization: `Bearer ${this.tokenStorageService.getToken()}`
+      })})
       .then((response) => response.json())
       .then((data: Report[]) => this.reports = new MatTableDataSource<Report>(data.sort((a, b) => {
         return a.id - b.id;
-      })));
+      })))
+      .catch((error) => {console.error('Error:', error); });
   }
 
   applyFilter(event: Event): void {

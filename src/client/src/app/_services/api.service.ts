@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpResponse} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 import {TokenStorageService} from './token-storage.service';
 import {Book} from '../shared/interfaces/book';
 import {environment} from '../../environments/environment';
@@ -18,6 +18,17 @@ export class ApiService {
     return this.http.get<Book[]>(environment.core + '/books', {observe: 'response'});
   }
 
+  getPersonalLibrary(): Observable<HttpResponse<Book[]>> {
+    return this.http.get<Book[]>(environment.core + '/user/personal-library',
+      {observe: 'response', headers: new HttpHeaders().set('Authorization',  `Bearer ${this.tokenStorageService.getToken()}`)});
+  }
+
+  // tslint:disable-next-line:typedef
+  deleteBookFromPersonalLibrary(id: number) {
+    return this.http.delete(environment.core + '/user/personal-library/'  + id,
+      {responseType: 'text', headers: new HttpHeaders().set('Authorization',  `Bearer ${this.tokenStorageService.getToken()}`)});
+  }
+
   getBook(id: string): Observable<Book> {
     return this.http.get<Book>(environment.core + '/books/' + id);
   }
@@ -32,7 +43,8 @@ export class ApiService {
 
   // tslint:disable-next-line:typedef
   sendComment(id: number, text: string) {
-    return this.http.post(environment.core + '/books/' + id + '/comments', text, {responseType: 'text'});
+    return this.http.post(environment.core + '/books/' + id + '/comments', text,
+      {responseType: 'text', headers: new HttpHeaders().set('Authorization',  `Bearer ${this.tokenStorageService.getToken()}`)});
   }
 
   // tslint:disable-next-line:typedef
@@ -40,34 +52,40 @@ export class ApiService {
     const body = new FormData();
     body.append('email', email);
     body.append('text', text);
-    return this.http.post(environment.core + '/help-request', body, {responseType: 'text'});
+    return this.http.post(environment.core + '/help-request', body,
+      {responseType: 'text', headers: new HttpHeaders().set('Authorization',  `Bearer ${this.tokenStorageService.getToken()}`)});
   }
 
   // tslint:disable-next-line:typedef
   sendReport(id: number, text: string) {
-    return this.http.post(environment.core + '/books/' + id + '/report', text, {responseType: 'text'});
+    return this.http.post(environment.core + '/books/' + id + '/report', text,
+      {responseType: 'text', headers: new HttpHeaders().set('Authorization',  `Bearer ${this.tokenStorageService.getToken()}`)});
   }
 
   // tslint:disable-next-line:typedef
   addToPersonalLibrary(id: number) {
-    return this.http.post(environment.core + '/books/'  + id + '/personal-library', '', {responseType: 'text'});
+    return this.http.post(environment.core + '/books/'  + id + '/personal-library', '',
+      {responseType: 'text', headers: new HttpHeaders().set('Authorization',  `Bearer ${this.tokenStorageService.getToken()}`)});
   }
 
   // tslint:disable-next-line:typedef
   processHelpRequest(id: number) {
     const body = new FormData();
-    return this.http.post(environment.core + '/moderator/help-requests/'  + id + '/process', body, {responseType: 'text'});
+    return this.http.post(environment.core + '/moderator/help-requests/'  + id + '/process', body,
+      {responseType: 'text', headers: new HttpHeaders().set('Authorization',  `Bearer ${this.tokenStorageService.getToken()}`)});
   }
 
   // tslint:disable-next-line:typedef
   processReport(id: number) {
     const body = new FormData();
-    return this.http.post(environment.core + '/moderator/reports/'  + id + '/process', body, {responseType: 'text'});
+    return this.http.post(environment.core + '/moderator/reports/'  + id + '/process', body,
+      {responseType: 'text', headers: new HttpHeaders().set('Authorization',  `Bearer ${this.tokenStorageService.getToken()}`)});
   }
 
   // tslint:disable-next-line:typedef
   deleteBook(id: number) {
-    return this.http.delete(environment.core + '/books/'  + id, {responseType: 'text'});
+    return this.http.delete(environment.core + '/books/'  + id,
+      {responseType: 'text', headers: new HttpHeaders().set('Authorization',  `Bearer ${this.tokenStorageService.getToken()}`)});
   }
 
   // tslint:disable-next-line:typedef
@@ -87,7 +105,8 @@ export class ApiService {
     if (cover !== undefined) {
       body.append('coverFile', cover, cover.name);
     }
-    return this.http.post(environment.core + '/books', body, {responseType: 'text'});
+    return this.http.post(environment.core + '/books', body,
+      {responseType: 'text', headers: new HttpHeaders().set('Authorization',  `Bearer ${this.tokenStorageService.getToken()}`)});
   }
 
   // tslint:disable-next-line:typedef
@@ -107,6 +126,7 @@ export class ApiService {
     if (cover !== undefined) {
       body.append('coverFile', cover, cover.name);
     }
-    return this.http.patch(environment.core + '/books/' + id, body, {responseType: 'text'});
+    return this.http.patch(environment.core + '/books/' + id, body,
+      {responseType: 'text', headers: new HttpHeaders().set('Authorization',  `Bearer ${this.tokenStorageService.getToken()}`)});
   }
 }

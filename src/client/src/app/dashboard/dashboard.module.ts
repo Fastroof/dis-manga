@@ -21,11 +21,12 @@ import {MatSelectModule} from '@angular/material/select';
 import {DashboardModeratorReportsComponent} from './dashboard-moderator-reports/dashboard-moderator-reports.component';
 import {
   ReportProcessDialogComponent
-} from './dashboard-moderator-reports/help-request-process-dialog/report-process-dialog.component';
+} from './dashboard-moderator-reports/report-process-dialog/report-process-dialog.component';
 import {DashboardBooksComponent} from './dashboard-books/dashboard-books.component';
 import {BookDialogComponent} from './dashboard-books/book-dialog/book-dialog.component';
 import {BookEditDialogComponent} from './dashboard-books/book-edit-dialog/book-edit-dialog.component';
 import {BookDeleteDialogComponent} from './dashboard-books/book-delete-dialog/book-delete-dialog.component';
+import {NgxSkeletonLoaderModule} from 'ngx-skeleton-loader';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,6 @@ import {BookDeleteDialogComponent} from './dashboard-books/book-delete-dialog/bo
   ],
   imports: [
     CommonModule, DashboardRoutingModule, SharedModule, MatMenuModule, MatExpansionModule, MatTabsModule,
-    MatFormFieldModule, MatInputModule, MatTableModule, MatDialogModule, FormsModule, MatSelectModule]
+    MatFormFieldModule, MatInputModule, MatTableModule, MatDialogModule, FormsModule, MatSelectModule, NgxSkeletonLoaderModule]
 })
 export class DashboardModule {}
