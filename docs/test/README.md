@@ -1,5 +1,87 @@
 # Тестування працездатності системи
 
+## Ручне тестування front-end
+
+### Основна сторінка:
+
+<img src='./front/main.jpg' />
+
+### Пошук:
+
+<img src='./front/search.jpg' />
+
+### Створення help-request:
+
+<img src='./front/help-request.jpg' />
+
+<img src='./front/help-request2.jpg' />
+
+<img src='./front/help-request3.jpg' />
+
+### Реєстрація:
+
+<img src='./front/register.jpg' />
+
+<img src='./front/register2.jpg' />
+
+<img src='./front/register3.png' />
+
+### Авторизація:
+
+<img src='./front/login.png' />
+
+<img src='./front/login2.png' />
+
+### Особистий кабінет користувача:
+
+<img src='./front/cabinet.jpg' />
+
+### Особистий кабінет користувача. Профіль:
+
+<img src='./front/profile.png' />
+
+### Особистий кабінет користувача. Опубліковані книги:
+
+<img src='./front/userbooks.png' />
+
+### Особистий кабінет користувача. Публікація нової книги:
+
+<img src='./front/newbook.png' />
+
+<img src='./front/newbook2.jpg' />
+
+<img src='./front/newbook3.png' />
+
+### Особистий кабінет користувача. Редагування книги:
+
+<img src='./front/editbook.png' />
+
+### Сторінка книги:
+
+<img src='./front/book.png' />
+
+### Додавання коментаря до книги:
+
+<img src='./front/comment.png' />
+
+<img src='./front/comment2.png' />
+
+### Створення скарги(report) на книгу:
+
+<img src='./front/report.png' />
+
+<img src='./front/report2.png' />
+
+### Додавання книги до особистої бібліотеки:
+
+<img src='./front/personallibrary.png' />
+
+<img src='./front/personallibrary2.png' />
+
+<img src='./front/personallibrary3.png' />
+
+<img src='./front/personallibrary4.png' />
+
 ## Тестування програмного забезпечення, використання JUnit test 
 
 
